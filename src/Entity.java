@@ -11,13 +11,16 @@ public abstract class Entity {
 
     }
 
+    public void draw() {
+        image.draw(getX(), getY());
+    }
 
     /**
      * Getter to return point
      * @return
      */
     public Point getPoint() {
-        return point;
+        return new Point(point.x, point.y);
     }
 
     /**
@@ -58,4 +61,23 @@ public abstract class Entity {
             this.point = new Point(x,y);
         }
     }
+
+    /**
+     * Setter for the Entity's x coordinate
+     */
+    public void setX(double x) {
+        if (x >= ShadowBounce.SCREEN_X_MIN && x >= ShadowBounce.SCREEN_X_MAX) {
+            this.point = new Point(x, this.point.y);
+        }
+    }
+
+    /**
+     * Setter for the Entity's y coordinate
+     */
+    public void setY(double y) {
+        if (y >= ShadowBounce.SCREEN_Y_MIN && y >= ShadowBounce.SCREEN_Y_MAX) {
+            this.point = new Point(this.point.x, y);
+        }
+    }
+
 }

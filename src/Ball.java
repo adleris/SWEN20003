@@ -18,7 +18,7 @@ public class Ball extends Entity {
      * Constructor in case the point we start at changes in project 2
      */
     public Ball(double x, double y) {
-        super.image = new Image(imgPath);
+        image = new Image(imgPath);
         setPoint(x, y);
     }
 

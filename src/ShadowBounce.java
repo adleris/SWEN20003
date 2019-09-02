@@ -1,38 +1,31 @@
 import bagel.*;
-import java.util.Random;
+import bagel.util.*;
 
 public class ShadowBounce extends AbstractGame {
 
+    /**
+     * Screen Size constants
+     */
     public static final double SCREEN_X_MIN = 0;
     public static final double SCREEN_X_MAX = 1024;
     public static final double SCREEN_Y_MIN = 100;
     public static final double SCREEN_Y_MAX = 768;
 
+    public static final int NUM_PEGS = 10;
 
-    private Image plane;
-    private Image bg;
+    public Peg[] pegs;
+    public Ball ball;
 
-    public Random random;
-
-
-
-    private double x = 100;
-    private double y = 100;
+    //private static final String backgroundFile = "";
+    //private Image background;
 
     /**
      * Game constructor
      */
     public ShadowBounce() {
-        random = new Random();
-
-        bg = new Image("res/land.jpeg");
-        plane = new Image("res/plane.png");
-
-        x = Window.getWidth() / 2;
-        y = Window.getHeight() / 2;
-
-        balloonX = random.nextDouble() * Window.getWidth();
-        balloonY = random.nextDouble() * Window.getHeight();
+        ball = new Ball();
+        pegs = new Peg[1];
+        pegs[0] = new Peg();
     }
 
     /**
@@ -51,31 +44,34 @@ public class ShadowBounce extends AbstractGame {
     @Override
     public void update(Input input) {
         double speed = 6f;
-        if (input.isDown(Keys.LEFT) && (x - speed >= 0)) {
-            x -= speed;
+        if (input.isDown(Keys.LEFT) && (ball.getX() - speed >= 0)) {
+            ball.setX(ball.getX() - speed);
         }
-        if (input.isDown(Keys.RIGHT) && (x + speed <= Window.getWidth())) {
-            x += speed;
+        if (input.isDown(Keys.RIGHT) && (ball.getX() + speed <= Window.getWidth())) {
+            ball.setX(ball.getX() + speed);
         }
-        if (input.isDown(Keys.UP) && (y - speed > 0)) {
-            y -= speed;
+        if (input.isDown(Keys.UP) && (ball.getY() - speed > 0)) {
+            ball.setY(ball.getY() - speed);
         }
-        if (input.isDown(Keys.DOWN) && (y + speed <= Window.getHeight())) {
-            y += speed;
+        if (input.isDown(Keys.DOWN) && (ball.getY() + speed <= Window.getHeight())) {
+            ball.setX(ball.getX() - speed);
         }
 
         if (input.wasPressed(Keys.ESCAPE)) {
             Window.close();
         }
 
-        if (distanceFromToSquared(x, y, balloonX, balloonY) <= 50.0 * 50.0) {
-            balloonX = random.nextDouble() * Window.getWidth();
-            balloonY = random.nextDouble() * Window.getHeight();
-        }
+//        if (distanceFromToSquared(x, y, balloonX, balloonY) <= 50.0 * 50.0) {
+//            balloonX = random.nextDouble() * Window.getWidth();
+//            balloonY = random.nextDouble() * Window.getHeight();
+//        }
+//
+//        bg.draw(Window.getWidth() / 2, Window.getHeight() / 2);
+//        plane.draw(x, y);
+//        balloon.draw(balloonX, balloonY);
 
-        bg.draw(Window.getWidth() / 2, Window.getHeight() / 2);
-        plane.draw(x, y);
-        balloon.draw(balloonX, balloonY);
+        ball.draw();
+        pegs[0].draw();
     }
 
     private double distanceFromToSquared(double x1, double y1, double x2, double y2) {
