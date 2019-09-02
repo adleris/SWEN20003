@@ -11,7 +11,9 @@ public class Ball extends Entity {
      */
     public Ball() {
         image = new Image(imgPath);
+
         setPoint(DEFAULT_X, DEFAULT_Y);
+        System.out.println(this);
     }
 
     /**
@@ -20,6 +22,10 @@ public class Ball extends Entity {
     public Ball(double x, double y) {
         image = new Image(imgPath);
         setPoint(x, y);
+    }
+
+    public String toString(){
+        return String.format("Ball at %f, %f", getX(), getY());
     }
 
     /**

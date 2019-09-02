@@ -8,7 +8,8 @@ public abstract class Entity {
     public abstract void move(double dx, double dy);
 
     public Entity() {
-
+        // instantiate a temporary point
+        point = new Point();
     }
 
     public void draw() {
@@ -45,7 +46,7 @@ public abstract class Entity {
      */
     public void setPoint(Point point) {
         if (point.x >= ShadowBounce.SCREEN_X_MIN && point.x <= ShadowBounce.SCREEN_X_MAX
-                && point.y >= ShadowBounce.SCREEN_Y_MIN && point.y >= ShadowBounce.SCREEN_Y_MAX) {
+                && point.y >= ShadowBounce.SCREEN_Y_MIN && point.y <= ShadowBounce.SCREEN_Y_MAX) {
             this.point = point;
         }
     }
@@ -56,8 +57,9 @@ public abstract class Entity {
      * @param y
      */
     public void setPoint(double x, double y) {
+        System.out.format("Im trying to set a point @ (%.1f, %.1f)\n",x,y);
         if (x >= ShadowBounce.SCREEN_X_MIN && x <= ShadowBounce.SCREEN_X_MAX
-                && y >= ShadowBounce.SCREEN_Y_MIN && y >= ShadowBounce.SCREEN_Y_MAX) {
+                && y >= 0 && y <= ShadowBounce.SCREEN_Y_MAX) {
             this.point = new Point(x,y);
         }
     }
@@ -66,7 +68,7 @@ public abstract class Entity {
      * Setter for the Entity's x coordinate
      */
     public void setX(double x) {
-        if (x >= ShadowBounce.SCREEN_X_MIN && x >= ShadowBounce.SCREEN_X_MAX) {
+        if (x >= ShadowBounce.SCREEN_X_MIN && x <= ShadowBounce.SCREEN_X_MAX) {
             this.point = new Point(x, this.point.y);
         }
     }
@@ -75,7 +77,9 @@ public abstract class Entity {
      * Setter for the Entity's y coordinate
      */
     public void setY(double y) {
-        if (y >= ShadowBounce.SCREEN_Y_MIN && y >= ShadowBounce.SCREEN_Y_MAX) {
+        System.out.format("in set y (=%.2f)\n", y);
+        System.out.format("Boundaries: %.2f to %.2f",ShadowBounce.SCREEN_Y_MIN,  ShadowBounce.SCREEN_Y_MAX);
+        if (y >= 0 && y <= ShadowBounce.SCREEN_Y_MAX) {
             this.point = new Point(this.point.x, y);
         }
     }

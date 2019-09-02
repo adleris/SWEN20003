@@ -50,11 +50,13 @@ public class ShadowBounce extends AbstractGame {
         if (input.isDown(Keys.RIGHT) && (ball.getX() + speed <= Window.getWidth())) {
             ball.setX(ball.getX() + speed);
         }
-        if (input.isDown(Keys.UP) && (ball.getY() - speed > 0)) {
+        if (input.isDown(Keys.UP) && (ball.getY() - speed >= 0)) {
             ball.setY(ball.getY() - speed);
         }
-        if (input.isDown(Keys.DOWN) && (ball.getY() + speed <= Window.getHeight())) {
-            ball.setX(ball.getX() - speed);
+        if (input.isDown(Keys.DOWN) ){
+            System.out.println("here");
+                //&& (ball.getY() + speed <= Window.getHeight())) {
+            ball.setY(ball.getY() + speed);
         }
 
         if (input.wasPressed(Keys.ESCAPE)) {
@@ -70,6 +72,7 @@ public class ShadowBounce extends AbstractGame {
 //        plane.draw(x, y);
 //        balloon.draw(balloonX, balloonY);
 
+        //System.out.println(ball);
         ball.draw();
         //pegs[0].draw();
     }
