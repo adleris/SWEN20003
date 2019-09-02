@@ -24,8 +24,8 @@ public class ShadowBounce extends AbstractGame {
      */
     public ShadowBounce() {
         ball = new Ball();
-        pegs = new Peg[1];
-        pegs[0] = new Peg();
+        //pegs = new Peg[1];
+        //pegs[0] = new Peg();
     }
 
     /**
@@ -71,7 +71,7 @@ public class ShadowBounce extends AbstractGame {
 //        balloon.draw(balloonX, balloonY);
 
         ball.draw();
-        pegs[0].draw();
+        //pegs[0].draw();
     }
 
     private double distanceFromToSquared(double x1, double y1, double x2, double y2) {

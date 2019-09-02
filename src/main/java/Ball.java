@@ -2,7 +2,7 @@ import bagel.*;
 import bagel.util.*;
 
 public class Ball extends Entity {
-    private static final String imgPath = "res/ball.jpg";
+    private static final String imgPath = "res/ball.png";
     private static final double DEFAULT_X = 512;
     private static final double DEFAULT_Y = 32;
 

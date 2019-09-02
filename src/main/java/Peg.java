@@ -2,7 +2,7 @@ import bagel.*;
 import bagel.util.*;
 
 public class Peg extends Entity {
-    private static final String imgPath = "res/peg.jpg";
+    private static final String imgPath = "res/peg.png";
 
     /**
      * Constructor for pegs
