@@ -45,18 +45,20 @@ public class ShadowBounce extends AbstractGame {
     public void update(Input input) {
         double speed = 6f;
         if (input.isDown(Keys.LEFT) && (ball.getX() - speed >= 0)) {
-            ball.setX(ball.getX() - speed);
+            //ball.setX(ball.getX() - speed);
+            ball.moveBy( -speed,0);
         }
         if (input.isDown(Keys.RIGHT) && (ball.getX() + speed <= Window.getWidth())) {
-            ball.setX(ball.getX() + speed);
+           // ball.setX(ball.getX() + speed);
+            ball.moveBy(speed, 0);
         }
         if (input.isDown(Keys.UP) && (ball.getY() - speed >= 0)) {
-            ball.setY(ball.getY() - speed);
+            //ball.setY(ball.getY() - speed);
+            ball.moveBy(0, -speed);
         }
-        if (input.isDown(Keys.DOWN) ){
-            System.out.println("here");
-                //&& (ball.getY() + speed <= Window.getHeight())) {
-            ball.setY(ball.getY() + speed);
+        if (input.isDown(Keys.DOWN) && (ball.getY() + speed <= Window.getHeight())) {
+            //ball.setY(ball.getY() + speed);
+            ball.moveBy(0,speed);
         }
 
         if (input.wasPressed(Keys.ESCAPE)) {

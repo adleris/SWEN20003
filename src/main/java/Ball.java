@@ -29,21 +29,20 @@ public class Ball extends Entity {
     }
 
     /**
-     * Attempt to move the ball by (dx, dy). Returns a valid position. If the move would have taken the point off of 
-     * the screen, it returns the original coordinate in that direction
+     * Attempt to move the ball by (dx, dy)
      * todo: fix it up so it leaves the point on the edge of the screen?
      * @param dx
      * @param dy
      */
     @Override
-    public void move(double dx, double dy){
+    public void moveBy(double dx, double dy){
         double newX = getX();
         double newY = getY();
 
-        if (getX() + dx >= ShadowBounce.SCREEN_X_MIN && getX() + dx <= ShadowBounce.SCREEN_X_MAX){
+        if (getX() + dx >= 0 && getX() + dx <= Window.getWidth()){
             newX += dx;
         }
-        if (getY() + dy >= ShadowBounce.SCREEN_Y_MIN && getY() + dy <= ShadowBounce.SCREEN_Y_MAX){
+        if (getY() + dy >= 0 && getY() + dy <= Window.getHeight()){
             newY += dy;
         }
 

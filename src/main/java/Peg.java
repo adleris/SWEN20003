@@ -17,7 +17,7 @@ public class Peg extends Entity {
      *  Can't be moved in project 1, but maybe the pegs will move in project 2?
      */
     @Override
-    public void move(double dx, double dy){
+    public void moveBy(double dx, double dy){
         return;
     }
 }
