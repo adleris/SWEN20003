@@ -1,17 +1,16 @@
 import bagel.*;
 import bagel.util.*;
-import utilities.*;
 
 public class Peg extends Entity {
-    private final String imgPath = "res/peg.jpg";
+    private static final String imgPath = "res/peg.jpg";
 
     /**
      * Constructor for pegs
      */
     public Peg() {
-        double x = randomInRange(ShadowBounce.SCREEN_X_MIN, ShadowBounce.SCREEN_X_MAX);
-        double y = randomInRange(ShadowBounce.SCREEN_Y_MIN, ShadowBounce.SCREEN_Y_MAX);
-        super.point = new Point(x,y);
+        double x = utilities.randomInRange(ShadowBounce.SCREEN_X_MIN, ShadowBounce.SCREEN_X_MAX);
+        double y = utilities.randomInRange(ShadowBounce.SCREEN_Y_MIN, ShadowBounce.SCREEN_Y_MAX);
+        setPoint(x,y);
     }
 
     /**

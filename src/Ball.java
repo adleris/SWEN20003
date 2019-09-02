@@ -2,25 +2,24 @@ import bagel.*;
 import bagel.util.*;
 
 public class Ball extends Entity {
-    private final String imgPath = "res/ball.jpg";
-    private final double DEFAULT_X = 512;
-    private final double DEFAULT_Y = 32;
+    private static final String imgPath = "res/ball.jpg";
+    private static final double DEFAULT_X = 512;
+    private static final double DEFAULT_Y = 32;
 
     /**
      * Constructor for the case where we start at the default point
      */
     public Ball() {
-        this.image = new Image(imgPath);
-        this.point = new Point(DEFAULT_X, DEFAULT_Y);
-        
+        image = new Image(imgPath);
+        setPoint(DEFAULT_X, DEFAULT_Y);
     }
 
     /**
      * Constructor in case the point we start at changes in project 2
      */
     public Ball(double x, double y) {
-        this.image = new Image(imgPath);
-        this.point = new Point(x, y);
+        super.image = new Image(imgPath);
+        setPoint(x, y);
     }
 
     /**
@@ -32,17 +31,17 @@ public class Ball extends Entity {
      */
     @Override
     public void move(double dx, double dy){
-        double newX = point.x;
-        double newY = point.y;
+        double newX = getX();
+        double newY = getY();
 
-        if (point.x + dx > ShadowBounce.SCREEN_X_MIN && point.x + dx < ShadowBounce.SCREEN_X_MAX){
-            newX = point.x + dx;
+        if (getX() + dx >= ShadowBounce.SCREEN_X_MIN && getX() + dx <= ShadowBounce.SCREEN_X_MAX){
+            newX += dx;
         }
-        if (point.y + dy > ShadowBounce.SCREEN_Y_MIN && point.y + dy < ShadowBounce.SCREEN_Y_MAXx){
-            newY = point.y + dy;
+        if (getY() + dy >= ShadowBounce.SCREEN_Y_MIN && getY() + dy <= ShadowBounce.SCREEN_Y_MAX){
+            newY += dy;
         }
 
-        point = new Point(newX, newY);
+        setPoint(newX, newY);
     }
 
 }
