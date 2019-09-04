@@ -8,6 +8,8 @@ public class ShadowBounce extends AbstractGame {
     public Peg[] pegs;
     public Ball ball;
 
+    public Peg demo;
+
     //private static final String backgroundFile = "";
     //private Image background;
 
@@ -18,6 +20,7 @@ public class ShadowBounce extends AbstractGame {
         ball = new Ball();
         //pegs = new Peg[1];
         //pegs[0] = new Peg();
+        demo = new Peg();
     }
 
     /**
@@ -69,9 +72,9 @@ public class ShadowBounce extends AbstractGame {
 //        plane.draw(x, y);
 //        balloon.draw(balloonX, balloonY);
 
-        //System.out.println(ball);
         ball.draw();
         //pegs[0].draw();
+        demo.draw();
     }
 
     private double distanceFromToSquared(double x1, double y1, double x2, double y2) {

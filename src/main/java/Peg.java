@@ -17,6 +17,7 @@ public class Peg extends Entity {
      * Constructor for pegs
      */
     public Peg() {
+        image = new Image(imgPath);
         double x = utilities.randomInRange(getXMin(), getXMax());
         double y = utilities.randomInRange(getYMin(), getYMax());
         setPoint(x,y);
