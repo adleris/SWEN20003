@@ -3,14 +3,6 @@ import bagel.util.*;
 
 public class ShadowBounce extends AbstractGame {
 
-    /**
-     * Screen Size constants
-     */
-    public static final double SCREEN_X_MIN = 0;
-    public static final double SCREEN_X_MAX = 1024;
-    public static final double SCREEN_Y_MIN = 100;
-    public static final double SCREEN_Y_MAX = 768;
-
     public static final int NUM_PEGS = 10;
 
     public Peg[] pegs;
@@ -60,6 +52,9 @@ public class ShadowBounce extends AbstractGame {
             //ball.setY(ball.getY() + speed);
             ball.moveBy(0,speed);
         }
+
+        /* The ball then needs to fall under the influence of gravity */
+        //ball.moveBy(0,(speed-1));
 
         if (input.wasPressed(Keys.ESCAPE)) {
             Window.close();

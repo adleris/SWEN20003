@@ -39,10 +39,10 @@ public class Ball extends Entity {
         double newX = getX();
         double newY = getY();
 
-        if (getX() + dx >= 0 && getX() + dx <= Window.getWidth()){
+        if (getX() + dx >= getXMin() && getX() + dx <= getXMax()){
             newX += dx;
         }
-        if (getY() + dy >= 0 && getY() + dy <= Window.getHeight()){
+        if (getY() + dy >= getYMin() && getY() + dy <= getYMax()){
             newY += dy;
         }
 
