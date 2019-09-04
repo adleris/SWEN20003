@@ -6,6 +6,9 @@ public class Ball extends Entity {
     private static final double DEFAULT_X = 512;
     private static final double DEFAULT_Y = 32;
 
+    public static final double initialVelocity = 10f;
+    public static final double gravityAcceleration = -0.15f;
+
     /**
      * Constructor for the case where we start at the default point
      */

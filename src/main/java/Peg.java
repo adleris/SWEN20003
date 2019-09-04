@@ -13,15 +13,32 @@ public class Peg extends Entity {
 
     private static final String imgPath = "res/peg.png";
 
+    private boolean isDestroyed;
+
+    public boolean isDestroyed() {
+        return isDestroyed;
+    }
+
+    /**
+     * set a peg to be destroyed. Not a setter as it can't be 'undestroyed'
+     */
+    public void destroy() {
+        isDestroyed = true;
+    }
+
     /**
      * Constructor for pegs
      */
     public Peg() {
         image = new Image(imgPath);
+        isDestroyed = false;
+
         double x = utilities.randomInRange(getXMin(), getXMax());
         double y = utilities.randomInRange(getYMin(), getYMax());
         setPoint(x,y);
     }
+
+
 
     /**
      * Pegs have their own screen boundaries that other entities might not have: Need to override setters

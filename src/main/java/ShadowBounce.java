@@ -3,7 +3,7 @@ import bagel.util.*;
 
 public class ShadowBounce extends AbstractGame {
 
-    public static final int NUM_PEGS = 10;
+    public static final int NUM_PEGS = 50;
 
     public Peg[] pegs;
     public Ball ball;
@@ -18,9 +18,10 @@ public class ShadowBounce extends AbstractGame {
      */
     public ShadowBounce() {
         ball = new Ball();
-        //pegs = new Peg[1];
-        //pegs[0] = new Peg();
-        demo = new Peg();
+        pegs = new Peg[NUM_PEGS];
+        for (int i=0; i<NUM_PEGS; i++){
+            pegs[i] = new Peg();
+        }
     }
 
     /**
@@ -38,26 +39,25 @@ public class ShadowBounce extends AbstractGame {
      */
     @Override
     public void update(Input input) {
-        double speed = 6f;
+        double speed = Ball.initialVelocity;
+        /*
+         * calculate new positions
+         */
         if (input.isDown(Keys.LEFT) && (ball.getX() - speed >= 0)) {
-            //ball.setX(ball.getX() - speed);
             ball.moveBy( -speed,0);
         }
         if (input.isDown(Keys.RIGHT) && (ball.getX() + speed <= Window.getWidth())) {
-           // ball.setX(ball.getX() + speed);
             ball.moveBy(speed, 0);
         }
         if (input.isDown(Keys.UP) && (ball.getY() - speed >= 0)) {
-            //ball.setY(ball.getY() - speed);
             ball.moveBy(0, -speed);
         }
         if (input.isDown(Keys.DOWN) && (ball.getY() + speed <= Window.getHeight())) {
-            //ball.setY(ball.getY() + speed);
             ball.moveBy(0,speed);
         }
 
         /* The ball then needs to fall under the influence of gravity */
-        //ball.moveBy(0,(speed-1));
+        ball.moveBy(0, Ball.gravityAcceleration);
 
         if (input.wasPressed(Keys.ESCAPE)) {
             Window.close();
@@ -67,14 +67,14 @@ public class ShadowBounce extends AbstractGame {
 //            balloonX = random.nextDouble() * Window.getWidth();
 //            balloonY = random.nextDouble() * Window.getHeight();
 //        }
-//
-//        bg.draw(Window.getWidth() / 2, Window.getHeight() / 2);
-//        plane.draw(x, y);
-//        balloon.draw(balloonX, balloonY);
 
+        /* Render everything to the screen */
         ball.draw();
-        //pegs[0].draw();
-        demo.draw();
+        for (int i=0; i<NUM_PEGS;i++){
+            if (! pegs[i].isDestroyed()) {
+                pegs[i].draw();
+            }
+        }
     }
 
     private double distanceFromToSquared(double x1, double y1, double x2, double y2) {
