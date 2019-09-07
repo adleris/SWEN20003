@@ -5,6 +5,8 @@ public class ShadowBounce extends AbstractGame {
 
     public static final int NUM_PEGS = 50;
 
+    public static final boolean DEBUG_CONTROLS = true;
+
     public Peg[] pegs;
     public Ball ball;
 
@@ -41,27 +43,37 @@ public class ShadowBounce extends AbstractGame {
     public void update(Input input) {
         double speed = Ball.initialVelocity;
 
-        if (input.isDown(MouseButtons.LEFT) && ! ball.isOnScreen()){
-            ball = new Ball();
-        }
-        /*
-         * calculate new positions
-         */
-        if (input.isDown(Keys.LEFT) && (ball.getX() - speed >= 0)) {
-            ball.moveBy( -speed,0);
-        }
-        if (input.isDown(Keys.RIGHT) && (ball.getX() + speed <= Window.getWidth())) {
-            ball.moveBy(speed, 0);
-        }
-        if (input.isDown(Keys.UP) && (ball.getY() - speed >= 0)) {
-            ball.moveBy(0, -speed);
-        }
-        if (input.isDown(Keys.DOWN) && (ball.getY() + speed <= Window.getHeight())) {
-            ball.moveBy(0,speed);
+        if (! ball.isOnScreen()){
+            /* Check if we should make a new ball */
+            if (input.isDown(MouseButtons.LEFT)) {
+                ball = new Ball();
+                ball.setOnScreen(true);
+            }
+            if (DEBUG_CONTROLS){
+                /*
+                 * calculate new positions
+                 */
+                if (input.isDown(Keys.LEFT) && (ball.getX() - speed >= 0)) {
+                    ball.moveBy( -speed,0);
+                }
+                if (input.isDown(Keys.RIGHT) && (ball.getX() + speed <= Window.getWidth())) {
+                    ball.moveBy(speed, 0);
+                }
+                if (input.isDown(Keys.UP) && (ball.getY() - speed >= 0)) {
+                    ball.moveBy(0, -speed);
+                }
+                if (input.isDown(Keys.DOWN) && (ball.getY() + speed <= Window.getHeight())) {
+                    ball.moveBy(0,speed);
+                }
+            }
+        } else {
+            /* calculate all of the movement */
+
+            /* The ball then needs to fall under the influence of gravity */
+            ball.moveBy(0,- Ball.gravityAcceleration);
         }
 
-        /* The ball then needs to fall under the influence of gravity */
-        ball.moveBy(0,- Ball.gravityAcceleration);
+
 
         if (input.wasPressed(Keys.ESCAPE)) {
             Window.close();
@@ -73,6 +85,13 @@ public class ShadowBounce extends AbstractGame {
 //        }
 
         /* Render everything to the screen */
+        renderToScreen();
+    }
+
+    /**
+     * Render All entities and score to the screen
+     */
+    public void renderToScreen(){
         if (ball.isOnScreen()) {
             ball.draw();
         }

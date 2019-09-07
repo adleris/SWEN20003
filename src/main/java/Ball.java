@@ -20,7 +20,7 @@ public class Ball extends Entity {
         setPoint(DEFAULT_X, DEFAULT_Y);
         System.out.println(this);
 
-        isOnScreen = true;
+        isOnScreen = false;
     }
 
     /**
@@ -60,9 +60,23 @@ public class Ball extends Entity {
         }
     }
 
+    /**
+     * See if the ball is on screen and should be rendered
+     * @return
+     */
     public boolean isOnScreen() {
         return isOnScreen;
     }
 
+    /**
+     * See ball to be on screen, doesn't allow hiding the ball
+     * Hiding the ball is done internally in moveBy()
+     * @return
+     */
+    public void setOnScreen(boolean val) {
+        if (val) {
+            isOnScreen = val;
+        }
+    }
 }
 
