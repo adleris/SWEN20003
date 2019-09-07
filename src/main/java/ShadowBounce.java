@@ -40,6 +40,10 @@ public class ShadowBounce extends AbstractGame {
     @Override
     public void update(Input input) {
         double speed = Ball.initialVelocity;
+
+        if (input.isDown(MouseButtons.LEFT) && ! ball.isOnScreen()){
+            ball = new Ball();
+        }
         /*
          * calculate new positions
          */
@@ -57,7 +61,7 @@ public class ShadowBounce extends AbstractGame {
         }
 
         /* The ball then needs to fall under the influence of gravity */
-        ball.moveBy(0, Ball.gravityAcceleration);
+        ball.moveBy(0,- Ball.gravityAcceleration);
 
         if (input.wasPressed(Keys.ESCAPE)) {
             Window.close();
@@ -69,7 +73,9 @@ public class ShadowBounce extends AbstractGame {
 //        }
 
         /* Render everything to the screen */
-        ball.draw();
+        if (ball.isOnScreen()) {
+            ball.draw();
+        }
         for (int i=0; i<NUM_PEGS;i++){
             if (! pegs[i].isDestroyed()) {
                 pegs[i].draw();

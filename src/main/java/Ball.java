@@ -9,6 +9,8 @@ public class Ball extends Entity {
     public static final double initialVelocity = 10f;
     public static final double gravityAcceleration = -0.15f;
 
+    private boolean isOnScreen;
+
     /**
      * Constructor for the case where we start at the default point
      */
@@ -17,6 +19,8 @@ public class Ball extends Entity {
 
         setPoint(DEFAULT_X, DEFAULT_Y);
         System.out.println(this);
+
+        isOnScreen = true;
     }
 
     /**
@@ -50,6 +54,15 @@ public class Ball extends Entity {
         }
 
         setPoint(newX, newY);
+
+        if (newY + dy > getYMax()) {
+            isOnScreen = false;
+        }
+    }
+
+    public boolean isOnScreen() {
+        return isOnScreen;
     }
 
 }
+
