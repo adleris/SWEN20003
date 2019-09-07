@@ -10,15 +10,18 @@ public abstract class Entity {
     public static final double ENTITY_X_MAX = Window.getWidth();
     public static final double ENTITY_Y_MIN = 0;
     public static final double ENTITY_Y_MAX = Window.getHeight();
-    
+
     public Image image;
     private Point point;
+    public Rectangle rectangle;
 
     public abstract void moveBy(double dx, double dy);
 
     public Entity() {
         // instantiate a temporary point
         point = new Point();
+        // instantiate a temporary empty rectangle
+        rectangle = new Rectangle(0,0,0,0);
     }
 
     /**

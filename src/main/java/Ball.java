@@ -2,11 +2,12 @@ import bagel.*;
 import bagel.util.*;
 
 public class Ball extends Entity {
+    public static final double BALL_IMG_SIZE = 24;
     private static final String imgPath = "res/ball.png";
     private static final double DEFAULT_X = 512;
     private static final double DEFAULT_Y = 32;
 
-    public static final double initialVelocity = 10f;
+    public static final double initialVelocity = 5f;
     public static final double gravityAcceleration = -0.15f;
 
     private boolean isOnScreen;
@@ -18,8 +19,10 @@ public class Ball extends Entity {
         image = new Image(imgPath);
 
         setPoint(DEFAULT_X, DEFAULT_Y);
+        rectangle = new Rectangle(getPoint(), BALL_IMG_SIZE, BALL_IMG_SIZE);
         System.out.println(this);
 
+        /* shouldn't render the ball until there is a left click */
         isOnScreen = false;
     }
 
@@ -54,6 +57,7 @@ public class Ball extends Entity {
         }
 
         setPoint(newX, newY);
+        rectangle.moveTo(getPoint());
 
         if (newY + dy > getYMax()) {
             isOnScreen = false;

@@ -10,7 +10,7 @@ public class ShadowBounce extends AbstractGame {
     public Peg[] pegs;
     public Ball ball;
 
-    public Peg demo;
+    //public Peg demo;
 
     //private static final String backgroundFile = "";
     //private Image background;
@@ -49,6 +49,8 @@ public class ShadowBounce extends AbstractGame {
                 ball = new Ball();
                 ball.setOnScreen(true);
             }
+        } else {
+            /* calculate all of the movement */
             if (DEBUG_CONTROLS){
                 /*
                  * calculate new positions
@@ -66,9 +68,6 @@ public class ShadowBounce extends AbstractGame {
                     ball.moveBy(0,speed);
                 }
             }
-        } else {
-            /* calculate all of the movement */
-
             /* The ball then needs to fall under the influence of gravity */
             ball.moveBy(0,- Ball.gravityAcceleration);
         }
@@ -79,10 +78,12 @@ public class ShadowBounce extends AbstractGame {
             Window.close();
         }
 
-//        if (distanceFromToSquared(x, y, balloonX, balloonY) <= 50.0 * 50.0) {
-//            balloonX = random.nextDouble() * Window.getWidth();
-//            balloonY = random.nextDouble() * Window.getHeight();
-//        }
+        /* check if there is a collision between the ball and a peg */
+        for (Peg peg : pegs){
+            if (ball.rectangle.intersects(peg.rectangle)){
+                peg.destroy();
+            }
+        }
 
         /* Render everything to the screen */
         renderToScreen();
