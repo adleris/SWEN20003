@@ -11,6 +11,8 @@ public class ShadowBounce extends AbstractGame {
     public Peg[] pegs;
     public Ball2 ball;
 
+    private int numPegsRemaining;
+
     private Vector2 velocity;
 
     /**
@@ -22,6 +24,7 @@ public class ShadowBounce extends AbstractGame {
         for (int i=0; i<NUM_PEGS; i++){
             pegs[i] = new Peg();
         }
+        numPegsRemaining = NUM_PEGS;
     }
 
     /**
@@ -81,9 +84,14 @@ public class ShadowBounce extends AbstractGame {
 
         /* check if there is a collision between the ball and a peg */
         for (Peg peg : pegs){
-            if (ball.rectangle.intersects(peg.rectangle)){
+            if (ball.rectangle.intersects(peg.rectangle) && ! peg.isDestroyed()){
                 peg.destroy();
+                numPegsRemaining--;
             }
+        }
+
+        if (numPegsRemaining <= 0){
+            Window.close();
         }
 
         /* Render everything to the screen */
@@ -104,6 +112,12 @@ public class ShadowBounce extends AbstractGame {
         }
     }
 
+    /**
+     * Find the initial velocity of the ball from the mouse coordinates
+     * todo: doeesnt work properly
+     * @param mouse
+     * @return
+     */
     private Vector2 velocityFromMouse(Vector2 mouse){
         System.out.format("\n\n\n%f, %f \n\n\n", mouse.x, mouse.y);
         double distance = Math.sqrt( (mouse.x - ball.getX()) * (mouse.x - ball.getX()) +

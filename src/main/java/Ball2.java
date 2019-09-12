@@ -64,13 +64,31 @@ public class Ball2 extends Entity {
 
         rectangle.moveTo(getPoint());
 
+        /* If the ball is off the screen delete it */
         if (newY + change.y > getYMax()) {
             isOnScreen = false;
         }
     }
 
     @Override
-    public void moveBy(double x, double y) { return ;}
+    public void moveBy(double dx, double dy) {
+        double newX = getX();
+        double newY = getY();
+
+        if (getX() + dx >= getXMin() && getX() + dx <= getXMax()){
+            newX += dx;
+        }
+        if (getY() + dy >= getYMin() && getY() + dy <= getYMax()){
+            newY += dy;
+        }
+
+        setPoint(newX, newY);
+        rectangle.moveTo(getPoint());
+
+        if (newY + dy > getYMax()) {
+            isOnScreen = false;
+        }
+    }
 
     /**
      * See if the ball is on screen and should be rendered

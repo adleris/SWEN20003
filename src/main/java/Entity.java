@@ -72,7 +72,6 @@ public abstract class Entity {
      * @param y
      */
     public void setPoint(double x, double y) {
-        System.out.format("Im trying to set a point @ (%.1f, %.1f)\n",x,y);
         if (x >= getXMin() && x <= getXMax()
                 && y >= getYMin() && y <= getYMax()) {
             this.point = new Point(x,y);
