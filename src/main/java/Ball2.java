@@ -53,6 +53,13 @@ public class Ball2 extends Entity {
             position.add(change);
         }
 
+        /* if we would have passed over the edge, reverse out velocity */
+        if (change.x + getX() <= getXMin() || change.x + getX() >= getXMax()) {
+            velocity = new Vector2(-velocity.x, velocity.y);
+        }
+
+
+
         setPoint(newX, newY);
 
         rectangle.moveTo(getPoint());
