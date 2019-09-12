@@ -9,25 +9,19 @@ public class ShadowBounce extends AbstractGame {
     public static final boolean DEBUG_CONTROLS = true;
 
     public Peg[] pegs;
-    public Ball ball;
+    public Ball2 ball;
 
     private Vector2 velocity;
-
-    //public Peg demo;
-
-    //private static final String backgroundFile = "";
-    //private Image background;
 
     /**
      * Game constructor
      */
     public ShadowBounce() {
-        ball = new Ball();
+        ball = new Ball2(new Vector2(0,0));
         pegs = new Peg[NUM_PEGS];
         for (int i=0; i<NUM_PEGS; i++){
             pegs[i] = new Peg();
         }
-        velocity = new Vector2();
     }
 
     /**
@@ -50,12 +44,11 @@ public class ShadowBounce extends AbstractGame {
         if (! ball.isOnScreen()){
             /* Check if we should make a new ball */
             if (input.isDown(MouseButtons.LEFT)) {
-                ball = new Ball();
-                ball.setOnScreen(true);
                 Vector2 mousepos = input.getMousePosition().asVector();
-                velocity = velocityFromMouse(mousepos);
+                ball = new Ball2(velocityFromMouse(mousepos));
+                ball.setOnScreen(true);
 
-                System.out.format("At %s\n", velocity.toString());
+                //System.out.format("At %s\n", velocity.toString());
             }
         } else {
             /* calculate all of the movement */
@@ -76,10 +69,8 @@ public class ShadowBounce extends AbstractGame {
                     ball.moveBy(0,speed);
                 }
             }
-            /* move the ball based on its velocity vector */
-            
-            /* The ball then needs to fall under the influence of gravity */
-            ball.moveBy(0,- Ball.gravityAcceleration);
+            ball.velocity.add(new Vector2(0, - ball.gravityAcceleration));
+            ball.moveBy(ball.velocity);
         }
 
 
@@ -117,8 +108,8 @@ public class ShadowBounce extends AbstractGame {
         System.out.format("\n\n\n%f, %f \n\n\n", mouse.x, mouse.y);
         double distance = Math.sqrt( (mouse.x - ball.getX()) * (mouse.x - ball.getX()) +
                                      (mouse.y - ball.getY()) * (mouse.y - ball.getY()) );
-        double velX = ball.DEFAULT_X + (mouse.x - ball.DEFAULT_X) * ball.initialVelocity / distance;
-        double velY = ball.DEFAULT_Y + (mouse.y - ball.DEFAULT_Y) * ball.initialVelocity / distance;
+        double velX = (ball.DEFAULT_X + (mouse.x - ball.DEFAULT_X) * ball.initialVelocity) / distance;
+        double velY = (ball.DEFAULT_Y + (mouse.y - ball.DEFAULT_Y) * ball.initialVelocity) / distance;
         return new Vector2(velX, velY);
     }
 
