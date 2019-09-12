@@ -1,5 +1,6 @@
 import bagel.*;
 import bagel.util.*;
+import java.lang.Math;
 
 public class ShadowBounce extends AbstractGame {
 
@@ -9,6 +10,8 @@ public class ShadowBounce extends AbstractGame {
 
     public Peg[] pegs;
     public Ball ball;
+
+    private Vector2 velocity;
 
     //public Peg demo;
 
@@ -24,6 +27,7 @@ public class ShadowBounce extends AbstractGame {
         for (int i=0; i<NUM_PEGS; i++){
             pegs[i] = new Peg();
         }
+        velocity = new Vector2();
     }
 
     /**
@@ -48,6 +52,10 @@ public class ShadowBounce extends AbstractGame {
             if (input.isDown(MouseButtons.LEFT)) {
                 ball = new Ball();
                 ball.setOnScreen(true);
+                Vector2 mousepos = input.getMousePosition().asVector();
+                velocity = velocityFromMouse(mousepos);
+
+                System.out.format("At %s\n", velocity.toString());
             }
         } else {
             /* calculate all of the movement */
@@ -68,6 +76,8 @@ public class ShadowBounce extends AbstractGame {
                     ball.moveBy(0,speed);
                 }
             }
+            /* move the ball based on its velocity vector */
+            
             /* The ball then needs to fall under the influence of gravity */
             ball.moveBy(0,- Ball.gravityAcceleration);
         }
@@ -102,6 +112,16 @@ public class ShadowBounce extends AbstractGame {
             }
         }
     }
+
+    private Vector2 velocityFromMouse(Vector2 mouse){
+        System.out.format("\n\n\n%f, %f \n\n\n", mouse.x, mouse.y);
+        double distance = Math.sqrt( (mouse.x - ball.getX()) * (mouse.x - ball.getX()) +
+                                     (mouse.y - ball.getY()) * (mouse.y - ball.getY()) );
+        double velX = ball.DEFAULT_X + (mouse.x - ball.DEFAULT_X) * ball.initialVelocity / distance;
+        double velY = ball.DEFAULT_Y + (mouse.y - ball.DEFAULT_Y) * ball.initialVelocity / distance;
+        return new Vector2(velX, velY);
+    }
+
 
     private double distanceFromToSquared(double x1, double y1, double x2, double y2) {
         /**
