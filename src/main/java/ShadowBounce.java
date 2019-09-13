@@ -13,8 +13,6 @@ public class ShadowBounce extends AbstractGame {
 
     private int numPegsRemaining;
 
-    private Vector2 velocity;
-
     /**
      * Game constructor
      */
@@ -35,7 +33,6 @@ public class ShadowBounce extends AbstractGame {
         game.run();
     }
 
-
     /**
      * Performs a state update. This simple example shows an image that can be controlled with the arrow keys, and
      * allows the game to exit when the escape key is pressed.
@@ -50,8 +47,6 @@ public class ShadowBounce extends AbstractGame {
                 Vector2 mousePos = input.getMousePosition().asVector();
                 ball = new Ball2(velocityFromMouse(mousePos));
                 ball.setOnScreen(true);
-
-                //System.out.format("At %s\n", velocity.toString());
             }
         } else {
             /* calculate all of the movement */
@@ -72,6 +67,7 @@ public class ShadowBounce extends AbstractGame {
                     ball.moveBy(0,speed);
                 }
             }
+            /* adjust the ball's acceleration according to gravity, then move it */
             ball.velocity = ball.velocity.add(new Vector2(0, - ball.gravityAcceleration));
             ball.moveBy(ball.velocity);
         }
@@ -90,6 +86,7 @@ public class ShadowBounce extends AbstractGame {
             }
         }
 
+        /* if there are no pegs left we should end the game */
         if (numPegsRemaining <= 0){
             Window.close();
         }
@@ -117,20 +114,12 @@ public class ShadowBounce extends AbstractGame {
      * @param mouse
      * @return
      */
-    private Vector2 velocityFromMouse(Vector2 mouse){
+    public Vector2 velocityFromMouse(Vector2 mouse){
         double distance = Math.sqrt( (mouse.x - ball.DEFAULT_X) * (mouse.x - ball.DEFAULT_X) +
                                      (mouse.y - Ball2.DEFAULT_Y) * (mouse.y - ball.DEFAULT_Y) );
         double velX = (mouse.x - ball.DEFAULT_X) * ball.initialVelocity / distance;
         double velY = (mouse.y - ball.DEFAULT_Y) * ball.initialVelocity / distance;
         return new Vector2(velX, velY);
-    }
-
-
-    private double distanceFromToSquared(double x1, double y1, double x2, double y2) {
-        /**
-         * return the distance between two points squared
-         */
-        return (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2);
     }
 
 }

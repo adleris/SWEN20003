@@ -1,6 +1,8 @@
 import bagel.*;
 import bagel.util.*;
 
+import java.util.Random;
+
 public class Peg extends Entity {
 
     /**
@@ -34,13 +36,12 @@ public class Peg extends Entity {
         image = new Image(imgPath);
         isDestroyed = false;
 
-        double x = utilities.randomInRange(getXMin(), getXMax());
-        double y = utilities.randomInRange(getYMin(), getYMax());
+        double x = randomInRange(getXMin(), getXMax());
+        double y = randomInRange(getYMin(), getYMax());
 
         setPosition(new Vector2(x,y));
         rectangle = new Rectangle(getPoint(), PEG_IMG_SIZE, PEG_IMG_SIZE);
     }
-
 
 
     /**
@@ -68,5 +69,18 @@ public class Peg extends Entity {
     @Override
     public void moveBy(double dx, double dy){
         return;
+    }
+
+
+    /**
+     * Generate a random double in the range [min, max]
+     * @param min
+     * @param max
+     * @return
+     */
+    public static double randomInRange(double min, double max){
+        Random r = new Random();
+
+        return r.nextDouble() * (max-min) + min;
     }
 }
