@@ -13,19 +13,19 @@ public class Ball extends Entity {
     public static final double gravityAcceleration = -0.15f;
 
     /* the ball's current velocity */
-    public Vector2 velocity;
+    private Vector2 velocity;
 
     /* determines if the ball is to rendered */
     private boolean isOnScreen;
 
     /**
-     * Constructor
+     * Constructor for a ball
      */
     public Ball(Vector2 velocityVector) {
-        image = new Image(imgPath);
+        setImage(imgPath);
 
         setPosition(DEFAULT_X, DEFAULT_Y);
-        rectangle = image.getBoundingBoxAt(getPoint());
+        setRectangle(getImage().getBoundingBoxAt(getPoint()));
 
         /* shouldn't render the ball until there is a left click */
         isOnScreen = false;
@@ -46,7 +46,7 @@ public class Ball extends Entity {
         if (isValidPosition(getPosition().add(change))) {
             setPosition(getPosition().add(change));
             /* move the image to the current position */
-            rectangle = image.getBoundingBoxAt(getPoint());
+            setRectangle(getImage().getBoundingBoxAt(getPoint()));
         }
 
         /* if we would have passed over the edge, reverse x velocity */
@@ -58,6 +58,14 @@ public class Ball extends Entity {
         if (getY() + change.y > getYMax()) {
             isOnScreen = false;
         }
+    }
+
+    public Vector2 getVelocity() {
+        return new Vector2(velocity.x, velocity.y);
+    }
+
+    public void setVelocity(Vector2 velocity) {
+        this.velocity = velocity;
     }
 
     /**

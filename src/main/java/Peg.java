@@ -1,6 +1,5 @@
 import bagel.*;
 import bagel.util.*;
-
 import java.util.Random;
 
 public class Peg extends Entity {
@@ -8,13 +7,14 @@ public class Peg extends Entity {
     /**
      * Screen Size constants. Pegs have a narrower window than the whole screen.
      */
-    public static final double PEG_X_MIN = 0;
-    public static final double PEG_X_MAX = 1024;
-    public static final double PEG_Y_MIN = 100;
-    public static final double PEG_Y_MAX = 768;
+    private static final double PEG_X_MIN = 0;
+    private static final double PEG_X_MAX = 1024;
+    private static final double PEG_Y_MIN = 100;
+    private static final double PEG_Y_MAX = 768;
 
     private static final String imgPath = "res/peg.png";
 
+    /* determines if the peg is to rendered */
     private boolean isDestroyed;
 
     public boolean isDestroyed() {
@@ -22,7 +22,7 @@ public class Peg extends Entity {
     }
 
     /**
-     * set a peg to be destroyed. Not a setter as it can't be 'undestroyed'
+     * set a peg to be destroyed. Not a setter as it can never / should never be 'undestroyed'
      */
     public void destroy() {
         isDestroyed = true;
@@ -32,14 +32,14 @@ public class Peg extends Entity {
      * Constructor for pegs
      */
     public Peg() {
-        image = new Image(imgPath);
+        setImage(imgPath);
         isDestroyed = false;
 
         double x = randomInRange(getXMin(), getXMax());
         double y = randomInRange(getYMin(), getYMax());
 
         setPosition(new Vector2(x,y));
-        rectangle = image.getBoundingBoxAt(getPoint());
+        setRectangle(getImage().getBoundingBoxAt(getPoint()));
     }
 
 

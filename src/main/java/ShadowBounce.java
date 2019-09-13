@@ -5,14 +5,13 @@ import java.lang.Math;
 public class ShadowBounce extends AbstractGame {
 
     /* the number of pegs to create */
-    public static final int NUM_PEGS = 50;
+    private static final int NUM_PEGS = 50;
     /* the number of pegs left on the screen */
     private int numPegsRemaining;
 
     /* store the game items */
-    public Peg[] pegs;
-    public Ball ball;
-
+    private Peg[] pegs;
+    private Ball ball;
 
     /**
      * Game constructor
@@ -53,8 +52,8 @@ public class ShadowBounce extends AbstractGame {
             }
         } else {
             /* the ball is already on the screen: adjust its acceleration according to gravity, then move it */
-            ball.velocity = ball.velocity.add(new Vector2(0, - Ball.gravityAcceleration));
-            ball.moveBy(ball.velocity);
+            ball.setVelocity(ball.getVelocity().add(new Vector2(0, - Ball.gravityAcceleration)));
+            ball.moveBy(ball.getVelocity());
         }
 
         if (input.wasPressed(Keys.ESCAPE)) {
@@ -74,7 +73,7 @@ public class ShadowBounce extends AbstractGame {
     private void checkCollisions() {
         /* check if there is a collision between the ball and a peg */
         for (Peg peg : pegs){
-            if (ball.rectangle.intersects(peg.rectangle) && ! peg.isDestroyed()){
+            if (ball.getRectangle().intersects(peg.getRectangle()) && ! peg.isDestroyed()){
                 peg.destroy();
                 numPegsRemaining--;
             }

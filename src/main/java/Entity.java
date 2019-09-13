@@ -5,20 +5,24 @@ public abstract class Entity {
 
     /**
      * Generic screen sizes we can store the entity in. A generic entity can be anywhere on the screen.
+     * Accessed using getters, not directly
      */
-    public static final double ENTITY_X_MIN = 0;
-    public static final double ENTITY_X_MAX = Window.getWidth();
+    private static final double ENTITY_X_MIN = 0;
+    private static final double ENTITY_X_MAX = Window.getWidth();
     /* Y_MIN is an arbitrary height above the screen so that the ball can go above it */
-    public static final double ENTITY_Y_MIN = - Window.getHeight();
-    public static final double ENTITY_Y_MAX = Window.getHeight();
+    private static final double ENTITY_Y_MIN = - Window.getHeight();
+    private static final double ENTITY_Y_MAX = Window.getHeight();
 
-    public Image image;
+    private Image image;
     private Vector2 position;
-    public Rectangle rectangle;
+    private Rectangle rectangle;
 
     /* method to move an Entity by a given distance */
     public abstract void moveBy(Vector2 change);
 
+    /**
+     * Constructor for an Entity
+     */
     public Entity() {
         /* instantiate a temporary position */
         position = new Vector2();
@@ -35,6 +39,40 @@ public abstract class Entity {
      */
     public void draw() {
         image.draw(position.x, position.y);
+    }
+
+    /**
+     * Get the image associated with an Entity
+     * @return
+     */
+    public Image getImage() {
+        return image;
+    }
+
+    /**
+     * Set an Entity's image
+     * @param file
+     */
+    public void setImage(String file) {
+        if (this.image == null) {
+            this.image = new Image(file);
+        }
+    }
+
+    /**
+     * Getter for Entity's rectangle
+     * @return
+     */
+    public Rectangle getRectangle() {
+        return new Rectangle(rectangle);
+    }
+
+    /**
+     * Setter for Entity's Rectangle
+     * @param rectangle
+     */
+    public void setRectangle(Rectangle rectangle) {
+        this.rectangle = rectangle;
     }
 
     /**
