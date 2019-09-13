@@ -2,8 +2,10 @@ import bagel.*;
 import bagel.util.*;
 
 public class Ball extends Entity {
-    public static final double BALL_IMG_SIZE = 24;
+
     private static final String imgPath = "res/ball.png";
+
+    /* initial values to spawn the ball at */
     public static final double DEFAULT_X = 512;
     public static final double DEFAULT_Y = 32;
 
@@ -23,7 +25,6 @@ public class Ball extends Entity {
         image = new Image(imgPath);
 
         setPosition(DEFAULT_X, DEFAULT_Y);
-        //rectangle = new Rectangle(getPoint(), BALL_IMG_SIZE, BALL_IMG_SIZE);
         rectangle = image.getBoundingBoxAt(getPoint());
 
         /* shouldn't render the ball until there is a left click */
@@ -41,17 +42,17 @@ public class Ball extends Entity {
     @Override
     public void moveBy(Vector2 change) {
 
+        /* If the move is valid, move */
         if (isValidPosition(getPosition().add(change))) {
             setPosition(getPosition().add(change));
+            /* move the image to the current position */
+            rectangle = image.getBoundingBoxAt(getPoint());
         }
 
         /* if we would have passed over the edge, reverse x velocity */
         if (change.x + getX() <= getXMin() || change.x + getX() >= getXMax()) {
             velocity = new Vector2(-velocity.x, velocity.y);
         }
-
-        //rectangle.moveTo(getPoint());
-        rectangle = image.getBoundingBoxAt(getPoint());
 
         /* If the ball is off the screen delete it */
         if (getY() + change.y > getYMax()) {

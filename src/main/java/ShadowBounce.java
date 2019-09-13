@@ -4,8 +4,6 @@ import java.lang.Math;
 
 public class ShadowBounce extends AbstractGame {
 
-    public static final boolean DEBUG_CONTROLS = true;
-
     /* the number of pegs to create */
     public static final int NUM_PEGS = 50;
     /* the number of pegs left on the screen */
@@ -53,24 +51,8 @@ public class ShadowBounce extends AbstractGame {
                 ball = new Ball(velocityFromMouse(mousePos));
                 ball.setOnScreen(true);
             }
-        } else { /* otherwise, the ball is already on the screen */
-            /* calculate all of the movement */
-            if (DEBUG_CONTROLS){
-                /* Move the ball based on the arrow keys */
-                if (input.isDown(Keys.LEFT)) {
-                    ball.moveBy(Vector2.left.mul(Ball.initialVelocity));
-                }
-                if (input.isDown(Keys.RIGHT)) {
-                    ball.moveBy(Vector2.right.mul(Ball.initialVelocity));
-                }
-                if (input.isDown(Keys.UP)) {
-                    ball.moveBy(Vector2.up.mul(Ball.initialVelocity));
-                }
-                if (input.isDown(Keys.DOWN)) {
-                    ball.moveBy(Vector2.down.mul(Ball.initialVelocity));
-                }
-            }
-            /* adjust the ball's acceleration according to gravity, then move it */
+        } else {
+            /* the ball is already on the screen: adjust its acceleration according to gravity, then move it */
             ball.velocity = ball.velocity.add(new Vector2(0, - Ball.gravityAcceleration));
             ball.moveBy(ball.velocity);
         }

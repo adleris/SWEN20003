@@ -13,7 +13,6 @@ public class Peg extends Entity {
     public static final double PEG_Y_MIN = 100;
     public static final double PEG_Y_MAX = 768;
 
-    public static final double PEG_IMG_SIZE = 32;
     private static final String imgPath = "res/peg.png";
 
     private boolean isDestroyed;
@@ -40,7 +39,6 @@ public class Peg extends Entity {
         double y = randomInRange(getYMin(), getYMax());
 
         setPosition(new Vector2(x,y));
-        //rectangle = new Rectangle(getPoint(), PEG_IMG_SIZE, PEG_IMG_SIZE);
         rectangle = image.getBoundingBoxAt(getPoint());
     }
 
