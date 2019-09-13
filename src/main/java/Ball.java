@@ -76,8 +76,8 @@ public class Ball extends Entity {
     }
 
     /**
-     * See ball to be on screen, doesn't allow hiding the ball
-     * Hiding the ball is done internally in moveBy()
+     * See ball to be on screen, doesn't allow hiding the ball Hiding the ball is
+     * done internally in moveBy()
      *
      * @return
      */
@@ -87,4 +87,3 @@ public class Ball extends Entity {
         }
     }
 }
-
