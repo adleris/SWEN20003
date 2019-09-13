@@ -23,7 +23,8 @@ public class Ball extends Entity {
         image = new Image(imgPath);
 
         setPosition(DEFAULT_X, DEFAULT_Y);
-        rectangle = new Rectangle(getPoint(), BALL_IMG_SIZE, BALL_IMG_SIZE);
+        //rectangle = new Rectangle(getPoint(), BALL_IMG_SIZE, BALL_IMG_SIZE);
+        rectangle = image.getBoundingBoxAt(getPoint());
 
         /* shouldn't render the ball until there is a left click */
         isOnScreen = false;
@@ -49,7 +50,8 @@ public class Ball extends Entity {
             velocity = new Vector2(-velocity.x, velocity.y);
         }
 
-        rectangle.moveTo(getPoint());
+        //rectangle.moveTo(getPoint());
+        rectangle = image.getBoundingBoxAt(getPoint());
 
         /* If the ball is off the screen delete it */
         if (getY() + change.y > getYMax()) {

@@ -40,7 +40,8 @@ public class Peg extends Entity {
         double y = randomInRange(getYMin(), getYMax());
 
         setPosition(new Vector2(x,y));
-        rectangle = new Rectangle(getPoint(), PEG_IMG_SIZE, PEG_IMG_SIZE);
+        //rectangle = new Rectangle(getPoint(), PEG_IMG_SIZE, PEG_IMG_SIZE);
+        rectangle = image.getBoundingBoxAt(getPoint());
     }
 
 
