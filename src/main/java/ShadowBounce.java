@@ -13,14 +13,14 @@ public class ShadowBounce extends AbstractGame {
 
     /* store the game items */
     public Peg[] pegs;
-    public Ball2 ball;
+    public Ball ball;
 
 
     /**
      * Game constructor
      */
     public ShadowBounce() {
-        ball = new Ball2(new Vector2(0,0));
+        ball = new Ball(new Vector2(0,0));
         pegs = new Peg[NUM_PEGS];
         for (int i=0; i<NUM_PEGS; i++){
             pegs[i] = new Peg();
@@ -45,27 +45,24 @@ public class ShadowBounce extends AbstractGame {
         /* Check if we should make a new ball */
         if (! ball.isOnScreen() && input.isDown(MouseButtons.LEFT)){
             Vector2 mousePos = input.getMousePosition().asVector();
-            ball = new Ball2(velocityFromMouse(mousePos));
+            ball = new Ball(velocityFromMouse(mousePos));
             ball.setOnScreen(true);
 
         } else { /* otherwise, the ball is already on the screen */
             /* calculate all of the movement */
             if (DEBUG_CONTROLS){
-                double speed = Ball.initialVelocity;
-                /*
-                 * calculate new positions
-                 */
-                if (input.isDown(Keys.LEFT) && (ball.getX() - speed >= 0)) {
-                    ball.moveBy( -speed,0);
+                /* Move the ball based on the arrow keys */
+                if (input.isDown(Keys.LEFT)) {
+                    ball.moveBy(Vector2.left.mul(Ball.initialVelocity));
                 }
-                if (input.isDown(Keys.RIGHT) && (ball.getX() + speed <= Window.getWidth())) {
-                    ball.moveBy(speed, 0);
+                if (input.isDown(Keys.RIGHT)) {
+                    ball.moveBy(Vector2.right.mul(Ball.initialVelocity));
                 }
-                if (input.isDown(Keys.UP) && (ball.getY() - speed >= 0)) {
-                    ball.moveBy(0, -speed);
+                if (input.isDown(Keys.UP)) {
+                    ball.moveBy(Vector2.up.mul(Ball.initialVelocity));
                 }
-                if (input.isDown(Keys.DOWN) && (ball.getY() + speed <= Window.getHeight())) {
-                    ball.moveBy(0,speed);
+                if (input.isDown(Keys.DOWN)) {
+                    ball.moveBy(Vector2.down.mul(Ball.initialVelocity));
                 }
             }
             /* adjust the ball's acceleration according to gravity, then move it */
@@ -122,10 +119,10 @@ public class ShadowBounce extends AbstractGame {
      * @return
      */
     public static Vector2 velocityFromMouse(Vector2 mouse){
-        double distance = Math.sqrt( (mouse.x - Ball2.DEFAULT_X) * (mouse.x - Ball.DEFAULT_X) +
-                                     (mouse.y - Ball2.DEFAULT_Y) * (mouse.y - Ball.DEFAULT_Y) );
-        double velX = (mouse.x - Ball2.DEFAULT_X) * Ball2.initialVelocity / distance;
-        double velY = (mouse.y - Ball2.DEFAULT_Y) * Ball2.initialVelocity / distance;
+        double distance = Math.sqrt( (mouse.x - Ball.DEFAULT_X) * (mouse.x - Ball.DEFAULT_X) +
+                                     (mouse.y - Ball.DEFAULT_Y) * (mouse.y - Ball.DEFAULT_Y) );
+        double velX = (mouse.x - Ball.DEFAULT_X) * Ball.initialVelocity / distance;
+        double velY = (mouse.y - Ball.DEFAULT_Y) * Ball.initialVelocity / distance;
         return new Vector2(velX, velY);
     }
 

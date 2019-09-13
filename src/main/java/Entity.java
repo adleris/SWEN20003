@@ -17,7 +17,7 @@ public abstract class Entity {
     public Rectangle rectangle;
 
     /* method to move an Entity by a given distance */
-    public abstract void moveBy(double dx, double dy);
+    public abstract void moveBy(Vector2 change);
 
     public Entity() {
         /* instantiate a temporary position */
