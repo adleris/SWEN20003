@@ -18,7 +18,7 @@ public class Ball extends Entity {
     public Ball() {
         image = new Image(imgPath);
 
-        setPoint(DEFAULT_X, DEFAULT_Y);
+        setPosition(DEFAULT_X, DEFAULT_Y);
         rectangle = new Rectangle(getPoint(), BALL_IMG_SIZE, BALL_IMG_SIZE);
         //System.out.println(this);
 
@@ -31,7 +31,7 @@ public class Ball extends Entity {
      */
     public Ball(double x, double y) {
         image = new Image(imgPath);
-        setPoint(x, y);
+        setPosition(x, y);
     }
 
     public String toString(){
@@ -56,7 +56,7 @@ public class Ball extends Entity {
             newY += dy;
         }
 
-        setPoint(newX, newY);
+        setPosition(newX, newY);
         rectangle.moveTo(getPoint());
 
         if (newY + dy > getYMax()) {

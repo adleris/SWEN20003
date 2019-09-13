@@ -12,17 +12,15 @@ public abstract class Entity {
     public static final double ENTITY_Y_MAX = Window.getHeight();
 
     public Image image;
-    private Point point;
     private Vector2 position;
     public Rectangle rectangle;
 
     public abstract void moveBy(double dx, double dy);
 
     public Entity() {
-        // instantiate a temporary point
-        point = new Point();
-        // instantiate a temporary empty rectangle
+        /* instantiate a temporary position */
         position = new Vector2();
+        /* instantiate a temporary empty rectangle */
         rectangle = new Rectangle(0,0,0,0);
     }
 
@@ -62,11 +60,10 @@ public abstract class Entity {
      * @param point
      */
     public void setPoint(Point point) {
-        if (point.x >= getXMin() && point.x <= getXMax()
-                && point.y >= getYMin() && point.y <= getYMax()) {
-            this.point = point;
+        if (isValidPosition(point.asVector())){
+            this.position = point.asVector();
         }
-        this.position = point.asVector();
+
     }
 
     public Vector2 getPosition() {
@@ -74,7 +71,7 @@ public abstract class Entity {
     }
 
     public void setPosition(Vector2 position) {
-        if (position.y <= getYMax() ){
+          if (isValidPosition(position)){
             this.position = position;
         }
     }
@@ -84,12 +81,10 @@ public abstract class Entity {
      * @param x
      * @param y
      */
-    public void setPoint(double x, double y) {
-        if (x >= getXMin() && x <= getXMax()
-                && y >= getYMin() && y <= getYMax()) {
-            this.point = new Point(x,y);
+    public void setPosition(double x, double y) {
+        if (isValidPosition(x,y)){
+            this.position = new Vector2(x,y);
         }
-        this.position = new Vector2(x,y);
     }
 
     /*
@@ -110,6 +105,32 @@ public abstract class Entity {
 
     public static double getYMax() {
         return ENTITY_Y_MAX;
+    }
+
+    /**
+     * Check if the specified point is valid
+     * @param pos
+     * @return
+     */
+    public static boolean isValidPosition(Vector2 pos){
+        if (pos.x >= getXMin() && pos.x <= getXMax() && pos.y >= getYMin() && pos.y <= getYMax()){
+            return true;
+        }
+        return false;
+
+    }
+
+    /**
+     * Check if the specified point is valid
+     * @param x
+     * @param y
+     * @return
+     */
+    public static boolean isValidPosition(double x, double y){
+        if (x >= getXMin() && x <= getXMax() && y >= getYMin() && y <= getYMax()){
+            return true;
+        }
+        return false;
     }
 
 }
