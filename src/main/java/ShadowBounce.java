@@ -4,14 +4,17 @@ import java.lang.Math;
 
 public class ShadowBounce extends AbstractGame {
 
-    public static final int NUM_PEGS = 50;
-
     public static final boolean DEBUG_CONTROLS = true;
 
+    /* the number of pegs to create */
+    public static final int NUM_PEGS = 50;
+    /* the number of pegs left on the screen */
+    private int numPegsRemaining;
+
+    /* store the game items */
     public Peg[] pegs;
     public Ball2 ball;
 
-    private int numPegsRemaining;
 
     /**
      * Game constructor
@@ -26,7 +29,7 @@ public class ShadowBounce extends AbstractGame {
     }
 
     /**
-     * The entry point for the program.
+     * Start the show
      */
     public static void main(String args[]) {
         ShadowBounce game = new ShadowBounce();
@@ -34,23 +37,21 @@ public class ShadowBounce extends AbstractGame {
     }
 
     /**
-     * Performs a state update. This simple example shows an image that can be controlled with the arrow keys, and
-     * allows the game to exit when the escape key is pressed.
+     * Game loop: Update the ball's velocity and run collision checks. Initialises the ball if need be.
      */
     @Override
     public void update(Input input) {
-        double speed = Ball.initialVelocity;
 
-        if (! ball.isOnScreen()){
-            /* Check if we should make a new ball */
-            if (input.isDown(MouseButtons.LEFT)) {
-                Vector2 mousePos = input.getMousePosition().asVector();
-                ball = new Ball2(velocityFromMouse(mousePos));
-                ball.setOnScreen(true);
-            }
-        } else {
+        /* Check if we should make a new ball */
+        if (! ball.isOnScreen() && input.isDown(MouseButtons.LEFT)){
+            Vector2 mousePos = input.getMousePosition().asVector();
+            ball = new Ball2(velocityFromMouse(mousePos));
+            ball.setOnScreen(true);
+
+        } else { /* otherwise, the ball is already on the screen */
             /* calculate all of the movement */
             if (DEBUG_CONTROLS){
+                double speed = Ball.initialVelocity;
                 /*
                  * calculate new positions
                  */
@@ -72,12 +73,21 @@ public class ShadowBounce extends AbstractGame {
             ball.moveBy(ball.velocity);
         }
 
-
-
         if (input.wasPressed(Keys.ESCAPE)) {
             Window.close();
         }
 
+        /* see if the ball hit anything */
+        checkCollisions();
+
+        /* render everything to the screen */
+        renderToScreen();
+    }
+
+    /**
+     * Check if the ball has collided with any of the remaining pegs, end the game if there are none left.
+     */
+    private void checkCollisions() {
         /* check if there is a collision between the ball and a peg */
         for (Peg peg : pegs){
             if (ball.rectangle.intersects(peg.rectangle) && ! peg.isDestroyed()){
@@ -90,9 +100,6 @@ public class ShadowBounce extends AbstractGame {
         if (numPegsRemaining <= 0){
             Window.close();
         }
-
-        /* Render everything to the screen */
-        renderToScreen();
     }
 
     /**
@@ -114,11 +121,11 @@ public class ShadowBounce extends AbstractGame {
      * @param mouse
      * @return
      */
-    public Vector2 velocityFromMouse(Vector2 mouse){
-        double distance = Math.sqrt( (mouse.x - ball.DEFAULT_X) * (mouse.x - ball.DEFAULT_X) +
-                                     (mouse.y - Ball2.DEFAULT_Y) * (mouse.y - ball.DEFAULT_Y) );
-        double velX = (mouse.x - ball.DEFAULT_X) * ball.initialVelocity / distance;
-        double velY = (mouse.y - ball.DEFAULT_Y) * ball.initialVelocity / distance;
+    public static Vector2 velocityFromMouse(Vector2 mouse){
+        double distance = Math.sqrt( (mouse.x - Ball2.DEFAULT_X) * (mouse.x - Ball.DEFAULT_X) +
+                                     (mouse.y - Ball2.DEFAULT_Y) * (mouse.y - Ball.DEFAULT_Y) );
+        double velX = (mouse.x - Ball2.DEFAULT_X) * Ball2.initialVelocity / distance;
+        double velY = (mouse.y - Ball2.DEFAULT_Y) * Ball2.initialVelocity / distance;
         return new Vector2(velX, velY);
     }
 
