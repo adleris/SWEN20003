@@ -1,4 +1,9 @@
-.DS_Store
-.idea/
 out/
 target/
+
+# IDE and co
+.DS_Store
+.idea/
+.classpath
+.project
+.settings/

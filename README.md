@@ -1,8 +1,4 @@
-TODO LIST / NOTES
+SWEN20003 project for UniMelb
 
-* Need to swap all of the handling of locations from *Point*s to *Rectangle*s
-    * May even be best off just removing the reliance on *Point*s entirely?
-    * The initialising of the point can be done in an *Entity* function that's overriden for particular size contraints.
-    * Movement of the ball could be entirely handle by the *Rectangle*'s *MoveTo()*
-    
- 
+* v1: The state of the project as submitted for project 1.
+* Project 2 will build off of this
