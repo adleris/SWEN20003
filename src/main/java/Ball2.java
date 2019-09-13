@@ -23,7 +23,8 @@ public class Ball2 extends Entity {
 
         setPoint(DEFAULT_X, DEFAULT_Y);
         position = new Vector2(DEFAULT_X, DEFAULT_Y);
-        rectangle = new Rectangle(getPoint(), BALL_IMG_SIZE, BALL_IMG_SIZE);
+        //rectangle = new Rectangle(getPoint(), BALL_IMG_SIZE, BALL_IMG_SIZE);
+        rectangle = new Rectangle(position.asPoint(),  BALL_IMG_SIZE, BALL_IMG_SIZE);
 
         /* shouldn't render the ball until there is a left click */
         isOnScreen = false;
@@ -38,10 +39,9 @@ public class Ball2 extends Entity {
     }
 
     /**
-     * Attempt to move the ball by (dx, dy)
+     * Attempt to move the ball by (dx, dy) vector
      * todo: fix it up so it leaves the point on the edge of the screen?
-     * @param dx
-     * @param dy
+     * @param change
      */
     public void moveBy(Vector2 change){
         double newX = getX();
@@ -50,19 +50,21 @@ public class Ball2 extends Entity {
         if (isValidPos(getX() + change.x, getY() + change.y)){
             newX += change.x;
             newY += change.y;
-            position.add(change);
+            position = position.add(change);
         }
 
-        /* if we would have passed over the edge, reverse out velocity */
+        /* if we would have passed over the edge, reverse x velocity */
         if (change.x + getX() <= getXMin() || change.x + getX() >= getXMax()) {
             velocity = new Vector2(-velocity.x, velocity.y);
         }
 
 
 
-        setPoint(newX, newY);
+        //setPoint(newX, newY);
+        setPoint(position.asPoint());
 
-        rectangle.moveTo(getPoint());
+        //rectangle.moveTo(getPoint());
+        rectangle.moveTo(position.asPoint());
 
         /* If the ball is off the screen delete it */
         if (newY + change.y > getYMax()) {
