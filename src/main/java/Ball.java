@@ -10,7 +10,7 @@ public class Ball extends Entity {
     public static final double DEFAULT_Y = 32;
 
     public static final double initialVelocity = 10f;
-    public static final double gravityAcceleration = -0.15f;
+    public static final double gravityAcceleration = 0.15f;
 
     /* the ball's current velocity */
     private Vector2 velocity;
@@ -22,16 +22,14 @@ public class Ball extends Entity {
      * Constructor for a ball
      */
     public Ball(Vector2 velocityVector) {
-        setImage(imgPath);
+        /* Set up the Entity at the default coordinates */
+        super(imgPath, DEFAULT_X, DEFAULT_Y);
 
-        setPosition(DEFAULT_X, DEFAULT_Y);
-        setRectangle(getImage().getBoundingBoxAt(getPoint()));
+        /* get the initial velocity components via the velocity vector */
+        velocity = new Vector2(velocityVector.x, velocityVector.y);
 
         /* shouldn't render the ball until there is a left click */
         isOnScreen = false;
-
-        /* get the initial velocity components via the direction of the mouse click */
-        velocity = new Vector2(velocityVector.x, velocityVector.y);
     }
 
     /**

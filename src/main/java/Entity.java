@@ -22,12 +22,19 @@ public abstract class Entity {
 
     /**
      * Constructor for an Entity
+     * @param imagePath
+     * @param x
+     * @param y
      */
-    public Entity() {
-        /* instantiate a temporary position */
-        position = new Vector2();
-        /* instantiate a temporary empty rectangle */
-        rectangle = new Rectangle(0,0,0,0);
+    public Entity(String imagePath, double x, double y) {
+        /* image from file */
+        image = new Image(imagePath);
+
+        /* position from coordinates */
+        position = new Vector2(x,y);
+
+        /* rectangle from box at position */
+        rectangle = new Rectangle(image.getBoundingBoxAt(getPoint()));
     }
 
     public String toString() {
@@ -47,16 +54,6 @@ public abstract class Entity {
      */
     public Image getImage() {
         return image;
-    }
-
-    /**
-     * Set an Entity's image
-     * @param file
-     */
-    public void setImage(String file) {
-        if (this.image == null) {
-            this.image = new Image(file);
-        }
     }
 
     /**

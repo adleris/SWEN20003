@@ -6,6 +6,7 @@ public class Peg extends Entity {
 
     /**
      * Screen Size constants. Pegs have a narrower window than the whole screen.
+     * Accessed using getters, not directly
      */
     private static final double PEG_X_MIN = 0;
     private static final double PEG_X_MAX = 1024;
@@ -17,6 +18,29 @@ public class Peg extends Entity {
     /* determines if the peg is to rendered */
     private boolean isDestroyed;
 
+    /**
+     * Constructor for pegs
+     */
+    public Peg() {
+        /* set up an Entity with a random x and y coordinate */
+        super(imgPath, randomInRange(getXMin(), getXMax()), randomInRange(getYMin(), getYMax()));
+
+        /* initially all Pegs aren't destroyed */
+        isDestroyed = false;
+    }
+
+    /**
+     *  Can't be moved in project 1, but maybe the pegs will move in project 2?
+     */
+    @Override
+    public void moveBy(Vector2 change){
+        return;
+    }
+
+    /**
+     * See if a given peg has been destroyed
+     * @return
+     */
     public boolean isDestroyed() {
         return isDestroyed;
     }
@@ -29,23 +53,9 @@ public class Peg extends Entity {
     }
 
     /**
-     * Constructor for pegs
-     */
-    public Peg() {
-        setImage(imgPath);
-        isDestroyed = false;
-
-        double x = randomInRange(getXMin(), getXMax());
-        double y = randomInRange(getYMin(), getYMax());
-
-        setPosition(new Vector2(x,y));
-        setRectangle(getImage().getBoundingBoxAt(getPoint()));
-    }
-
-
-    /**
      * Pegs have their own screen boundaries that other entities might not have: Need to override setters
      */
+
     public static double getXMin() {
         return PEG_X_MIN;
     }
@@ -60,14 +70,6 @@ public class Peg extends Entity {
 
     public static double getYMax() {
         return PEG_Y_MAX;
-    }
-
-    /**
-     *  Can't be moved in project 1, but maybe the pegs will move in project 2?
-     */
-    @Override
-    public void moveBy(Vector2 change){
-        return;
     }
 
     /**

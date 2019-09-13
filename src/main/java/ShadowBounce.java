@@ -43,7 +43,7 @@ public class ShadowBounce extends AbstractGame {
         if (! ball.isOnScreen()){
             /* check if a new one needs to be made
             * NB: This needs to be 2 separate conditions, there was a bug where when these were in one condition an
-            * invisible wall would destroy some pegs at the start
+            * invisible ball would destroy some pegs at the start
             */
             if (input.isDown(MouseButtons.LEFT)) {
                 Vector2 mousePos = input.getMousePosition().asVector();
@@ -52,7 +52,7 @@ public class ShadowBounce extends AbstractGame {
             }
         } else {
             /* the ball is already on the screen: adjust its acceleration according to gravity, then move it */
-            ball.setVelocity(ball.getVelocity().add(new Vector2(0, - Ball.gravityAcceleration)));
+            ball.setVelocity(ball.getVelocity().add(new Vector2(0, Ball.gravityAcceleration)));
             ball.moveBy(ball.getVelocity());
         }
 
