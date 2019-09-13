@@ -90,7 +90,7 @@ public abstract class Entity {
         }
     }
 
-    /*
+    /**
      * Need some other getters to account for the differing max values. This reduces duplicate code in eg. Peg class
      */
 
@@ -120,7 +120,6 @@ public abstract class Entity {
             return true;
         }
         return false;
-
     }
 
     /**
@@ -135,5 +134,4 @@ public abstract class Entity {
         }
         return false;
     }
-
 }
