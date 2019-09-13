@@ -8,13 +8,15 @@ public abstract class Entity {
      */
     public static final double ENTITY_X_MIN = 0;
     public static final double ENTITY_X_MAX = Window.getWidth();
-    public static final double ENTITY_Y_MIN = - Window.getHeight();  // an arbitrary height
+    /* Y_MIN is an arbitrary height above the screen so that the ball can go above it */
+    public static final double ENTITY_Y_MIN = - Window.getHeight();
     public static final double ENTITY_Y_MAX = Window.getHeight();
 
     public Image image;
     private Vector2 position;
     public Rectangle rectangle;
 
+    /* method to move an Entity by a given distance */
     public abstract void moveBy(double dx, double dy);
 
     public Entity() {
@@ -22,6 +24,10 @@ public abstract class Entity {
         position = new Vector2();
         /* instantiate a temporary empty rectangle */
         rectangle = new Rectangle(0,0,0,0);
+    }
+
+    public String toString() {
+        return String.format("Entity at %f, %f", position.x, position.y);
     }
 
     /**
@@ -56,20 +62,17 @@ public abstract class Entity {
     }
 
     /**
-     * Setter for the Entity's point. Only modifies if the new point is in the screen. Takes in a Point
-     * @param point
+     * Getter for position, returns a Vector2
+     * @return
      */
-    public void setPoint(Point point) {
-        if (isValidPosition(point.asVector())){
-            this.position = point.asVector();
-        }
-
-    }
-
     public Vector2 getPosition() {
         return new Vector2(position.x, position.y);
     }
 
+    /**
+     * Setter for position, takes in a position
+     * @param position
+     */
     public void setPosition(Vector2 position) {
           if (isValidPosition(position)){
             this.position = position;
@@ -77,7 +80,7 @@ public abstract class Entity {
     }
 
     /**
-     * Setter for the Entity's point. Only modifies if the new point is in the screen. Takes in coordinate pair
+     * Setter for position. Takes in coordinate pair
      * @param x
      * @param y
      */

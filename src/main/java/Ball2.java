@@ -10,9 +10,10 @@ public class Ball2 extends Entity {
     public static final double initialVelocity = 10f;
     public static final double gravityAcceleration = -0.15f;
 
-    //public Vector2 position;
+    /* the ball's current velocity */
     public Vector2 velocity;
 
+    /* determines if the ball is to rendered */
     private boolean isOnScreen;
 
     /**
@@ -21,7 +22,6 @@ public class Ball2 extends Entity {
     public Ball2(Vector2 velocityVector) {
         image = new Image(imgPath);
 
-        //setPoint(DEFAULT_X, DEFAULT_Y);
         setPosition(DEFAULT_X, DEFAULT_Y);
         rectangle = new Rectangle(getPoint(), BALL_IMG_SIZE, BALL_IMG_SIZE);
 
@@ -32,20 +32,12 @@ public class Ball2 extends Entity {
         velocity = new Vector2(velocityVector.x, velocityVector.y);
     }
 
-
-    public String toString() {
-        return String.format("Ball at %f, %f", getX(), getY());
-    }
-
     /**
      * Attempt to move the ball by (dx, dy) vector
-     * todo: fix it up so it leaves the point on the edge of the screen?
      *
      * @param change
      */
     public void moveBy(Vector2 change) {
-        double newX = getX();
-        double newY = getY();
 
         if (isValidPosition(getPosition().add(change))) {
             setPosition(getPosition().add(change));
@@ -56,13 +48,10 @@ public class Ball2 extends Entity {
             velocity = new Vector2(-velocity.x, velocity.y);
         }
 
-
-        //setPoint(position.asPoint());
-
         rectangle.moveTo(getPoint());
 
         /* If the ball is off the screen delete it */
-        if (newY + change.y > getYMax()) {
+        if (getY() + change.y > getYMax()) {
             isOnScreen = false;
         }
     }
@@ -104,7 +93,7 @@ public class Ball2 extends Entity {
      */
     public void setOnScreen(boolean val) {
         if (val) {
-            isOnScreen = val;
+            isOnScreen = true;
         }
     }
 }

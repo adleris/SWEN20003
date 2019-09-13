@@ -71,7 +71,6 @@ public class Peg extends Entity {
         return;
     }
 
-
     /**
      * Generate a random double in the range [min, max]
      * @param min
