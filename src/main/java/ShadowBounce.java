@@ -47,8 +47,8 @@ public class ShadowBounce extends AbstractGame {
         if (! ball.isOnScreen()){
             /* Check if we should make a new ball */
             if (input.isDown(MouseButtons.LEFT)) {
-                Vector2 mousepos = input.getMousePosition().asVector();
-                ball = new Ball2(velocityFromMouse(mousepos));
+                Vector2 mousePos = input.getMousePosition().asVector();
+                ball = new Ball2(velocityFromMouse(mousePos));
                 ball.setOnScreen(true);
 
                 //System.out.format("At %s\n", velocity.toString());
@@ -72,7 +72,7 @@ public class ShadowBounce extends AbstractGame {
                     ball.moveBy(0,speed);
                 }
             }
-            ball.velocity.add(new Vector2(0, - ball.gravityAcceleration));
+            ball.velocity = ball.velocity.add(new Vector2(0, - ball.gravityAcceleration));
             ball.moveBy(ball.velocity);
         }
 
@@ -114,16 +114,14 @@ public class ShadowBounce extends AbstractGame {
 
     /**
      * Find the initial velocity of the ball from the mouse coordinates
-     * todo: doeesnt work properly
      * @param mouse
      * @return
      */
     private Vector2 velocityFromMouse(Vector2 mouse){
-        System.out.format("\n\n\n%f, %f \n\n\n", mouse.x, mouse.y);
-        double distance = Math.sqrt( (mouse.x - ball.getX()) * (mouse.x - ball.getX()) +
-                                     (mouse.y - ball.getY()) * (mouse.y - ball.getY()) );
-        double velX = (ball.DEFAULT_X + (mouse.x - ball.DEFAULT_X) * ball.initialVelocity) / distance;
-        double velY = (ball.DEFAULT_Y + (mouse.y - ball.DEFAULT_Y) * ball.initialVelocity) / distance;
+        double distance = Math.sqrt( (mouse.x - ball.DEFAULT_X) * (mouse.x - ball.DEFAULT_X) +
+                                     (mouse.y - Ball2.DEFAULT_Y) * (mouse.y - ball.DEFAULT_Y) );
+        double velX = (mouse.x - ball.DEFAULT_X) * ball.initialVelocity / distance;
+        double velY = (mouse.y - ball.DEFAULT_Y) * ball.initialVelocity / distance;
         return new Vector2(velX, velY);
     }
 
