@@ -8,11 +8,12 @@ public abstract class Entity {
      */
     public static final double ENTITY_X_MIN = 0;
     public static final double ENTITY_X_MAX = Window.getWidth();
-    public static final double ENTITY_Y_MIN = 0;
+    public static final double ENTITY_Y_MIN = - Window.getHeight();  // an arbitrary height
     public static final double ENTITY_Y_MAX = Window.getHeight();
 
     public Image image;
     private Point point;
+    private Vector2 position;
     public Rectangle rectangle;
 
     public abstract void moveBy(double dx, double dy);
@@ -21,6 +22,7 @@ public abstract class Entity {
         // instantiate a temporary point
         point = new Point();
         // instantiate a temporary empty rectangle
+        position = new Vector2();
         rectangle = new Rectangle(0,0,0,0);
     }
 
@@ -28,15 +30,15 @@ public abstract class Entity {
      * Draw an entity to the screen.
      */
     public void draw() {
-        image.draw(getX(), getY());
+        image.draw(position.x, position.y);
     }
 
     /**
-     * Getter to return point
+     * Getter to return the current position as a point
      * @return
      */
     public Point getPoint() {
-        return new Point(point.x, point.y);
+        return new Point(position.x, position.y);
     }
 
     /**
@@ -44,7 +46,7 @@ public abstract class Entity {
      * @return
      */
     public double getX() {
-        return point.x;
+        return position.x;
     }
 
     /**
@@ -52,7 +54,7 @@ public abstract class Entity {
      * @return
      */
     public double getY() {
-        return point.y;
+        return position.y;
     }
 
     /**
@@ -63,6 +65,17 @@ public abstract class Entity {
         if (point.x >= getXMin() && point.x <= getXMax()
                 && point.y >= getYMin() && point.y <= getYMax()) {
             this.point = point;
+        }
+        this.position = point.asVector();
+    }
+
+    public Vector2 getPosition() {
+        return new Vector2(position.x, position.y);
+    }
+
+    public void setPosition(Vector2 position) {
+        if (position.y <= getYMax() ){
+            this.position = position;
         }
     }
 
@@ -76,29 +89,10 @@ public abstract class Entity {
                 && y >= getYMin() && y <= getYMax()) {
             this.point = new Point(x,y);
         }
+        this.position = new Vector2(x,y);
     }
 
-    /**
-     * Setter for the Entity's x coordinate. Only modifies if the new point is in the screen.
-     */
-    public void setX(double x) {
-        if (x >= getXMin() && x <= getXMax()) {
-            this.point = new Point(x, this.point.y);
-        }
-    }
-
-    /**
-     * Setter for the Entity's y coordinate. Only modifies if the new point is in the screen.
-     */
-    public void setY(double y) {
-        System.out.format("in set y (=%.2f)\n", y);
-        System.out.format("Boundaries: %.2f to %.2f",getYMin(), getYMax());
-        if (y >= getYMin() && y <= getYMax()) {
-            this.point = new Point(this.point.x, y);
-        }
-    }
-
-    /**
+    /*
      * Need some other getters to account for the differing max values. This reduces duplicate code in eg. Peg class
      */
 

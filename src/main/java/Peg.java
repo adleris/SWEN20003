@@ -36,7 +36,8 @@ public class Peg extends Entity {
 
         double x = utilities.randomInRange(getXMin(), getXMax());
         double y = utilities.randomInRange(getYMin(), getYMax());
-        setPoint(x,y);
+
+        setPosition(new Vector2(x,y));
         rectangle = new Rectangle(getPoint(), PEG_IMG_SIZE, PEG_IMG_SIZE);
     }
 
