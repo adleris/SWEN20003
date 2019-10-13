@@ -110,7 +110,7 @@ public class Board {
             return new BluePeg(type, x, y);
         }
         else if (type.contains("grey")) {
-            return new Peg(type, x, y);
+            return new GreyPeg(type, x, y);
         }
     }
 
