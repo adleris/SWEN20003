@@ -17,9 +17,6 @@ public abstract class Entity {
     private Vector2 position;
     private Rectangle rectangle;
 
-    /* method to move an Entity by a given distance */
-    public abstract void moveBy(Vector2 change);
-
     /**
      * Constructor for an Entity
      * @param imagePath

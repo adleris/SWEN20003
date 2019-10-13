@@ -1,7 +1,7 @@
 import bagel.*;
 import bagel.util.*;
 
-public class Ball extends Entity {
+public class Ball extends MovingEntity {
 
     private static final String imgPath = "res/ball.png";
 
@@ -12,11 +12,11 @@ public class Ball extends Entity {
     public static final double initialVelocity = 10f;
     public static final double gravityAcceleration = 0.15f;
 
-    /* the ball's current velocity */
-    private Vector2 velocity;
-
     /* determines if the ball is to rendered */
     private boolean isOnScreen;
+
+    /* determines if a ball should interact as a fireball */
+    private boolean isFireBall;
 
     /**
      * Constructor for a ball
@@ -26,8 +26,8 @@ public class Ball extends Entity {
         super(imgPath, DEFAULT_X, DEFAULT_Y);
 
         /* get the initial velocity components via the velocity vector */
-        velocity = new Vector2(velocityVector.x, velocityVector.y);
-
+        //velocity = new Vector2(velocityVector.x, velocityVector.y);   // old code
+        setVelocity(new Vector2(velocityVector.x, velocityVector.y));
         /* shouldn't render the ball until there is a left click */
         isOnScreen = false;
     }
@@ -49,21 +49,14 @@ public class Ball extends Entity {
 
         /* if we would have passed over the edge, reverse x velocity */
         if (change.x + getX() <= getXMin() || change.x + getX() >= getXMax()) {
-            velocity = new Vector2(-velocity.x, velocity.y);
+            //velocity = new Vector2(-velocity.x, velocity.y);          // old code
+            setVelocity(new Vector2( - getVelocity().x, getVelocity().y));
         }
 
         /* If the ball is off the screen delete it */
         if (getY() + change.y > getYMax()) {
             isOnScreen = false;
         }
-    }
-
-    public Vector2 getVelocity() {
-        return new Vector2(velocity.x, velocity.y);
-    }
-
-    public void setVelocity(Vector2 velocity) {
-        this.velocity = velocity;
     }
 
     /**
@@ -73,6 +66,14 @@ public class Ball extends Entity {
      */
     public boolean isOnScreen() {
         return isOnScreen;
+    }
+
+    /**
+     * Determines if a ball should interact as a fireball or just as a regular ball
+     * @return
+     */
+    public boolean isFireBall() {
+        return isFireBall;
     }
 
     /**
