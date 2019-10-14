@@ -33,6 +33,19 @@ public class Ball extends MovingEntity {
     }
 
     /**
+     * Constructor for a ball that takes in the initial coordinate for the ball to spawn at
+     */
+    public Ball(Vector2 position, Vector2 velocityVector) {
+        /* Set up the Entity at the default coordinates */
+        super(imgPath, position.x, position.y);
+
+        /* get the initial velocity components via the velocity vector */
+        setVelocity(new Vector2(velocityVector.x, velocityVector.y));
+        /* a ball set up in this fashion should already be on the screen */
+        isOnScreen = true;
+    }
+
+    /**
      * Attempt to move the ball by a (dx, dy) vector
      *
      * @param change
