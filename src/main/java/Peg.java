@@ -13,28 +13,54 @@ public class Peg extends Entity {
     private static final double PEG_Y_MIN = 100;
     private static final double PEG_Y_MAX = 768;
 
+    /** Peg Names: These are they names of pegs as read in by the CSV board files */
+    public static final String BLUE_NAME       = "blue_peg";
+    public static final String BLUE_HORIZ_NAME = "blue_peg_horizontal";
+    public static final String BLUE_VERT_NAME  = "blue_peg_vertical";
+    public static final String GREY_NAME       = "grey_peg";
+    public static final String GREY_HORIZ_NAME = "grey_peg_horizontal";
+    public static final String GREY_VERT_NAME  = "grey_peg_vertical";
+    public static final String RED_NAME        = "red_peg";
+    public static final String RED_HORIZ_NAME  = "red_peg_horizontal";
+    public static final String RED_VERT_NAME   = "red_peg_vertical";
+
+    /** strings to store information about the orientatin of a particular peg */
+    public static final String ORIENTATION_NORMAL = "normal";
+    public static final String ORIENTATION_HORIZ  = "horizontal";
+    public static final String ORIENTATION_VERT   = "vertical";
+
+    /** tells us the orientation of the peg, used in initialising and converting one type of peg to another */
+    public final String orientation;
+
+    // kept here for compatibility with project 1 so far, remove this later on
     private static final String imgPath = "res/peg.png";
 
     /* determines if the peg is to rendered */
     private boolean isDestroyed;
 
     /**
-     * Constructor for pegs
+     * Constructor for pegs that randomly generates a Peg
      */
     public Peg() {
         /* set up an Entity with a random x and y coordinate */
         super(imgPath, randomInRange(getXMin(), getXMax()), randomInRange(getYMin(), getYMax()));
-
+        orientation = null;     // for compatibility with project 1
         /* initially all Pegs aren't destroyed */
         isDestroyed = false;
     }
 
     /**
-     * Can't be moved in project 1, but maybe the pegs will move in project 2?
+     * Constructor that takes in coordinates and an image path
+     * @param imagePath
+     * @param x
+     * @param y
      */
-    @Override
-    public void moveBy(Vector2 change) {
-        return;
+    public Peg(String imagePath, double x, double y) {
+        super(imagePath, x, y);
+        orientation = orientationFromFileName(imagePath);
+
+        /* initially all Pegs aren't destroyed */
+        isDestroyed = false;
     }
 
     /**
@@ -54,6 +80,7 @@ public class Peg extends Entity {
         isDestroyed = true;
     }
 
+    // todo: move this into the individual peg subtypes, grey cant be destroyed.
     /**
      * Pegs have their own screen boundaries that other entities might not have:
      * Need to override setters
@@ -76,6 +103,22 @@ public class Peg extends Entity {
     }
 
     /**
+     * find a Peg's orientation based on its filename.
+     * To add more orientations (eg diagonal), add more class constants.
+     * Orientations pull from filenames so if the file names change some new constants will need to be added
+     * @param fileName
+     */
+    public static String orientationFromFileName(String fileName){
+        if (fileName.contains(ORIENTATION_HORIZ)){
+            return ORIENTATION_HORIZ;
+        } else if (fileName.contains(ORIENTATION_VERT)){
+            return ORIENTATION_VERT;
+        } else {
+            return ORIENTATION_NORMAL;
+        }
+    }
+
+    /**
      * Generate a random double in the range [min, max]
      * 
      * @param min
@@ -88,3 +131,6 @@ public class Peg extends Entity {
         return r.nextDouble() * (max - min) + min;
     }
 }
+
+
+//todo: should Peg be made abstract? Then getFileName becomes an  overridden abstract method, as would Destroy or whatever I end up doing with it
