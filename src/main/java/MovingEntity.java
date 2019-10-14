@@ -13,6 +13,10 @@ public abstract class MovingEntity extends Entity {
         super(imagePath, x, y);
     }
 
+    public MovingEntity(String imagePath, Vector2 position) {
+        super(imagePath, position.x, position.y);
+    }
+
     public Vector2 getVelocity() {
         return new Vector2(velocity.x, velocity.y);
     }
