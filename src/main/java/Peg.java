@@ -24,6 +24,14 @@ public class Peg extends Entity {
     public static final String RED_HORIZ_NAME  = "red_peg_horizontal";
     public static final String RED_VERT_NAME   = "red_peg_vertical";
 
+    /** strings to store information about the orientatin of a particular peg */
+    public static final String ORIENTATION_NORMAL = "normal";
+    public static final String ORIENTATION_HORIZ  = "horizontal";
+    public static final String ORIENTATION_VERT   = "vertical";
+
+    /** tells us the orientation of the peg, used in initialising and converting one type of peg to another */
+    public final String orientation;
+
     // kept here for compatibility with project 1 so far, remove this later on
     private static final String imgPath = "res/peg.png";
 
@@ -36,7 +44,7 @@ public class Peg extends Entity {
     public Peg() {
         /* set up an Entity with a random x and y coordinate */
         super(imgPath, randomInRange(getXMin(), getXMax()), randomInRange(getYMin(), getYMax()));
-
+        orientation = null;     // for compatibility with project 1
         /* initially all Pegs aren't destroyed */
         isDestroyed = false;
     }
@@ -49,6 +57,7 @@ public class Peg extends Entity {
      */
     public Peg(String imagePath, double x, double y) {
         super(imagePath, x, y);
+        orientation = orientationFromFileName(imagePath);
 
         /* initially all Pegs aren't destroyed */
         isDestroyed = false;
@@ -91,6 +100,22 @@ public class Peg extends Entity {
 
     public static double getYMax() {
         return PEG_Y_MAX;
+    }
+
+    /**
+     * find a Peg's orientation based on its filename.
+     * To add more orientations (eg diagonal), add more class constants.
+     * Orientations pull from filenames so if the file names change some new constants will need to be added
+     * @param fileName
+     */
+    public static String orientationFromFileName(String fileName){
+        if (fileName.contains(ORIENTATION_HORIZ)){
+            return ORIENTATION_HORIZ;
+        } else if (fileName.contains(ORIENTATION_VERT)){
+            return ORIENTATION_VERT;
+        } else {
+            return ORIENTATION_NORMAL;
+        }
     }
 
     /**
