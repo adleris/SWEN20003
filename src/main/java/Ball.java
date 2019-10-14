@@ -33,12 +33,13 @@ public class Ball extends MovingEntity {
     }
 
     /**
-     * Constructor for a ball that takes in the initial coordinate for the ball to spawn at
+     * Constructor for a ball that takes in the initial coordinate for the ball to spawn at and its type
      */
-    public Ball(Vector2 position, Vector2 velocityVector) {
+    public Ball(Vector2 position, Vector2 velocityVector, boolean isFireBall) {
         /* Set up the Entity at the default coordinates */
         super(imgPath, position.x, position.y);
 
+        this.isFireBall = isFireBall;
         /* get the initial velocity components via the velocity vector */
         setVelocity(new Vector2(velocityVector.x, velocityVector.y));
         /* a ball set up in this fashion should already be on the screen */

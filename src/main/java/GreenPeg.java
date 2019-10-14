@@ -37,8 +37,8 @@ public class GreenPeg extends Peg {
 
         Ball[] newBalls = new Ball[N_BALLS_SUMMONED];
         /* set up each of the 2 balls with same y velocity but different x velocity */
-        newBalls[0] = new Ball(getPosition(), new Vector2(velocityComponent, velocityComponent));
-        newBalls[1] = new Ball(getPosition(), new Vector2(- velocityComponent, velocityComponent));
+        newBalls[0] = new Ball(getPosition(), new Vector2(velocityComponent, velocityComponent), ball.isFireBall());
+        newBalls[1] = new Ball(getPosition(), new Vector2(- velocityComponent, velocityComponent), ball.isFireBall());
         return newBalls;
     }
 
