@@ -15,7 +15,7 @@ public class Board {
     public ArrayList<Peg> pegs;
     public Bucket bucket;
     public Ball[] balls;
-    public powerup powerup;
+    public PowerUp powerup;
 
     /* constructor */
     public Board(int boardNumber){
@@ -24,8 +24,8 @@ public class Board {
         readInBoard(boardNumber);
         powerup = new PowerUp();
         bucket = new Bucket();
-        balls = new Ball[2];             // double check that this is set at 2?
-        balls[0] = new Ball();
+        balls = new Ball[3];             // double check that this is set at 2?
+        balls[0] = new Ball(new Vector2(0, 0));
     }
 
     // like the main method
@@ -35,36 +35,36 @@ public class Board {
     }
 
     public void checkCollisions() {
-        // the insides ofthis can be tidied up
-        for (Ball ball : balls) {
-            if (ball.isFireBall()) {
-                // need to explode on intersect
-                for (Peg peg : pegs) {
-                    if (ball.intersects(peg)) {
-                        if (! peg.getColour() == "grey") {
-                            DestroyPegsInRadius(ball);
-                        }
-                        if (peg.getColour() == "Green"){
-                            this.Balls = GreenPegSummonBall(ball);      // this aint right but that's ok for now
-                            // if we hit a green peg there should have only been one ball
-                        }
-                    }
-                }
-            } else {
-                for (Peg peg : pegs) {
-                    // normal intersect handling
-                    if (! peg.getColour() == "grey") {
-                        peg.destroy();
-                    }
-                    if (peg.getColour() == "Green"){
-                        this.Balls = GreenPegSummonBall(ball);      // this aint right but that's ok for now
-                        // if we hit a green peg there should have only been one ball
-                    }
-                }
-            }
-        }
-
-        // here, we will also check the intersections of the bucket and powerUp
+//        // the insides of this can be tidied up
+//        for (Ball ball : balls) {
+//            if (ball.isFireBall()) {
+//                // need to explode on intersect
+//                for (Peg peg : pegs) {
+//                    if (ball.getRectangle().intersects(peg.getRectangle())) {
+//                        if (! peg.getColour() == "grey") {
+//                            DestroyPegsInRadius(ball);
+//                        }
+//                        if (peg.getColour() == "Green"){
+//                            this.Balls = GreenPegSummonBall(ball);      // this aint right but that's ok for now
+//                            // if we hit a green peg there should have only been one ball
+//                        }
+//                    }
+//                }
+//            } else {
+//                for (Peg peg : pegs) {
+//                    // normal intersect handling
+//                    if (! peg.getColour() == "grey") {
+//                        peg.destroy();
+//                    }
+//                    if (peg.getColour() == "Green"){
+//                        this.Balls = GreenPegSummonBall(ball);      // this aint right but that's ok for now
+//                        // if we hit a green peg there should have only been one ball
+//                    }
+//                }
+//            }
+//        }
+//
+//    //     here, we will also check the intersections of the bucket and powerUp
     }
 
     public void renderScreen() {
@@ -77,7 +77,7 @@ public class Board {
             }
         }
 
-        // then also do balls, powerup, bucket
+        // then also do balls, PowerUp, bucket
     }
 
     public void readInBoard(int boardNumber) {
@@ -112,6 +112,7 @@ public class Board {
         else if (type.contains("grey")) {
             return new GreyPeg(type, x, y);
         }
+        return null;        // This will only happen in an error
     }
 
 
@@ -119,11 +120,14 @@ public class Board {
         // make a box / circle (using euclidean distance) and then check intersections
         // with every peg using the intersect method
     }
+
+    /** go through our list of pegs and return a random one of them */
     public BluePeg getRandomBlue() {
-        // randomly choose a blue peg
+        /* choose a Blue Peg: not technically random but we can sort that out later if we want */
         for (Peg peg : pegs){
-            if (peg.colour == Peg.COLOUR_BLUE) {
-                return new BluePeg(peg);
+            if (peg instanceof BluePeg) {
+                /* we want to cast this peg to BluePeg and return a pointer to it, because that's what's on the Board */
+                return (BluePeg)peg;
             }
         }
         return null;
