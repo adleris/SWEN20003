@@ -8,6 +8,11 @@ public class RedPeg extends Peg {
     public static final String HORIZ_IMG_PATH = "res/red-horizontal-peg.png";
     public static final String VERT_IMG_PATH = "res/red-vertical-peg.png";
 
+    /** Peg Names: These are they names of pegs as read in by the CSV board files */
+    public static final String RED_NAME        = "red_peg";
+    public static final String RED_HORIZ_NAME  = "red_peg_horizontal";
+    public static final String RED_VERT_NAME   = "red_peg_vertical";
+
     /** the number of red pegs in the game. when this drops to 0, the game ends
      * It's initially zero at the start of the game so that we can still do a check to end the game */
     private static int numRedPegs = -1;
@@ -64,11 +69,11 @@ public class RedPeg extends Peg {
 
     //@override
     private static String filePathFromType(String type) {
-        if (type == Peg.RED_NAME) {
+        if (type == RED_NAME) {
             return NORMAL_IMG_PATH;
-        } else if (type == Peg.RED_HORIZ_NAME) {
+        } else if (type == RED_HORIZ_NAME) {
             return HORIZ_IMG_PATH;
-        } else if (type == Peg.RED_VERT_NAME) {
+        } else if (type == RED_VERT_NAME) {
             return VERT_IMG_PATH;
         } else {
             System.out.format("\033[31mInvlaid Peg Type: %s\033[0m\n", type);

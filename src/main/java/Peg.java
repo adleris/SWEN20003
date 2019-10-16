@@ -13,17 +13,6 @@ public class Peg extends Entity {
     private static final double PEG_Y_MIN = 100;
     private static final double PEG_Y_MAX = 768;
 
-    /** Peg Names: These are they names of pegs as read in by the CSV board files */
-    public static final String BLUE_NAME       = "blue_peg";
-    public static final String BLUE_HORIZ_NAME = "blue_peg_horizontal";
-    public static final String BLUE_VERT_NAME  = "blue_peg_vertical";
-    public static final String GREY_NAME       = "grey_peg";
-    public static final String GREY_HORIZ_NAME = "grey_peg_horizontal";
-    public static final String GREY_VERT_NAME  = "grey_peg_vertical";
-    public static final String RED_NAME        = "red_peg";
-    public static final String RED_HORIZ_NAME  = "red_peg_horizontal";
-    public static final String RED_VERT_NAME   = "red_peg_vertical";
-
     /** strings to store information about the orientatin of a particular peg */
     public static final String ORIENTATION_NORMAL = "normal";
     public static final String ORIENTATION_HORIZ  = "horizontal";
