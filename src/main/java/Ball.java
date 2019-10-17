@@ -3,7 +3,8 @@ import bagel.util.*;
 
 public class Ball extends MovingEntity {
 
-    private static final String imgPath = "res/ball.png";
+    private static final String normalImagePath = "res/ball.png";
+    private static final String fireBallImagePath = "res/fireball.png";
 
     /* initial values to spawn the ball at */
     public static final double DEFAULT_X = 512;
@@ -18,32 +19,64 @@ public class Ball extends MovingEntity {
     /* determines if a ball should interact as a fireball */
     private boolean isFireBall;
 
+    /* determines if this ball has previously hit the bucket, so we only get one bonus from each ball */
+    private boolean hasHitBucket;
+
     /**
      * Constructor for a ball
      */
     public Ball(Vector2 velocityVector) {
         /* Set up the Entity at the default coordinates */
-        super(imgPath, DEFAULT_X, DEFAULT_Y);
+        super(normalImagePath, DEFAULT_X, DEFAULT_Y);
 
         /* get the initial velocity components via the velocity vector */
         //velocity = new Vector2(velocityVector.x, velocityVector.y);   // old code
         setVelocity(new Vector2(velocityVector.x, velocityVector.y));
         /* shouldn't render the ball until there is a left click */
-        isOnScreen = false;
+        isOnScreen   = false;
+        isFireBall   = false;
+        hasHitBucket = false;
     }
 
     /**
-     * Constructor for a ball that takes in the initial coordinate for the ball to spawn at and its type
+     * Ball Constructor for a ball that takes in the initial coordinate for the ball to spawn at and its type
      */
     public Ball(Vector2 position, Vector2 velocityVector, boolean isFireBall) {
         /* Set up the Entity at the default coordinates */
-        super(imgPath, position.x, position.y);
-
+        super(imagePathFromIsFireBall(isFireBall), position.x, position.y);
         this.isFireBall = isFireBall;
         /* get the initial velocity components via the velocity vector */
         setVelocity(new Vector2(velocityVector.x, velocityVector.y));
         /* a ball set up in this fashion should already be on the screen */
         isOnScreen = true;
+        hasHitBucket = false;
+    }
+
+    /**
+     * Fire Ball Constructor for a ball that takes in previous ball and returns a fireball in its place.
+     * if isFireBall is set to false it returns a normal ball (making it essentially a copy constructor)
+     * @param old -- The ball to replace
+     * @param isFireBall -- determines if making a fire ball or not
+     */
+    public Ball(Ball old, boolean isFireBall){
+        /* because super constructor must go first verifying the boolean to be true has to be done externally.
+         * if it's false, we just use the normal image and this is essentially a copy constructor
+         */
+        super(imagePathFromIsFireBall(isFireBall), old.getX(), old.getY());
+        this.isFireBall = isFireBall;
+        setVelocity(new Vector2(old.getVelocity().x, old.getVelocity().y));
+        /* a ball set up in this fashion should already be on the screen */
+        isOnScreen = true;
+        hasHitBucket = false;
+    }
+
+    /** Get the file path to use for a ball depending on if it is a fireball or not
+     * @param isFireBall -- if the ball is a fire ball
+     * @return the file path for the ball type
+     */
+    private static String imagePathFromIsFireBall(boolean isFireBall){
+        if (isFireBall) return fireBallImagePath;
+        return normalImagePath;
     }
 
     /**
@@ -100,5 +133,19 @@ public class Ball extends MovingEntity {
         if (val) {
             isOnScreen = true;
         }
+    }
+
+    /** See if a particular ball has hit the bucket before
+     */
+    public boolean getHasHitBucket() {
+        return hasHitBucket;
+    }
+
+    /** set hasHitBucket so that no more bonus balls can be awarded from this ball. Will only set the value to true.
+     * @param hasHitBucket -- boolean that tells if the ball has hit the bucket
+     */
+    public void setHasHitBucket(boolean hasHitBucket) {
+        if (hasHitBucket)
+            this.hasHitBucket = true;
     }
 }

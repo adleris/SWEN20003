@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Board {
-    private static final int INITIAL_SHOTS = 20;
-    private int numShots;
+    private static final int INITIAL_SHOTS = 4;
+    private int shotsRemaining;
 
     private static final String FILE_PATTERN = "Boards/#.csv";
 
@@ -26,7 +26,7 @@ public class Board {
         balls = new ArrayList<>();
         powerup = new PowerUp();
         bucket = new Bucket();
-        numShots = INITIAL_SHOTS;
+        shotsRemaining = INITIAL_SHOTS;
     }
 
     /** Update the components in Board -- The movement of the bucket and power up (if it exists)
@@ -42,8 +42,10 @@ public class Board {
          */
         if (balls.size() == 0 && velocityFromMouse != null) {
             /* first subtract 1 from our remaining shots. If we have no more shots, end the game */
-            if (numShots-- <= 0) Window.close();
-
+            //if (shotsRemaining-- <= 0) Window.close();
+            shotsRemaining--;
+            System.out.println(shotsRemaining);
+            if (shotsRemaining < 0) Window.close();
             /* make the new ball */
             Ball newBall = new Ball(velocityFromMouse);
             newBall.setOnScreen(true);
@@ -84,36 +86,47 @@ public class Board {
 
 
     public void checkCollisions() {
-//        // the insides of this can be tidied up
-//        for (Ball ball : balls) {
-//            if (ball.isFireBall()) {
-//                // need to explode on intersect
-//                for (Peg peg : pegs) {
-//                    if (ball.getRectangle().intersects(peg.getRectangle())) {
-//                        if (! peg.getColour() == "grey") {
-//                            DestroyPegsInRadius(ball);
-//                        }
-//                        if (peg.getColour() == "Green"){
-//                            this.Balls = GreenPegSummonBall(ball);      // this aint right but that's ok for now
-//                            // if we hit a green peg there should have only been one ball
-//                        }
-//                    }
-//                }
-//            } else {
-//                for (Peg peg : pegs) {
-//                    // normal intersect handling
-//                    if (! peg.getColour() == "grey") {
-//                        peg.destroy();
-//                    }
-//                    if (peg.getColour() == "Green"){
-//                        this.Balls = GreenPegSummonBall(ball);      // this aint right but that's ok for now
-//                        // if we hit a green peg there should have only been one ball
-//                    }
-//                }
-//            }
-//        }
-//
-//    //     here, we will also check the intersections of the bucket and powerUp
+
+        /* check the collisions of every ball with possible objects */
+        for (Ball ball : balls) {
+            for (Peg peg : pegs) {
+                if (ball.getRectangle().intersects(peg.getRectangle()) && !peg.isDestroyed()) {
+                    /* in both of these collision scenarios, pegs will mark themselves as destroyed */
+                    //peg.collideWith(ball);
+                    if (ball.isFireBall()) {
+                        destroyPegsInRadius(ball);
+                    }
+                }
+            }
+
+            /* check if the ball intersects with the bucket, if so, add a shot
+             * The flag is needed as otherwise the ball will hit the bucket multiple times as it passes through
+             */
+            if (!ball.getHasHitBucket() && ball.getRectangle().intersects(bucket.getRectangle())){
+                ball.setHasHitBucket(true);
+                shotsRemaining++;
+                System.out.format("You hit the bucket! Shots remaining increased to %d\n", shotsRemaining);
+            }
+
+            /* check if the ball intersects with the power up */
+            if (powerup != null && ball.getRectangle().intersects(powerup.getRectangle())) {
+                /* delete the power up and make a fire ball */
+                powerup = null;
+                ball = new Ball(ball, true);
+            }
+        }
+
+
+        /* collect all of the destroyed pegs and remove them from the array list */
+        ArrayList<Peg> pegsToRemove = new ArrayList<>();
+        for (Peg peg : pegs) {
+            if (peg.isDestroyed()) {
+                pegsToRemove.add(peg);
+            }
+        }
+        for (Peg destroyedPeg : pegsToRemove){
+            pegs.remove(destroyedPeg);
+        }
     }
 
     /** Render all sprites to the screen */
@@ -189,7 +202,7 @@ public class Board {
     }
 
 
-    public void DestroyPegsInRadius(Ball ball) {
+    public void destroyPegsInRadius(Ball ball) {
         // make a box / circle (using euclidean distance) and then check intersections
         // with every peg using the intersect method
     }
