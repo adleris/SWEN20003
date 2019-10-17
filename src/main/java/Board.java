@@ -87,14 +87,14 @@ public class Board {
 
     public void checkCollisions() {
 
-        /* check the collisions of every ball with possible objects */
-        for (Ball ball : balls) {
+        /* check the collisions of every ball with all possible objects */
+        for (int i=0; i < balls.size(); i++) {
             for (Peg peg : pegs) {
-                if (ball.getRectangle().intersects(peg.getRectangle()) && !peg.isDestroyed()) {
+                if (balls.get(i).getRectangle().intersects(peg.getRectangle()) && !peg.isDestroyed()) {
                     /* in both of these collision scenarios, pegs will mark themselves as destroyed */
                     //peg.collideWith(ball);
-                    if (ball.isFireBall()) {
-                        destroyPegsInRadius(ball);
+                    if (balls.get(i).isFireBall()) {
+                        destroyPegsInRadius(balls.get(i));
                     }
                 }
             }
@@ -102,17 +102,17 @@ public class Board {
             /* check if the ball intersects with the bucket, if so, add a shot
              * The flag is needed as otherwise the ball will hit the bucket multiple times as it passes through
              */
-            if (!ball.getHasHitBucket() && ball.getRectangle().intersects(bucket.getRectangle())){
-                ball.setHasHitBucket(true);
+            if (!balls.get(i).getHasHitBucket() && balls.get(i).getRectangle().intersects(bucket.getRectangle())){
+                balls.get(i).setHasHitBucket(true);
                 shotsRemaining++;
                 System.out.format("You hit the bucket! Shots remaining increased to %d\n", shotsRemaining);
             }
 
             /* check if the ball intersects with the power up */
-            if (powerup != null && ball.getRectangle().intersects(powerup.getRectangle())) {
+            if (powerup != null && balls.get(i).getRectangle().intersects(powerup.getRectangle())) {
                 /* delete the power up and make a fire ball */
                 powerup = null;
-                ball = new Ball(ball, true);
+                balls.set(i, new Ball(balls.get(i), true));
             }
         }
 
