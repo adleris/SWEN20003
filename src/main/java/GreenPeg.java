@@ -5,12 +5,12 @@ import java.lang.Math;
 public class GreenPeg extends Peg {
 
     /** image path constants, depends on the type of image to load */
-    public static final String NORMAL_IMG_PATH = "res/green-peg.png";
-    public static final String HORIZ_IMG_PATH = "res/green-horizontal-peg.png";
-    public static final String VERT_IMG_PATH = "res/green-vertical-peg.png";
+    private static final String NORMAL_IMG_PATH = "res/green-peg.png";
+    private static final String HORIZ_IMG_PATH = "res/green-horizontal-peg.png";
+    private static final String VERT_IMG_PATH = "res/green-vertical-peg.png";
 
-    public static final double BALL_VELOCITY = 10f;
-    public static final int N_BALLS_SUMMONED = 2;
+    private static final double BALL_VELOCITY = 10f;
+    private static final int N_BALLS_SUMMONED = 2;
 
     /** generate a Green Peg, used for converting between peg types
      * @param orientation - orientation of the peg
@@ -43,7 +43,6 @@ public class GreenPeg extends Peg {
     }
 
 
-    //@override
     private static String filePathFromOrientation(String orientation){
         if (orientation.equals(Peg.ORIENTATION_NORMAL)) {
             return NORMAL_IMG_PATH;

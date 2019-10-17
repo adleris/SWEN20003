@@ -47,7 +47,6 @@ public class BluePeg extends Peg {
 //    }
 
 
-    //@override
     private static String filePathFromOrientation(String orientation){
         if (orientation.equals(Peg.ORIENTATION_NORMAL)) {
             return NORMAL_IMG_PATH;
@@ -62,7 +61,6 @@ public class BluePeg extends Peg {
         }
     }
 
-    //@override
     private static String filePathFromType(String type) {
         if (type.equals(BLUE_NAME)) {
             return NORMAL_IMG_PATH;

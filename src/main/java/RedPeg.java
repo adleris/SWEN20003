@@ -4,14 +4,14 @@ import bagel.util.*;
 public class RedPeg extends Peg {
 
     /** image path constants, depends on the type of image to load */
-    public static final String NORMAL_IMG_PATH = "res/red-peg.png";
-    public static final String HORIZ_IMG_PATH = "res/red-horizontal-peg.png";
-    public static final String VERT_IMG_PATH = "res/red-vertical-peg.png";
+    private static final String NORMAL_IMG_PATH = "res/red-peg.png";
+    private static final String HORIZ_IMG_PATH = "res/red-horizontal-peg.png";
+    private static final String VERT_IMG_PATH = "res/red-vertical-peg.png";
 
     /** Peg Names: These are they names of pegs as read in by the CSV board files */
-    public static final String RED_NAME        = "red_peg";
-    public static final String RED_HORIZ_NAME  = "red_peg_horizontal";
-    public static final String RED_VERT_NAME   = "red_peg_vertical";
+    private static final String RED_NAME        = "red_peg";
+    private static final String RED_HORIZ_NAME  = "red_peg_horizontal";
+    private static final String RED_VERT_NAME   = "red_peg_vertical";
 
     /** the number of red pegs in the game. when this drops to 0, the game ends
      * It's initially zero at the start of the game so that we can still do a check to end the game */
@@ -52,7 +52,6 @@ public class RedPeg extends Peg {
         return true;
     }
 
-    //@override
     private static String filePathFromOrientation(String orientation){
         if (orientation.equals(Peg.ORIENTATION_NORMAL)) {
             return NORMAL_IMG_PATH;
@@ -67,7 +66,6 @@ public class RedPeg extends Peg {
         }
     }
 
-    //@override
     private static String filePathFromType(String type) {
         if (type.equals(RED_NAME)) {
             return NORMAL_IMG_PATH;

@@ -2,7 +2,7 @@ import bagel.*;
 import bagel.util.*;
 import java.util.Random;
 
-public class Peg extends Entity {
+public abstract class Peg extends Entity {
 
     /**
      * Screen Size constants. Pegs have a narrower window than the whole screen.
@@ -14,9 +14,9 @@ public class Peg extends Entity {
     private static final double PEG_Y_MAX = 768;
 
     /** strings to store information about the orientatin of a particular peg */
-    public static final String ORIENTATION_NORMAL = "normal";
-    public static final String ORIENTATION_HORIZ  = "horizontal";
-    public static final String ORIENTATION_VERT   = "vertical";
+    private static final String ORIENTATION_NORMAL = "normal";
+    private static final String ORIENTATION_HORIZ  = "horizontal";
+    private static final String ORIENTATION_VERT   = "vertical";
 
     /** tells us the orientation of the peg, used in initialising and converting one type of peg to another */
     public final String orientation;
@@ -120,6 +120,3 @@ public class Peg extends Entity {
         return r.nextDouble() * (max - min) + min;
     }
 }
-
-
-//todo: should Peg be made abstract? Then getFileName becomes an  overridden abstract method, as would Destroy or whatever I end up doing with it
