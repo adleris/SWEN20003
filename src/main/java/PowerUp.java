@@ -10,11 +10,12 @@ public class PowerUp extends MovingEntity {
     /** The magnitude of the velocity of the PowerUp */
     public static final double VELOCITY_MAGNITUDE = 3f;
 
-    /** The distance that the powerup will pick a new spot to go to */
-    public static final double DIST_TO_DEST = 1f;
+    /** The distance that the powerup will pick a new spot to go to. The spec says to have this set to 1px but there
+     * were some issues (floating point?) and making it larger fixed the issue */
+    public static final double DIST_TO_DEST = 5f;
 
     /* the destination the the point travels to after being initialised */
-    private Vector2 destination;
+    public Vector2 destination;
 
     /* determines if the powerup is to rendered */
     private boolean isOnScreen;
@@ -30,11 +31,9 @@ public class PowerUp extends MovingEntity {
         /* pick a random destination */
         destination = randomPosition();
 
-        /* figure out the velocity vector between the position and destination */
-
-
-        /* get the initial velocity from the generated start point to the created destination */
+        /* figure out the velocity vector between the generated start position and destination */
         setVelocity(velocityFromSourceToDest(getPosition(), destination));
+
         /* if the powerup exists, it is on screen */
         isOnScreen = true;
     }
@@ -42,30 +41,28 @@ public class PowerUp extends MovingEntity {
 
     //todo this is currently just the balls move and will run it off the screen
     /**
-     * Attempt to move the ball by a (dx, dy) vector
+     * Attempt to move the power-up by a (dx, dy) vector
      *
-     * @param change
+     * @param change The change to move the power up by
      */
     @Override
     public void moveBy(Vector2 change) {
+        /* figure out the distance to the destination */
+        double distance = Math.sqrt((destination.x - getX()) * (destination.x - getX())
+                + (destination.y - getY()) * (destination.y - getY()));
 
-        /* If the move is valid, move */
-        if (isValidPosition(getPosition().add(change))) {
+        /* if is valid position and distance > DIST_TO_DEST move; else get new coord */
+        if (isValidPosition(getPosition().add(change)) && distance > DIST_TO_DEST) {
             setPosition(getPosition().add(change));
             /* move the image to the current position */
+            // todo: inside moving entity, make a method to move the rectangle to the point
             setRectangle(getImage().getBoundingBoxAt(getPoint()));
+        } else if (distance <= DIST_TO_DEST) {
+            destination = randomPosition();
+            setVelocity(velocityFromSourceToDest(getPosition(), destination));
         }
 
-        /* if we would have passed over the edge, reverse x velocity */
-        if (change.x + getX() <= getXMin() || change.x + getX() >= getXMax()) {
-            //velocity = new Vector2(-velocity.x, velocity.y);          // old code
-            setVelocity(new Vector2( - getVelocity().x, getVelocity().y));
-        }
 
-        /* If the ball is off the screen delete it */
-        if (getY() + change.y > getYMax()) {
-            isOnScreen = false;
-        }
     }
 
     /** Get a random Vector2 position within the bound sof the game window */

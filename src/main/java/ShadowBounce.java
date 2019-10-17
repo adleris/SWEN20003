@@ -12,6 +12,7 @@ public class ShadowBounce extends AbstractGame {
     /* store the game items */
     private Peg[] pegs;
     private Ball ball;
+    private PowerUp pu;
 
     /**
      * Game constructor
@@ -23,6 +24,7 @@ public class ShadowBounce extends AbstractGame {
             pegs[i] = new Peg();
         }
         numPegsRemaining = NUM_PEGS;
+        pu = new PowerUp();
     }
 
     /**
@@ -61,6 +63,10 @@ public class ShadowBounce extends AbstractGame {
             ball.moveBy(ball.getVelocity());
         }
 
+        pu.moveBy(pu.getVelocity());
+        System.out.println(pu.getVelocity());
+        System.out.println(pu.getPosition());
+
         if (input.wasPressed(Keys.ESCAPE)) {
             Window.close();
         }
@@ -98,6 +104,11 @@ public class ShadowBounce extends AbstractGame {
         if (ball.isOnScreen()) {
             ball.draw();
         }
+        // temporary: render powerup and a red peg at the destination so we can see if it works
+        pu.draw();
+        Image img = new Image("res/red-peg.png");
+        img.draw(pu.destination.x, pu.destination.y);
+        // end temp. Make sure to set destination back to private
         for (int i = 0; i < NUM_PEGS; i++) {
             if (!pegs[i].isDestroyed()) {
                 pegs[i].draw();

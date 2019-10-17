@@ -10,7 +10,9 @@ public abstract class Entity {
     private static final double ENTITY_X_MIN = 0;
     private static final double ENTITY_X_MAX = Window.getWidth();
     /* Y_MIN is an arbitrary height above the screen so that the ball can go above it */
+    // todo: Changed y min fixes power up motion
     private static final double ENTITY_Y_MIN = - Window.getHeight();
+//    private static final double ENTITY_Y_MIN = 0;
     private static final double ENTITY_Y_MAX = Window.getHeight();
 
     private Image image;
