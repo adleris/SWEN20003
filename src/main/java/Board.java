@@ -10,11 +10,10 @@ public class Board {
     private int numShots;
     private int numBlue;
 
-    public static String FILE_PATTERN = "#.csv";
+    public static String FILE_PATTERN = "Boards/#.csv";
 
     public ArrayList<Peg> pegs;
     public Bucket bucket;
-    public Ball[] balls;
     public PowerUp powerup;
 
     /* constructor */
@@ -24,15 +23,25 @@ public class Board {
         readInBoard(boardNumber);
         powerup = new PowerUp();
         bucket = new Bucket();
-        balls = new Ball[3];             // double check that this is set at 2?
-        balls[0] = new Ball(new Vector2(0, 0));
     }
 
-    // like the main method
-    public void update(Input input) {
-        // wait for a mouseclick
+    /** Update the components in Board -- The movement of the bucket and power up (if it exists)
+     * @param balls -- The balls that are moving around
+     */
+    public void update(ArrayList<Ball> balls) {
 
+        /* let the moving things do thir thing */
+        if (powerup != null) powerup.moveBy(powerup.getVelocity());
+        bucket.moveBy(bucket.getVelocity());
+
+        /* check if the ball hits anything */
+        checkCollisions();
+
+        /* render everything */
+        renderScreen(balls);
     }
+
+
 
     public void checkCollisions() {
 //        // the insides of this can be tidied up
@@ -67,8 +76,8 @@ public class Board {
 //    //     here, we will also check the intersections of the bucket and powerUp
     }
 
-    public void renderScreen() {
-        // check if we should render things
+    /** Render all sprites to the screen */
+    public void renderScreen(ArrayList<Ball> balls) {
 
         // pegs
         for (Peg peg : pegs) {
@@ -77,7 +86,24 @@ public class Board {
             }
         }
 
-        // then also do balls, PowerUp, bucket
+        // balls
+        for (Ball ball : balls) {
+            if (ball.isOnScreen()){
+                ball.draw();
+            }
+        }
+
+        // bucket
+        bucket.draw();
+
+        // power up
+        if (powerup != null) {
+            // temporary: draw red peg at position
+            Image pu_img = new Image("res/red-peg.png");
+
+            pu_img.draw(powerup.destination.x, powerup.destination.y);
+            powerup.draw();
+        }
     }
 
     public void readInBoard(int boardNumber) {
