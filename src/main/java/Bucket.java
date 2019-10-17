@@ -7,7 +7,7 @@ public class Bucket extends MovingEntity {
     /** The magnitude of the velocity of the Bucket */
     public static final double VELOCITY_MAGNITUDE = 4f;
 
-    /** The intial coordinate that the bucket is spawned at */
+    /** The initial coordinate that the bucket is spawned at */
     public static final Vector2 INITIAL_COORD = new Vector2(512,744);
 
     /* determines if the buckey is to rendered */
@@ -50,10 +50,6 @@ public class Bucket extends MovingEntity {
             setVelocity(new Vector2( - getVelocity().x, getVelocity().y));
         }
 
-        /* If the ball is off the screen delete it */
-        if (getY() + change.y > getYMax()) {
-            isOnScreen = false;
-        }
     }
 
     /**

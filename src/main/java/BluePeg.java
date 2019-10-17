@@ -19,7 +19,7 @@ public class BluePeg extends Peg {
      * @param y - y coord
      */
     public BluePeg(String type, double x, double y) {
-        super(filePathFromOrientation(type), x, y);
+        super(filePathFromType(type), x, y);
     }
 
     /** generate a Blue Peg, used for converting between peg types
@@ -49,11 +49,11 @@ public class BluePeg extends Peg {
 
     //@override
     private static String filePathFromOrientation(String orientation){
-        if (orientation == Peg.ORIENTATION_NORMAL) {
+        if (orientation.equals(Peg.ORIENTATION_NORMAL)) {
             return NORMAL_IMG_PATH;
-        } else if (orientation == Peg.ORIENTATION_HORIZ) {
+        } else if (orientation.equals(Peg.ORIENTATION_HORIZ)) {
             return HORIZ_IMG_PATH;
-        } else if (orientation == Peg.ORIENTATION_VERT) {
+        } else if (orientation.equals(Peg.ORIENTATION_VERT)) {
             return VERT_IMG_PATH;
         } else {
             System.out.format("\033[31mInvlaid Peg Orientation: %s\033[0m\n", orientation);
@@ -64,11 +64,11 @@ public class BluePeg extends Peg {
 
     //@override
     private static String filePathFromType(String type) {
-        if (type == BLUE_NAME) {
+        if (type.equals(BLUE_NAME)) {
             return NORMAL_IMG_PATH;
-        } else if (type == BLUE_HORIZ_NAME) {
+        } else if (type.equals(BLUE_HORIZ_NAME)) {
             return HORIZ_IMG_PATH;
-        } else if (type == BLUE_VERT_NAME) {
+        } else if (type.equals(BLUE_VERT_NAME)) {
             return VERT_IMG_PATH;
         } else {
             System.out.format("\033[31mInvlaid Peg Type: %s\033[0m\n", type);

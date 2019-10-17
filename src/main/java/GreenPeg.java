@@ -45,11 +45,11 @@ public class GreenPeg extends Peg {
 
     //@override
     private static String filePathFromOrientation(String orientation){
-        if (orientation == Peg.ORIENTATION_NORMAL) {
+        if (orientation.equals(Peg.ORIENTATION_NORMAL)) {
             return NORMAL_IMG_PATH;
-        } else if (orientation == Peg.ORIENTATION_HORIZ) {
+        } else if (orientation.equals(Peg.ORIENTATION_HORIZ)) {
             return HORIZ_IMG_PATH;
-        } else if (orientation == Peg.ORIENTATION_VERT) {
+        } else if (orientation.equals(Peg.ORIENTATION_VERT)) {
             return VERT_IMG_PATH;
         } else {
             System.out.format("\033[31mInvlaid Peg Orientation: %s\033[0m\n", orientation);

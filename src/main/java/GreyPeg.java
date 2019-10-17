@@ -19,7 +19,7 @@ public class GreyPeg extends Peg {
      * @param y - y coord
      */
     public GreyPeg(String type, double x, double y) {
-        super(filePathFromOrientation(type), x, y);
+        super(filePathFromType(type), x, y);
     }
 
     /** generate a Grey Peg, used for converting between peg types
@@ -32,11 +32,11 @@ public class GreyPeg extends Peg {
 
     //@override
     private static String filePathFromOrientation(String orientation){
-        if (orientation == Peg.ORIENTATION_NORMAL) {
+        if (orientation.equals(Peg.ORIENTATION_NORMAL)) {
             return NORMAL_IMG_PATH;
-        } else if (orientation == Peg.ORIENTATION_HORIZ) {
+        } else if (orientation.equals(Peg.ORIENTATION_HORIZ)) {
             return HORIZ_IMG_PATH;
-        } else if (orientation == Peg.ORIENTATION_VERT) {
+        } else if (orientation.equals(Peg.ORIENTATION_VERT)) {
             return VERT_IMG_PATH;
         } else {
             System.out.format("\033[31mInvlaid Peg Orientation: %s\033[0m\n", orientation);
@@ -47,11 +47,11 @@ public class GreyPeg extends Peg {
 
     //@override
     private static String filePathFromType(String type) {
-        if (type == GREY_NAME) {
+        if (type.equals(GREY_NAME)) {
             return NORMAL_IMG_PATH;
-        } else if (type == GREY_HORIZ_NAME) {
+        } else if (type.equals(GREY_HORIZ_NAME)) {
             return HORIZ_IMG_PATH;
-        } else if (type == GREY_VERT_NAME) {
+        } else if (type.equals(GREY_VERT_NAME)) {
             return VERT_IMG_PATH;
         } else {
             System.out.format("\033[31mInvlaid Peg Type: %s\033[0m\n", type);
