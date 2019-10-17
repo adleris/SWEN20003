@@ -7,18 +7,15 @@ import java.util.ArrayList;
 public class Bounce extends AbstractGame {
 
     private Board board;
-    private ArrayList<Ball> balls;
+    private int boardNum;
+
 
     /**
      * Game constructor
      */
     public Bounce() {
-//        for (int i = 0; i < 1; i++) {
-//            board = new Board(i);
-//        }
-        board = new Board(0);
-        balls = new ArrayList<>();
-        //balls.add(new Ball(new Vector2(0, 0)));
+        boardNum = 0;
+        board = new Board(boardNum);
     }
 
     /**
@@ -35,47 +32,30 @@ public class Bounce extends AbstractGame {
      */
     @Override
     public void update(Input input) {
-        ArrayList<Ball> ballsToRemove = new ArrayList<>();
 
-        /* If there are no balls in the array list, see if we should make a new one */
-        if (balls.size() == 0 && input.isDown(MouseButtons.LEFT)) {
-            /* if a left click is made, make a new ball and add it to the arraylist */
+        /* let the board update other moving entities and check collisions
+         * Here, we parse the input from user so Board doesn't need to.
+         */
+        if (input.isDown(MouseButtons.LEFT)) {
             Vector2 mousePos = input.getMousePosition().asVector();
-            Ball newBall = new Ball(velocityFromMouse(mousePos));
-            newBall.setOnScreen(true);
-
-            balls.add(newBall);
+            board.update(velocityFromMouse(mousePos));
+        } else {
+            board.update(null);
         }
 
-        /* run through all active balls and move them, this does nothing if array list is empty (no balls) */
-        for (Ball ball : balls) {
-            /*
-             * there are some balls on the screen: adjust their acceleration according to
-             * gravity, then move them
-             */
-            ball.setVelocity(ball.getVelocity().add(new Vector2(0, Ball.gravityAcceleration)));
-            ball.moveBy(ball.getVelocity());
-
-            /* if this move sends the ball off of the screen, schedule ball to be removed from the ball array */
-            if (! ball.isOnScreen()) {
-                ballsToRemove.add(ball);
+        // test to advance Boards
+        if (input.isDown(MouseButtons.RIGHT) || board.shouldEndBoard()) {
+            try{Thread.sleep(100);} catch (Exception e) {;}   // update is way too fast, need time to depress key
+            boardNum++;
+            if (boardNum > 4) {
+                Window.close();
+            } else {
+                board = new Board(boardNum);
             }
         }
 
-        /* remove any balls that left the screen */
-        for (Ball ball : ballsToRemove) {
-            balls.remove(ball);
-        }
-
-
-
-        /* let the board update other moving entities and check collisions */
-        board.update(balls);
-
         if (input.wasPressed(Keys.ESCAPE)) {
             Window.close();
-            board = new Board(1);
-            balls = new ArrayList<>();
         }
 
     }

@@ -10,27 +10,61 @@ public class Board {
     private int numShots;
     private int numBlue;
 
-    public static String FILE_PATTERN = "Boards/#.csv";
+    public static final String FILE_PATTERN = "Boards/#.csv";
 
-    public ArrayList<Peg> pegs;
-    public Bucket bucket;
-    public PowerUp powerup;
+    private ArrayList<Peg> pegs;
+    private Bucket bucket;
+    private PowerUp powerup;
+    private ArrayList<Ball> balls;
 
     /* constructor */
     public Board(int boardNumber){
         // set up the peg array
         pegs = new ArrayList<>();
         readInBoard(boardNumber);
+        balls = new ArrayList<>();
         powerup = new PowerUp();
         bucket = new Bucket();
     }
 
     /** Update the components in Board -- The movement of the bucket and power up (if it exists)
-     * @param balls -- The balls that are moving around
+     * @param velocityFromMouse -- The vector velocity from the ball origin to the mouse. If this is null, it
+     *                          indicates that the mouse wasn't clicked
      */
-    public void update(ArrayList<Ball> balls) {
+    public void update(Vector2 velocityFromMouse) {
 
-        /* let the moving things do thir thing */
+        ArrayList<Ball> ballsToRemove = new ArrayList<>();
+
+        /* If there are no balls in the array list, see if we should make a new one */
+        if (balls.size() == 0 && velocityFromMouse != null) {
+            /* if a left click is made, make a new ball and add it to the arraylist */
+            Ball newBall = new Ball(velocityFromMouse);
+            newBall.setOnScreen(true);
+
+            balls.add(newBall);
+        }
+
+        /* run through all active balls and move them, this does nothing if array list is empty (no balls) */
+        for (Ball ball : balls) {
+            /*
+             * there are some balls on the screen: adjust their acceleration according to
+             * gravity, then move them
+             */
+            ball.setVelocity(ball.getVelocity().add(new Vector2(0, Ball.gravityAcceleration)));
+            ball.moveBy(ball.getVelocity());
+
+            /* if this move sends the ball off of the screen, schedule ball to be removed from the ball array */
+            if (! ball.isOnScreen()) {
+                ballsToRemove.add(ball);
+            }
+        }
+
+        /* remove any balls that left the screen */
+        for (Ball ball : ballsToRemove) {
+            balls.remove(ball);
+        }
+
+        /* let the moving things do their thing */
         if (powerup != null) powerup.moveBy(powerup.getVelocity());
         bucket.moveBy(bucket.getVelocity());
 
@@ -104,6 +138,13 @@ public class Board {
             pu_img.draw(powerup.destination.x, powerup.destination.y);
             powerup.draw();
         }
+    }
+
+    /** Determines if the current board should be finished (All red pegs destroyed)
+     * @return if the game should be ended
+     */
+    public boolean shouldEndBoard() {
+        return RedPeg.shouldEndGame();
     }
 
     public void readInBoard(int boardNumber) {
