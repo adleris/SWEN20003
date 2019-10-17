@@ -6,18 +6,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Board {
-    public static int INTIAL_SHOTS = 20;
+    private static final int INITIAL_SHOTS = 20;
     private int numShots;
-    private int numBlue;
 
-    public static final String FILE_PATTERN = "Boards/#.csv";
+    private static final String FILE_PATTERN = "Boards/#.csv";
 
     private ArrayList<Peg> pegs;
     private Bucket bucket;
     private PowerUp powerup;
     private ArrayList<Ball> balls;
 
-    /* constructor */
+    /** constructor for the Board
+     * @param boardNumber -- The board number to read from the CSV file
+     */
     public Board(int boardNumber){
         // set up the peg array
         pegs = new ArrayList<>();
@@ -25,6 +26,7 @@ public class Board {
         balls = new ArrayList<>();
         powerup = new PowerUp();
         bucket = new Bucket();
+        numShots = INITIAL_SHOTS;
     }
 
     /** Update the components in Board -- The movement of the bucket and power up (if it exists)
@@ -35,12 +37,16 @@ public class Board {
 
         ArrayList<Ball> ballsToRemove = new ArrayList<>();
 
-        /* If there are no balls in the array list, see if we should make a new one */
+        /* If there are no balls in the array list, see if we should make a new one.
+         * if a left click is made, try to make a new ball and add it to the arraylist
+         */
         if (balls.size() == 0 && velocityFromMouse != null) {
-            /* if a left click is made, make a new ball and add it to the arraylist */
+            /* first subtract 1 from our remaining shots. If we have no more shots, end the game */
+            if (numShots-- <= 0) Window.close();
+
+            /* make the new ball */
             Ball newBall = new Ball(velocityFromMouse);
             newBall.setOnScreen(true);
-
             balls.add(newBall);
         }
 
