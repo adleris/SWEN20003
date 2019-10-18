@@ -89,4 +89,9 @@ public class RedPeg extends Peg {
     public static int getNumRedPegs() {
         return numRedPegs;
     }
+
+    /** set the numRedPegs value to be its uninitialised value */
+    public static void resetNumRedPegs() {
+        numRedPegs = -1;
+    }
 }

@@ -274,12 +274,14 @@ public class Board {
     }
 
 
-    /** Turn 1 / proportion of the blue pegs to be red
-     */
+    /** Turn 1 / proportion of the blue pegs to be red */
     private void turnPegsRed() {
-        int index;
+        /* Before we set pegs to be Red, we need to reset the old counter */
+        RedPeg.resetNumRedPegs();
+
         // the number of pegs we have to convert:
         int numPegsToChange = pegs.size() / RedPeg.PROPORTION_TO_RED;
+        int index;
 
         while (numPegsToChange > 0) {
             // pick a random index of a blue peg
