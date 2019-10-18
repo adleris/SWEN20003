@@ -2,7 +2,6 @@ import bagel.*;
 import bagel.util.*;
 import java.io.FileReader;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class Board {
@@ -32,7 +31,7 @@ public class Board {
         // set up the peg array
         pegs = new ArrayList<>();
         readInBoard(boardNumber);
-        turnPegsRed(RedPeg.PROPORTION_TO_RED);
+        turnPegsRed();
 
         // set up the other entities
         balls = new ArrayList<>();
@@ -130,8 +129,9 @@ public class Board {
             haveStartedTurn = false;
             /* turn the green peg back into a blue peg */
 
-            if (greenPegIndex != -1) {
+            if ((greenPegIndex = getIndexOfGreenPeg()) != -1) {
                 /* cast the peg to be green, turn it blue and assign that to the index */
+                System.out.println(pegs.get(greenPegIndex));
                 pegs.set(greenPegIndex, ((GreenPeg) pegs.get(greenPegIndex)).transformBlue());
             }
             /* if there are also no shots left, end the game */
@@ -150,7 +150,7 @@ public class Board {
             for (Peg peg : pegs) {
                 if (balls.get(i).getRectangle().intersects(peg.getRectangle()) && !peg.isDestroyed()) {
                     /* in both of these collision scenarios, pegs will mark themselves as destroyed */
-                    //peg.collideWith(ball);
+                    peg.collideWith(balls.get(i));
                     if (balls.get(i).isFireBall()) {
                         destroyPegsInRadius(balls.get(i));
                     }
@@ -275,12 +275,11 @@ public class Board {
 
 
     /** Turn 1 / proportion of the blue pegs to be red
-     * @param proportion The Proportion of pegs to turn red
      */
-    private void turnPegsRed(int proportion) {
+    private void turnPegsRed() {
         int index;
         // the number of pegs we have to convert:
-        int numPegsToChange = pegs.size() / proportion;
+        int numPegsToChange = pegs.size() / RedPeg.PROPORTION_TO_RED;
 
         while (numPegsToChange > 0) {
             // pick a random index of a blue peg
@@ -292,6 +291,9 @@ public class Board {
         }
     }
 
+    /** Return the index of a random BluePeg in the Pegs ArrayList
+     * @return the index of a random BluePeg
+     */
     private int getIndexOfRandomBlue() {
         /* if this condition holds, eventually we will hit a blue peg */
         while(pegs.size() > RedPeg.getNumRedPegs()) {
@@ -303,6 +305,20 @@ public class Board {
             }
         }
         /* if no bluePeg was found, return -1 */
+        return -1;
+    }
+
+    /** Return the index of a random GreenPeg in the Pegs ArrayList
+     * @return the index of a random GreenPeg
+     */
+    private int getIndexOfGreenPeg() {
+        /* search to see if we find the GreenPeg */
+        for (int i = 0; i < pegs.size(); i++) {
+            if (pegs.get(i) instanceof GreenPeg) {
+                return i;
+            }
+        }
+        /* if no GreenPeg was found, return -1 */
         return -1;
     }
 }

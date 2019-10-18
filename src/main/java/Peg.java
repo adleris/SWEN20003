@@ -52,6 +52,22 @@ public abstract class Peg extends Entity {
         isDestroyed = false;
     }
 
+    /** Super Class method for Peg collision. Reverses the velocity of the Ball based on the side it hit from */
+    public void collideWith(Ball ball) {
+        Side side = getRectangle().intersectedAt(ball.getPoint(), ball.getVelocity());
+        Vector2 newVelocity = null;
+        if (side == Side.NONE) {
+            return;
+        } else if (side == Side.BOTTOM || side == Side.TOP) {
+            newVelocity = new Vector2(ball.getVelocity().x, - ball.getVelocity().y);
+        } else if (side == Side.LEFT || side == Side.RIGHT) {
+            newVelocity = new Vector2(-ball.getVelocity().x, - ball.getVelocity().y);
+        }
+        ball.setVelocity(newVelocity);
+        destroy();
+    }
+
+
     /**
      * See if a given peg has been destroyed
      * 
