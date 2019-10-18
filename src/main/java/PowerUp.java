@@ -4,8 +4,14 @@ import bagel.util.*;
 public class PowerUp extends MovingEntity {
     private static final String imgPath = "res/powerup.png";
 
+    /* powerup has its own minimum value */
+    private static final double POWER_UP_Y_MIN = 0;
+
+    /** the radius to destroy pegs in */
+    public static final double DESTROY_RADIUS = 70f;
+
     /** 1/chance that a powerup spawns at the start of a turn */
-    public static final int CREATION_CHANCE = 2;
+    public static final int CREATION_CHANCE = 10;
 
     /** The magnitude of the velocity of the PowerUp */
     private static final double VELOCITY_MAGNITUDE = 3f;
@@ -59,7 +65,7 @@ public class PowerUp extends MovingEntity {
      * @return a random coordinate position that's on the board
      */
     private static Vector2 randomPosition() {
-        return new Vector2(Peg.randomInRange(getXMin(), getXMax()), Peg.randomInRange(getYMin(), getYMax()));
+        return new Vector2(Peg.randomInRange(getXMin(), getXMax()), Peg.randomInRange(POWER_UP_Y_MIN, getYMax()));
     }
 
 

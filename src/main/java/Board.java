@@ -287,7 +287,7 @@ public class Board {
     public void destroyPegsInRadius(Ball ball) {
         if (ball.isFireBall()){
             for (Peg peg : pegs) {
-                if (distanceFromAtoB(ball, peg) <= 70){
+                if (distanceFromAtoB(ball, peg) <= PowerUp.DESTROY_RADIUS){
                     peg.setIsDestroyed(true);
                     if (peg instanceof RedPeg)
                         RedPeg.reduceNumRedPegs();

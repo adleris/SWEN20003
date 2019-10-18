@@ -44,7 +44,7 @@ public class ShadowBounce extends AbstractGame {
         }
 
         // test to advance Boards
-        if (board.shouldEndBoard()) {
+        if (board.shouldEndBoard() || input.isDown(MouseButtons.RIGHT)) {
             boardNum++;
             if (boardNum > 4) {
                 Window.close();

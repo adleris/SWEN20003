@@ -1,6 +1,7 @@
 import bagel.*;
 import bagel.util.*;
 
+/** abstract class to hold data on a game entity */
 public abstract class Entity {
 
     /**
@@ -9,10 +10,7 @@ public abstract class Entity {
      */
     private static final double ENTITY_X_MIN = 0;
     private static final double ENTITY_X_MAX = Window.getWidth();
-    /* Y_MIN is an arbitrary height above the screen so that the ball can go above it */
-    // todo: Changed y min fixes power up motion
-    private static final double ENTITY_Y_MIN = - Window.getHeight();
-//    private static final double ENTITY_Y_MIN = 0;
+    private static final double ENTITY_Y_MIN =  - Window.getHeight();
     private static final double ENTITY_Y_MAX = Window.getHeight();
 
     private Image image;
@@ -21,9 +19,9 @@ public abstract class Entity {
 
     /**
      * Constructor for an Entity
-     * @param imagePath
-     * @param x
-     * @param y
+     * @param imagePath lovation of image file on disk
+     * @param x x coordinate
+     * @param y y coordinate
      */
     public Entity(String imagePath, double x, double y) {
         /* image from file */
@@ -36,10 +34,6 @@ public abstract class Entity {
         rectangle = new Rectangle(image.getBoundingBoxAt(getPoint()));
     }
 
-    public String toString() {
-        return String.format("Entity at %f, %f", position.x, position.y);
-    }
-
     /**
      * Draw an entity to the screen.
      */
@@ -49,7 +43,7 @@ public abstract class Entity {
 
     /**
      * Get the image associated with an Entity
-     * @return
+     * @return the image
      */
     public Image getImage() {
         return image;
@@ -57,7 +51,7 @@ public abstract class Entity {
 
     /**
      * Getter for Entity's rectangle
-     * @return
+     * @return the rectangle
      */
     public Rectangle getRectangle() {
         return new Rectangle(rectangle);
@@ -65,7 +59,7 @@ public abstract class Entity {
 
     /**
      * Setter for Entity's Rectangle
-     * @param rectangle
+     * @param rectangle the new rectangle
      */
     public void setRectangle(Rectangle rectangle) {
         this.rectangle = rectangle;
@@ -73,7 +67,7 @@ public abstract class Entity {
 
     /**
      * Getter to return the current position as a point
-     * @return
+     * @return the point
      */
     public Point getPoint() {
         return new Point(position.x, position.y);
@@ -81,7 +75,7 @@ public abstract class Entity {
 
     /**
      * Getter to return x coordinate
-     * @return
+     * @return the x coordinate
      */
     public double getX() {
         return position.x;
@@ -89,7 +83,7 @@ public abstract class Entity {
 
     /**
      * Getter to return y coordinate
-     * @return
+     * @return the y coordinate
      */
     public double getY() {
         return position.y;
@@ -97,7 +91,7 @@ public abstract class Entity {
 
     /**
      * Getter for position, returns a Vector2
-     * @return
+     * @return the position vector
      */
     public Vector2 getPosition() {
         return new Vector2(position.x, position.y);
@@ -105,7 +99,7 @@ public abstract class Entity {
 
     /**
      * Setter for position, takes in a position
-     * @param position
+     * @param position the position
      */
     public void setPosition(Vector2 position) {
           if (isValidPosition(position)){
@@ -114,56 +108,44 @@ public abstract class Entity {
     }
 
     /**
-     * Setter for position. Takes in coordinate pair
-     * @param x
-     * @param y
-     */
-    public void setPosition(double x, double y) {
-        if (isValidPosition(x,y)){
-            this.position = new Vector2(x,y);
-        }
-    }
-
-    /**
      * Need some other getters to account for the differing max values. This reduces duplicate code in eg. Peg class
      */
 
+    /** get the min x coordinate of an entity
+     * @return the value
+     */
     public static double getXMin() {
         return ENTITY_X_MIN;
     }
 
+    /** get the max x coordinate of an entity
+     * @return the value
+     */
     public static double getXMax() {
         return ENTITY_X_MAX;
     }
 
+    /** get the min y coordinate of an entity
+     * @return the value
+     */
     public static double getYMin() {
         return ENTITY_Y_MIN;
     }
 
+    /** get the max y coordinate of an entity
+     * @return the value
+     */
     public static double getYMax() {
         return ENTITY_Y_MAX;
     }
 
     /**
      * Check if the specified point is valid
-     * @param pos
-     * @return
+     * @param pos the position
+     * @return if it's valid
      */
     public static boolean isValidPosition(Vector2 pos){
         if (pos.x >= getXMin() && pos.x <= getXMax() && pos.y >= getYMin() && pos.y <= getYMax()){
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Check if the specified point is valid
-     * @param x
-     * @param y
-     * @return
-     */
-    public static boolean isValidPosition(double x, double y){
-        if (x >= getXMin() && x <= getXMax() && y >= getYMin() && y <= getYMax()){
             return true;
         }
         return false;
