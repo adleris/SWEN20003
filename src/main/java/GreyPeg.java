@@ -1,6 +1,7 @@
 import bagel.*;
 import bagel.util.*;
 
+/** Class to hold the Grey Peg */
 public class GreyPeg extends Peg {
 
     /** image path constants, depends on the type of image to load */
@@ -22,6 +23,10 @@ public class GreyPeg extends Peg {
         super(filePathFromType(type), x, y);
     }
 
+    /** Setter for the Grey peg's is destroyed, does nothing but works for compatibility
+     *
+     * @param value any boolean value
+     */
     @Override
     public void setIsDestroyed(boolean value){
         super.setIsDestroyed(false);
@@ -35,21 +40,6 @@ public class GreyPeg extends Peg {
         super.collideWith(ball);
         setIsDestroyed(false);
     }
-
-    private static String filePathFromOrientation(String orientation){
-        if (orientation.equals(Peg.ORIENTATION_NORMAL)) {
-            return NORMAL_IMG_PATH;
-        } else if (orientation.equals(Peg.ORIENTATION_HORIZ)) {
-            return HORIZ_IMG_PATH;
-        } else if (orientation.equals(Peg.ORIENTATION_VERT)) {
-            return VERT_IMG_PATH;
-        } else {
-            System.out.format("\033[31mInvlaid Peg Orientation: %s\033[0m\n", orientation);
-            //throw new InvalidPegTypeException(orientation);
-            return "";
-        }
-    }
-
 
     private static String filePathFromType(String type) {
         if (type.equals(PEG_NAME)) {

@@ -5,10 +5,13 @@ import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.lang.Math;
 
+/** Class to hold the game board */
 public class Board {
     private static final int INITIAL_SHOTS = 20;
     private int shotsRemaining;
 
+    private static final int NO_PEG_INDEX = -1;
+    
     private static final String FILE_PATTERN = "Boards/#.csv";
 
     private ArrayList<Peg> pegs;
@@ -44,7 +47,7 @@ public class Board {
         shotsRemaining = INITIAL_SHOTS;
         haveShotBallThisTurn = false;
         haveStartedTurn = false;
-        greenPegIndex = -1;
+        greenPegIndex = NO_PEG_INDEX;
     }
 
     /**
@@ -65,14 +68,14 @@ public class Board {
             if (! haveStartedTurn) {
                 /* Try and summon a green peg at the start of the turn */
                 greenPegIndex = getIndexOfRandomBlue();
-                if (greenPegIndex != -1) {
+                if (greenPegIndex != NO_PEG_INDEX) {
                     /* cast the peg to be blue, turn it green and assign that to the index */
                     pegs.set(greenPegIndex, ((BluePeg) pegs.get(greenPegIndex)).transformGreen());
                 }
 
 
                 /* try and summon a new power up */
-                if ((int) Peg.randomInRange(0, (double) PowerUp.CREATION_CHANCE) == 0) {
+                if ((int) Peg.randomInRange(0, PowerUp.CREATION_CHANCE) == 0) {
                     powerup = new PowerUp();
                 } else {
                     powerup = null;
@@ -83,10 +86,10 @@ public class Board {
             /* see if we should make a new ball: on left click, try to make a new ball and add it to the arraylist */
             if (velocityFromMouse != null) {
                 /* first subtract 1 from our remaining shots. If we have no more shots, end the game */
-                //if (shotsRemaining-- <= 0) Window.close();
                 shotsRemaining--;
                 System.out.println(shotsRemaining);
                 if (shotsRemaining < 0) Window.close();
+
                 /* make the new ball */
                 Ball newBall = new Ball(velocityFromMouse);
                 newBall.setOnScreen(true);
@@ -128,16 +131,17 @@ public class Board {
         if (balls.size() == 0 && haveShotBallThisTurn) {
             haveShotBallThisTurn = false;
             haveStartedTurn = false;
-            /* turn the green peg back into a blue peg */
 
-            if ((greenPegIndex = getIndexOfGreenPeg()) != -1) {
-                /* cast the peg to be green, turn it blue and assign that to the index */
-                System.out.println(pegs.get(greenPegIndex));
-                pegs.set(greenPegIndex, ((GreenPeg) pegs.get(greenPegIndex)).transformBlue());
-            }
             /* if there are also no shots left, end the game */
             if (shotsRemaining == 0) {
                 Window.close();
+            }
+
+            /* if we're still going, turn the green peg back into a blue peg */
+            if ((greenPegIndex = getIndexOfGreenPeg()) != NO_PEG_INDEX) {
+                /* cast the peg to be green, turn it blue and assign that to the index */
+                System.out.println(pegs.get(greenPegIndex));
+                pegs.set(greenPegIndex, ((GreenPeg) pegs.get(greenPegIndex)).transformBlue());
             }
         }
     }
@@ -191,10 +195,10 @@ public class Board {
         ArrayList<Peg> pegsToRemove = new ArrayList<>();
         for (Peg peg : pegs) {
             if (peg.getIsDestroyed()) {
-                /* if the peg that was destroyed was a green peg, set the index to -1 so we don't try and convert
+                /* if the peg that was destroyed was a green peg, set the index to NO_PEG_INDEX so we don't try and convert
                    something else to blue */
                 if (peg instanceof GreenPeg) {
-                    greenPegIndex = -1;
+                    greenPegIndex = NO_PEG_INDEX;
                 }
                 pegsToRemove.add(peg);
             }
@@ -208,24 +212,20 @@ public class Board {
      * Render all sprites to the screen
      */
     public void renderScreen() {
-
         // pegs
         for (Peg peg : pegs) {
             if (!peg.getIsDestroyed()) {
                 peg.draw();
             }
         }
-
         // balls
         for (Ball ball : balls) {
             if (ball.isOnScreen()) {
                 ball.draw();
             }
         }
-
         // bucket
         bucket.draw();
-
         // power up
         if (powerup != null) {
             powerup.draw();
@@ -247,7 +247,6 @@ public class Board {
 
         // open up the file, iterate through it's lines and save them into our Peg array
         // set up the pegs array inside here as well with "new"
-
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
             String row;
             String[] columns;
@@ -266,6 +265,12 @@ public class Board {
         }
     }
 
+    /** Generate a peg based on its name
+     * @param type the name of the peg
+     * @param x x coordinate
+     * @param y y coordinate
+     * @return the new peg
+     */
     private Peg newPegFromName(String type, double x, double y) {
         if (type.contains("blue")) {
             return new BluePeg(type, x, y);
@@ -324,8 +329,8 @@ public class Board {
                 return index;
             }
         }
-        /* if no bluePeg was found, return -1 */
-        return -1;
+        /* if no bluePeg was found, return NO_PEG_INDEX */
+        return NO_PEG_INDEX;
     }
 
     /** Return the index of a random GreenPeg in the Pegs ArrayList
@@ -338,8 +343,8 @@ public class Board {
                 return i;
             }
         }
-        /* if no GreenPeg was found, return -1 */
-        return -1;
+        /* if no GreenPeg was found, return NO_PEG_INDEX */
+        return NO_PEG_INDEX;
     }
 
     public static double distanceFromAtoB(Entity a, Entity b){

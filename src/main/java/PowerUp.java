@@ -16,9 +16,6 @@ public class PowerUp extends MovingEntity {
     /* the destination the the point travels to after being initialised */
     private Vector2 destination;
 
-    /* determines if the powerup is to rendered */
-    private boolean isOnScreen;
-
 
     /**
      * Constructor for a PowerUp. Generates a random initial coordinate
@@ -32,9 +29,6 @@ public class PowerUp extends MovingEntity {
 
         /* figure out the velocity vector between the generated start position and destination */
         setVelocity(velocityFromSourceToDest(getPosition(), destination));
-
-        /* if the power up exists, it is on screen */
-        isOnScreen = true;
     }
 
 
@@ -52,7 +46,6 @@ public class PowerUp extends MovingEntity {
         if (isValidPosition(getPosition().add(change)) && distance > DIST_TO_DEST) {
             setPosition(getPosition().add(change));
             /* move the image to the current position */
-            // todo: inside moving entity, make a method to move the rectangle to the point
             setRectangle(getImage().getBoundingBoxAt(getPoint()));
         } else if (distance <= DIST_TO_DEST) {
             destination = randomPosition();
@@ -72,7 +65,6 @@ public class PowerUp extends MovingEntity {
 
     /**
      * Find the velocity of the powerup based on current position and destination
-     * todo make a merge for this and the one in Bounce.java
      * @param source source position
      * @param dest   destination position
      * @return       vector2 with the velocity needed between the points
@@ -83,14 +75,5 @@ public class PowerUp extends MovingEntity {
         double velX = (dest.x - source.x) * VELOCITY_MAGNITUDE / distance;
         double velY = (dest.y - source.y) * VELOCITY_MAGNITUDE / distance;
         return new Vector2(velX, velY);
-    }
-
-    /**
-     * See if the power up is on screen and should be rendered
-     *
-     * @return  if the power up is on the screen
-     */
-    public boolean isOnScreen() {
-        return isOnScreen;
     }
 }

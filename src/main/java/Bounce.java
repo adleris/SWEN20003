@@ -7,8 +7,7 @@ public class Bounce extends AbstractGame {
 
     private Board board;
     private int boardNum;
-
-
+    
     /**
      * Game constructor
      */

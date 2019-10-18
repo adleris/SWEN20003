@@ -1,6 +1,7 @@
 import bagel.*;
 import bagel.util.*;
 
+/** Class to hold red peg */
 public class RedPeg extends Peg {
 
     /** image path constants, depends on the type of image to load */
@@ -21,24 +22,9 @@ public class RedPeg extends Peg {
     private static int numRedPegs = -1;
 
     /**
-     * constuctor from peg name and coordinates
-     * @param type
-     * @param x
-     * @param y
-     */
-    public RedPeg(String type, double x, double y) {
-        super(filePathFromType(type), x, y);
-        if (numRedPegs == -1) {
-            numRedPegs = 1;
-        } else {
-            numRedPegs++;
-        }
-    }
-
-    /**
      * Constructor based on the orientation and position (used for converting between peg types)
-     * @param orientation
-     * @param position
+     * @param orientation the orientation of the peg
+     * @param position the coordinate
      */
     public RedPeg(String orientation, Vector2 position){
         super(filePathFromOrientation(orientation), position.x, position.y);
@@ -53,6 +39,34 @@ public class RedPeg extends Peg {
     public static boolean shouldEndGame(){
         if (numRedPegs != 0) return false;
         return true;
+    }
+
+    /** Collide a red peg with a ball. drops the red peg count
+     *
+     * @param ball  The colliding ball
+     */
+    @Override
+    public void collideWith(Ball ball){
+        super.collideWith(ball);
+        numRedPegs--;
+        setIsDestroyed(true);
+    }
+
+    /** reduce the number of red pegs by 1 */
+    public static void reduceNumRedPegs(){
+        numRedPegs--;
+    }
+
+    /** Get the number of red Pegs remaining
+     * @return the number of red pegs remaining
+     */
+    public static int getNumRedPegs() {
+        return numRedPegs;
+    }
+
+    /** set the numRedPegs value to be its uninitialised value */
+    public static void resetNumRedPegs() {
+        numRedPegs = -1;
     }
 
     private static String filePathFromOrientation(String orientation){
@@ -81,28 +95,5 @@ public class RedPeg extends Peg {
             //throw new InvalidPegTypeException(type);
             return "";
         }
-    }
-
-    @Override
-    public void collideWith(Ball ball){
-        super.collideWith(ball);
-        numRedPegs--;
-        setIsDestroyed(true);
-    }
-
-    public static void reduceNumRedPegs(){
-        numRedPegs--;
-    }
-
-    /** Get the number of red Pegs remaining
-     * @return the number of red pegs remaining
-     */
-    public static int getNumRedPegs() {
-        return numRedPegs;
-    }
-
-    /** set the numRedPegs value to be its uninitialised value */
-    public static void resetNumRedPegs() {
-        numRedPegs = -1;
     }
 }
