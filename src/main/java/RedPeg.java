@@ -13,6 +13,9 @@ public class RedPeg extends Peg {
     private static final String RED_HORIZ_NAME  = "red_peg_horizontal";
     private static final String RED_VERT_NAME   = "red_peg_vertical";
 
+    /** The proportion of red pegs that should be created at the start of the game */
+    public static final int PROPORTION_TO_RED = 5;
+
     /** the number of red pegs in the game. when this drops to 0, the game ends
      * It's initially zero at the start of the game so that we can still do a check to end the game */
     private static int numRedPegs = -1;

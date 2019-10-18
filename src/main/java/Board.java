@@ -16,20 +16,26 @@ public class Board {
     private PowerUp powerup;
     private ArrayList<Ball> balls;
 
-    /** constructor for the Board
+    /**
+     * constructor for the Board
+     *
      * @param boardNumber -- The board number to read from the CSV file
      */
-    public Board(int boardNumber){
+    public Board(int boardNumber) {
         // set up the peg array
         pegs = new ArrayList<>();
         readInBoard(boardNumber);
+        turnPegsRed(RedPeg.PROPORTION_TO_RED);
+
         balls = new ArrayList<>();
         powerup = new PowerUp();
         bucket = new Bucket();
         shotsRemaining = INITIAL_SHOTS;
     }
 
-    /** Update the components in Board -- The movement of the bucket and power up (if it exists)
+    /**
+     * Update the components in Board -- The movement of the bucket and power up (if it exists)
+     *
      * @param velocityFromMouse -- The vector velocity from the ball origin to the mouse. If this is null, it
      *                          indicates that the mouse wasn't clicked
      */
@@ -62,7 +68,7 @@ public class Board {
             ball.moveBy(ball.getVelocity());
 
             /* if this move sends the ball off of the screen, schedule ball to be removed from the ball array */
-            if (! ball.isOnScreen()) {
+            if (!ball.isOnScreen()) {
                 ballsToRemove.add(ball);
             }
         }
@@ -84,11 +90,10 @@ public class Board {
     }
 
 
-
     public void checkCollisions() {
 
         /* check the collisions of every ball with all possible objects */
-        for (int i=0; i < balls.size(); i++) {
+        for (int i = 0; i < balls.size(); i++) {
             for (Peg peg : pegs) {
                 if (balls.get(i).getRectangle().intersects(peg.getRectangle()) && !peg.isDestroyed()) {
                     /* in both of these collision scenarios, pegs will mark themselves as destroyed */
@@ -102,7 +107,7 @@ public class Board {
             /* check if the ball intersects with the bucket, if so, add a shot
              * The flag is needed as otherwise the ball will hit the bucket multiple times as it passes through
              */
-            if (!balls.get(i).getHasHitBucket() && balls.get(i).getRectangle().intersects(bucket.getRectangle())){
+            if (!balls.get(i).getHasHitBucket() && balls.get(i).getRectangle().intersects(bucket.getRectangle())) {
                 balls.get(i).setHasHitBucket(true);
                 shotsRemaining++;
                 System.out.format("You hit the bucket! Shots remaining increased to %d\n", shotsRemaining);
@@ -124,24 +129,26 @@ public class Board {
                 pegsToRemove.add(peg);
             }
         }
-        for (Peg destroyedPeg : pegsToRemove){
+        for (Peg destroyedPeg : pegsToRemove) {
             pegs.remove(destroyedPeg);
         }
     }
 
-    /** Render all sprites to the screen */
+    /**
+     * Render all sprites to the screen
+     */
     public void renderScreen(ArrayList<Ball> balls) {
 
         // pegs
         for (Peg peg : pegs) {
-            if (! peg.isDestroyed()){
+            if (!peg.isDestroyed()) {
                 peg.draw();
             }
         }
 
         // balls
         for (Ball ball : balls) {
-            if (ball.isOnScreen()){
+            if (ball.isOnScreen()) {
                 ball.draw();
             }
         }
@@ -152,14 +159,16 @@ public class Board {
         // power up
         if (powerup != null) {
             // temporary: draw red peg at position
-            Image pu_img = new Image("res/red-peg.png");
+            //Image pu_img = new Image("res/red-peg.png");
 
-            pu_img.draw(powerup.destination.x, powerup.destination.y);
+            //pu_img.draw(powerup.destination.x, powerup.destination.y);
             powerup.draw();
         }
     }
 
-    /** Determines if the current board should be finished (All red pegs destroyed)
+    /**
+     * Determines if the current board should be finished (All red pegs destroyed)
+     *
      * @return if the game should be ended
      */
     public boolean shouldEndBoard() {
@@ -191,11 +200,10 @@ public class Board {
         }
     }
 
-    private Peg newPegFromName(String type, double x, double y){
+    private Peg newPegFromName(String type, double x, double y) {
         if (type.contains("blue")) {
             return new BluePeg(type, x, y);
-        }
-        else if (type.contains("grey")) {
+        } else if (type.contains("grey")) {
             return new GreyPeg(type, x, y);
         }
         return null;        // This will only happen in an error
@@ -207,22 +215,26 @@ public class Board {
         // with every peg using the intersect method
     }
 
-    /** go through our list of pegs and return a random one of them */
-    public BluePeg getRandomBlue() {
-        /* choose a Blue Peg: not technically random but we can sort that out later if we want */
-        for (Peg peg : pegs){
-            if (peg instanceof BluePeg) {
-                /* we want to cast this peg to BluePeg and return a pointer to it, because that's what's on the Board */
-                return (BluePeg)peg;
+
+    /** Turn 1 / proportion of the blue pegs to be red
+     * @param proportion The Proportion of pegs to turn red
+     */
+    private void turnPegsRed(int proportion) {
+        int index;
+        // the number of pegs we have to convert:
+        int numPegsToChange = pegs.size() / proportion;
+
+        while (numPegsToChange > 0) {
+            // pick a random index, and see if that's a blue peg
+            index = (int) Peg.randomInRange(0, (double) pegs.size());
+
+            if (pegs.get(index) instanceof BluePeg) {
+                // if so, convert that peg to a red peg
+                BluePeg bp = (BluePeg) pegs.get(index);
+                pegs.set(index, bp.transformRed());
+                numPegsToChange--;
             }
         }
-        return null;
     }
 }
-
-
-
-
-
-
 
