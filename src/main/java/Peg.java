@@ -2,6 +2,7 @@ import bagel.*;
 import bagel.util.*;
 import java.util.Random;
 
+/** Abstract class to store information on Pegs */
 public abstract class Peg extends Entity {
 
     /**
@@ -40,9 +41,9 @@ public abstract class Peg extends Entity {
 
     /**
      * Constructor that takes in coordinates and an image path
-     * @param imagePath
-     * @param x
-     * @param y
+     * @param imagePath the location of the image on disk
+     * @param x x coordinate
+     * @param y y coordinate
      */
     public Peg(String imagePath, double x, double y) {
         super(imagePath, x, y);
@@ -52,7 +53,9 @@ public abstract class Peg extends Entity {
         isDestroyed = false;
     }
 
-    /** Super Class method for Peg collision. Reverses the velocity of the Ball based on the side it hit from */
+    /** Super Class method for Peg collision. Reverses the velocity of the Ball based on the side it hit from
+     * @param ball  The colliding ball
+     */
     public void collideWith(Ball ball) {
         Side side = getRectangle().intersectedAt(ball.getPoint(), ball.getVelocity());
         Vector2 newVelocity = null;
@@ -71,7 +74,7 @@ public abstract class Peg extends Entity {
     /**
      * See if a given peg has been destroyed
      * 
-     * @return
+     * @return if the ball is destroyed
      */
     public boolean getIsDestroyed() {
         return isDestroyed;
@@ -85,24 +88,23 @@ public abstract class Peg extends Entity {
         this.isDestroyed = isDestroyed;
     }
 
-    // todo: move this into the individual peg subtypes, grey cant be destroyed.
-    /**
-     * Pegs have their own screen boundaries that other entities might not have:
-     * Need to override setters
-     */
 
+    /** @return the minimum x value */
     public static double getXMin() {
         return PEG_X_MIN;
     }
 
+    /** @return the maximum x value */
     public static double getXMax() {
         return PEG_X_MAX;
     }
 
+    /** @return the minimum y value */
     public static double getYMin() {
         return PEG_Y_MIN;
     }
 
+    /** @return the maximum y value */
     public static double getYMax() {
         return PEG_Y_MAX;
     }
@@ -111,7 +113,7 @@ public abstract class Peg extends Entity {
      * find a Peg's orientation based on its filename.
      * To add more orientations (eg diagonal), add more class constants.
      * Orientations pull from filenames so if the file names change some new constants will need to be added
-     * @param fileName
+     * @param fileName the filename that the peg will use
      */
     public static String orientationFromFileName(String fileName){
         if (fileName.contains(ORIENTATION_HORIZ)){
@@ -126,9 +128,9 @@ public abstract class Peg extends Entity {
     /**
      * Generate a random double in the range [min, max]
      * 
-     * @param min
-     * @param max
-     * @return
+     * @param min the lower bound
+     * @param max the upper bound
+     * @return random double in the range
      */
     public static double randomInRange(double min, double max) {
         Random r = new Random();

@@ -1,9 +1,8 @@
 import bagel.*;
 import bagel.util.*;
 import java.lang.Math;
-import java.util.ArrayList;
 
-
+/** The class to hold the Game */
 public class Bounce extends AbstractGame {
 
     private Board board;
@@ -20,6 +19,7 @@ public class Bounce extends AbstractGame {
 
     /**
      * Start the show
+     * @param args command line args
      */
     public static void main(String args[]) {
         Bounce game = new Bounce();
@@ -29,6 +29,7 @@ public class Bounce extends AbstractGame {
     /**
      * Game loop: Update the ball's velocity and run collision checks. Initialises
      * the ball if need be.
+     * @param input user input
      */
     @Override
     public void update(Input input) {
@@ -63,8 +64,8 @@ public class Bounce extends AbstractGame {
     /**
      * Find the initial velocity of the ball from the mouse coordinates
      *
-     * @param mouse
-     * @return
+     * @param mouse the vector of the mouse input
+     * @return the velocity vector of the ball to that mouse
      */
     public static Vector2 velocityFromMouse(Vector2 mouse) {
         double distance = Math.sqrt((mouse.x - Ball.DEFAULT_X) * (mouse.x - Ball.DEFAULT_X)

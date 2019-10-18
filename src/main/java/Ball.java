@@ -6,11 +6,14 @@ public class Ball extends MovingEntity {
     private static final String normalImagePath = "res/ball.png";
     private static final String fireBallImagePath = "res/fireball.png";
 
-    /* initial values to spawn the ball at */
+    /** initial x value to spawn the ball at */
     public static final double DEFAULT_X = 512;
+    /** initial y value to spawn the ball at */
     public static final double DEFAULT_Y = 32;
 
+    /** the initial velocity of the ball */
     public static final double initialVelocity = 10f;
+    /** the acceleration due too gravity of the ball */
     public static final double gravityAcceleration = 0.15f;
 
     /* determines if the ball is to rendered */
@@ -24,6 +27,7 @@ public class Ball extends MovingEntity {
 
     /**
      * Constructor for a ball
+     * @param velocityVector The vector of the initial velocity of the ball
      */
     public Ball(Vector2 velocityVector) {
         /* Set up the Entity at the default coordinates */
@@ -40,6 +44,9 @@ public class Ball extends MovingEntity {
 
     /**
      * Ball Constructor for a ball that takes in the initial coordinate for the ball to spawn at and its type
+     * @param velocityVector The vector of the initial velocity of the ball
+     * @param isFireBall if the ball is a fireball
+     * @param position The initial cooridinate of the ball
      */
     public Ball(Vector2 position, Vector2 velocityVector, boolean isFireBall) {
         /* Set up the Entity at the default coordinates */
@@ -82,7 +89,7 @@ public class Ball extends MovingEntity {
     /**
      * Attempt to move the ball by a (dx, dy) vector
      *
-     * @param change
+     * @param change the vector by which which change the position
      */
     @Override
     public void moveBy(Vector2 change) {
@@ -109,7 +116,7 @@ public class Ball extends MovingEntity {
     /**
      * See if the ball is on screen and should be rendered
      *
-     * @return
+     * @return if the ball is on screen
      */
     public boolean isOnScreen() {
         return isOnScreen;
@@ -117,7 +124,7 @@ public class Ball extends MovingEntity {
 
     /**
      * Determines if a ball should interact as a fireball or just as a regular ball
-     * @return
+     * @return if the ball is a fireball
      */
     public boolean isFireBall() {
         return isFireBall;
@@ -127,7 +134,7 @@ public class Ball extends MovingEntity {
      * See ball to be on screen, doesn't allow hiding the ball Hiding the ball is
      * done internally in moveBy()
      *
-     * @return
+     * @param val if the ball should be on screen
      */
     public void setOnScreen(boolean val) {
         if (val) {
@@ -136,6 +143,7 @@ public class Ball extends MovingEntity {
     }
 
     /** See if a particular ball has hit the bucket before
+     * @return if the ball has previously hit the bucket
      */
     public boolean getHasHitBucket() {
         return hasHitBucket;

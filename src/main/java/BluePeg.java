@@ -1,6 +1,7 @@
 import bagel.*;
 import bagel.util.*;
 
+/** Class to hold Blue Pegs */
 public class BluePeg extends Peg {
 
     /** image path constants, depends on the type of image to load */
@@ -30,8 +31,6 @@ public class BluePeg extends Peg {
         super(filePathFromOrientation(orientation), position.x, position.y);
     }
 
-    // todo: Should both of these instead be Peg or Board methods?
-
     /** convert a BluePeg into a RedPeg
      * @return a red peg in the blue position's old spot. The Blue peg needs to be deleted externally!
      */
@@ -56,7 +55,6 @@ public class BluePeg extends Peg {
             return VERT_IMG_PATH;
         } else {
             System.out.format("\033[31mInvlaid Peg Orientation: %s\033[0m\n", orientation);
-            //throw new InvalidPegTypeException(orientation);
             return "";
         }
     }
@@ -70,7 +68,6 @@ public class BluePeg extends Peg {
             return VERT_IMG_PATH;
         } else {
             System.out.format("\033[31mInvlaid Peg Type: %s\033[0m\n", type);
-            //throw new InvalidPegTypeException(type);
             return "";
         }
     }

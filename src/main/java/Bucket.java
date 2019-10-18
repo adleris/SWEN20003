@@ -28,11 +28,10 @@ public class Bucket extends MovingEntity {
     }
 
 
-    //todo this is currently just the balls move and will run it off the screen
     /**
-     * Attempt to move the ball by a (dx, dy) vector
+     * Attempt to move the bucket by a (dx, dy) vector
      *
-     * @param change
+     * @param change the dx,dy vector to attempt to move by
      */
     @Override
     public void moveBy(Vector2 change) {
@@ -50,26 +49,5 @@ public class Bucket extends MovingEntity {
             setVelocity(new Vector2( - getVelocity().x, getVelocity().y));
         }
 
-    }
-
-    /**
-     * See if the ball is on screen and should be rendered
-     *
-     * @return
-     */
-    public boolean isOnScreen() {
-        return isOnScreen;
-    }
-
-    /**
-     * See ball to be on screen, doesn't allow hiding the ball Hiding the ball is
-     * done internally in moveBy()
-     *
-     * @return
-     */
-    public void setOnScreen(boolean val) {
-        if (val) {
-            isOnScreen = true;
-        }
     }
 }
