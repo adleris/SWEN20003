@@ -82,4 +82,11 @@ public class RedPeg extends Peg {
             return "";
         }
     }
+
+    /** Get the number of red Pegs remaining
+     * @return the number of red pegs remaining
+     */
+    public static int getNumRedPegs() {
+        return numRedPegs;
+    }
 }

@@ -20,7 +20,8 @@ public class Board {
      * shot a ball so we can tell when the turn ends.
      */
     private boolean haveShotBallThisTurn;
-    private boolean haveTriedToSummonPowerUp;
+    private boolean haveStartedTurn;
+    private int greenPegIndex;
 
     /**
      * constructor for the Board
@@ -42,7 +43,8 @@ public class Board {
         // set up logic handling values
         shotsRemaining = INITIAL_SHOTS;
         haveShotBallThisTurn = false;
-        haveTriedToSummonPowerUp = false;
+        haveStartedTurn = false;
+        greenPegIndex = -1;
     }
 
     /**
@@ -55,18 +57,27 @@ public class Board {
 
         ArrayList<Ball> ballsToRemove = new ArrayList<>();
 
+
         /* If there are no balls in the array list, see if a turn should be started and balls summoned  */
         if (balls.size() == 0) {
 
             /* if we are just starting a turn, try to summon a power up */
-            if (! haveTriedToSummonPowerUp) {
-                /* check if we should summon a new power up */
+            if (! haveStartedTurn) {
+                /* Try and summon a green peg at the start of the turn */
+                greenPegIndex = getIndexOfRandomBlue();
+                if (greenPegIndex != -1) {
+                    /* cast the peg to be blue, turn it green and assign that to the index */
+                    pegs.set(greenPegIndex, ((BluePeg) pegs.get(greenPegIndex)).transformGreen());
+                }
+
+
+                /* try and summon a new power up */
                 if ((int) Peg.randomInRange(0, (double) PowerUp.CREATION_CHANCE) == 0) {
                     powerup = new PowerUp();
                 } else {
                     powerup = null;
                 }
-                haveTriedToSummonPowerUp = true;
+                haveStartedTurn = true;
             }
 
             /* see if we should make a new ball: on left click, try to make a new ball and add it to the arraylist */
@@ -116,8 +127,13 @@ public class Board {
         /* if all the balls have been destroyed, The current turn has ended */
         if (balls.size() == 0 && haveShotBallThisTurn) {
             haveShotBallThisTurn = false;
-            haveTriedToSummonPowerUp = false;
+            haveStartedTurn = false;
+            /* turn the green peg back into a blue peg */
 
+            if (greenPegIndex != -1) {
+                /* cast the peg to be green, turn it blue and assign that to the index */
+                pegs.set(greenPegIndex, ((GreenPeg) pegs.get(greenPegIndex)).transformBlue());
+            }
             /* if there are also no shots left, end the game */
             if (shotsRemaining == 0) {
                 Window.close();
@@ -163,6 +179,11 @@ public class Board {
         ArrayList<Peg> pegsToRemove = new ArrayList<>();
         for (Peg peg : pegs) {
             if (peg.isDestroyed()) {
+                /* if the peg that was destroyed was a green peg, set the index to -1 so we don't try and convert
+                   something else to blue */
+                if (peg instanceof GreenPeg) {
+                    greenPegIndex = -1;
+                }
                 pegsToRemove.add(peg);
             }
         }
@@ -262,16 +283,27 @@ public class Board {
         int numPegsToChange = pegs.size() / proportion;
 
         while (numPegsToChange > 0) {
-            // pick a random index, and see if that's a blue peg
-            index = (int) Peg.randomInRange(0, (double) pegs.size());
+            // pick a random index of a blue peg
+            index = getIndexOfRandomBlue();
+
+            BluePeg bp = (BluePeg) pegs.get(index);
+            pegs.set(index, bp.transformRed());
+            numPegsToChange--;
+        }
+    }
+
+    private int getIndexOfRandomBlue() {
+        /* if this condition holds, eventually we will hit a blue peg */
+        while(pegs.size() > RedPeg.getNumRedPegs()) {
+
+            int index = (int) Peg.randomInRange(0, (double) pegs.size());
 
             if (pegs.get(index) instanceof BluePeg) {
-                // if so, convert that peg to a red peg
-                BluePeg bp = (BluePeg) pegs.get(index);
-                pegs.set(index, bp.transformRed());
-                numPegsToChange--;
+                return index;
             }
         }
+        /* if no bluePeg was found, return -1 */
+        return -1;
     }
 }
 

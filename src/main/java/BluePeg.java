@@ -40,11 +40,11 @@ public class BluePeg extends Peg {
     }
 
     /** convert a BluePeg into a GreenPeg
-     * @return
+     * @return a green peg in the blue position's old spot. The Blue peg needs to be deleted externally!
      */
-//    public GreenPeg transformGreen(){
-//        return GreenPeg(this);
-//    }
+    public GreenPeg transformGreen(){
+        return new GreenPeg(orientation, getPosition());
+    }
 
 
     private static String filePathFromOrientation(String orientation){
