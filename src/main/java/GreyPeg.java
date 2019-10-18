@@ -30,6 +30,14 @@ public class GreyPeg extends Peg {
         super(filePathFromOrientation(orientation), position.x, position.y);
     }
 
+    /** Have a Grey Peg collide with a Ball. 'Undestroys' the peg
+     * @param ball The ball that is colliding with the peg
+     */
+    @Override
+    public void collideWith(Ball ball){
+        super.collideWith(ball);
+        setIsDestroyed(false);
+    }
 
     private static String filePathFromOrientation(String orientation){
         if (orientation.equals(Peg.ORIENTATION_NORMAL)) {

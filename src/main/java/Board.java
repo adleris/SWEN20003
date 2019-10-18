@@ -148,9 +148,18 @@ public class Board {
         /* check the collisions of every ball with all possible objects */
         for (int i = 0; i < balls.size(); i++) {
             for (Peg peg : pegs) {
-                if (balls.get(i).getRectangle().intersects(peg.getRectangle()) && !peg.isDestroyed()) {
-                    /* in both of these collision scenarios, pegs will mark themselves as destroyed */
-                    peg.collideWith(balls.get(i));
+                if (balls.get(i).getRectangle().intersects(peg.getRectangle()) && !peg.getIsDestroyed()) {
+                    /* in these collisions, pegs will mark themselves as destroyed */
+
+                    /* if the peg is a green peg we will need to use an alternate method to get the extra balls */
+                    if (peg instanceof GreenPeg) {
+                        Ball[] newBalls;
+                        newBalls = ((GreenPeg)peg).greenCollideWith(balls.get(i));
+                        balls.add(newBalls[0]);
+                        balls.add(newBalls[1]);
+                    } else {
+                        peg.collideWith(balls.get(i));
+                    }
                     if (balls.get(i).isFireBall()) {
                         destroyPegsInRadius(balls.get(i));
                     }
@@ -178,7 +187,7 @@ public class Board {
         /* collect all of the destroyed pegs and remove them from the array list */
         ArrayList<Peg> pegsToRemove = new ArrayList<>();
         for (Peg peg : pegs) {
-            if (peg.isDestroyed()) {
+            if (peg.getIsDestroyed()) {
                 /* if the peg that was destroyed was a green peg, set the index to -1 so we don't try and convert
                    something else to blue */
                 if (peg instanceof GreenPeg) {
@@ -199,7 +208,7 @@ public class Board {
 
         // pegs
         for (Peg peg : pegs) {
-            if (!peg.isDestroyed()) {
+            if (!peg.getIsDestroyed()) {
                 peg.draw();
             }
         }

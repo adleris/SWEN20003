@@ -42,6 +42,16 @@ public class GreenPeg extends Peg {
         return newBalls;
     }
 
+    /** Collides a green eg with the ball
+     * @param ball The ball that is colliding with the green peg
+     * @return an array of length 2 holding the 2 balls spwaned off of the green peg
+     */
+    public Ball[] greenCollideWith(Ball ball){
+        super.collideWith(ball);
+        setIsDestroyed(true);
+        return spawnBlueBalls(ball);
+    }
+
 
     private static String filePathFromOrientation(String orientation){
         if (orientation.equals(Peg.ORIENTATION_NORMAL)) {

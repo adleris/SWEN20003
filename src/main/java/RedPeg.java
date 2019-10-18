@@ -83,6 +83,13 @@ public class RedPeg extends Peg {
         }
     }
 
+    @Override
+    public void collideWith(Ball ball){
+        super.collideWith(ball);
+        numRedPegs--;
+        setIsDestroyed(true);
+    }
+
     /** Get the number of red Pegs remaining
      * @return the number of red pegs remaining
      */

@@ -64,7 +64,7 @@ public abstract class Peg extends Entity {
             newVelocity = new Vector2(-ball.getVelocity().x, - ball.getVelocity().y);
         }
         ball.setVelocity(newVelocity);
-        destroy();
+        setIsDestroyed(true);
     }
 
 
@@ -73,16 +73,16 @@ public abstract class Peg extends Entity {
      * 
      * @return
      */
-    public boolean isDestroyed() {
+    public boolean getIsDestroyed() {
         return isDestroyed;
     }
-
+    
     /**
-     * set a peg to be destroyed. Not a setter as it can never / should never be
-     * 'undestroyed'
+     * set a peg to be destroyed. If destroyed, it will be removed from the game
+     * @param isDestroyed The value to set it to
      */
-    public void destroy() {
-        isDestroyed = true;
+    public void setIsDestroyed(boolean isDestroyed) {
+        this.isDestroyed = isDestroyed;
     }
 
     // todo: move this into the individual peg subtypes, grey cant be destroyed.
