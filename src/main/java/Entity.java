@@ -112,7 +112,7 @@ public abstract class Entity {
      */
 
     /** get the min x coordinate of an entity
-     * @return the value
+     * @return the values
      */
     public static double getXMin() {
         return ENTITY_X_MIN;

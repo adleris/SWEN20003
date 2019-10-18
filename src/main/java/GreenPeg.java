@@ -2,6 +2,7 @@ import bagel.*;
 import bagel.util.*;
 import java.lang.Math;
 
+/** Class to hold a green peg */
 public class GreenPeg extends Peg {
 
     /** image path constants, depends on the type of image to load */

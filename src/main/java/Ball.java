@@ -1,6 +1,7 @@
 import bagel.*;
 import bagel.util.*;
 
+/** Class to hold the balls */
 public class Ball extends MovingEntity {
 
     private static final String normalImagePath = "res/ball.png";

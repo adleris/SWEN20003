@@ -35,7 +35,8 @@ public class RedPeg extends Peg {
         }
     }
 
-    /** Determines if the game should end based on the number of Red Pegs running out */
+    /** Determines if the game should end based on the number of Red Pegs running out
+     * @return if the game should end */
     public static boolean shouldEndGame(){
         if (numRedPegs != 0) return false;
         return true;

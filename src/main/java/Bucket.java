@@ -1,6 +1,7 @@
 import bagel.*;
 import bagel.util.*;
 
+/** Class to hold the bucket */
 public class Bucket extends MovingEntity {
     private static final String imgPath = "res/bucket.png";
 

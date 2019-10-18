@@ -1,6 +1,7 @@
 import bagel.*;
 import bagel.util.*;
 
+/** Class to hold the powerup */
 public class PowerUp extends MovingEntity {
     private static final String imgPath = "res/powerup.png";
 

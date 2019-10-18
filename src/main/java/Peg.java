@@ -114,6 +114,7 @@ public abstract class Peg extends Entity {
      * To add more orientations (eg diagonal), add more class constants.
      * Orientations pull from filenames so if the file names change some new constants will need to be added
      * @param fileName the filename that the peg will use
+     * @return  the orientation of the peg
      */
     public static String orientationFromFileName(String fileName){
         if (fileName.contains(ORIENTATION_HORIZ)){
