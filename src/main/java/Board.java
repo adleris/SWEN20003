@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Board {
-    private static final int INITIAL_SHOTS = 4;
+    private static final int INITIAL_SHOTS = 20;
     private int shotsRemaining;
 
     private static final String FILE_PATTERN = "Boards/#.csv";
@@ -15,6 +15,12 @@ public class Board {
     private Bucket bucket;
     private PowerUp powerup;
     private ArrayList<Ball> balls;
+
+    /* flags to determine whether we have started the current turn by trying to summon a power up and whether we have 
+     * shot a ball so we can tell when the turn ends.
+     */
+    private boolean haveShotBallThisTurn;
+    private boolean haveTriedToSummonPowerUp;
 
     /**
      * constructor for the Board
@@ -27,10 +33,16 @@ public class Board {
         readInBoard(boardNumber);
         turnPegsRed(RedPeg.PROPORTION_TO_RED);
 
+        // set up the other entities
         balls = new ArrayList<>();
-        powerup = new PowerUp();
         bucket = new Bucket();
+        // powerup is made at the start of the turn so set it null here
+        powerup = null;
+
+        // set up logic handling values
         shotsRemaining = INITIAL_SHOTS;
+        haveShotBallThisTurn = false;
+        haveTriedToSummonPowerUp = false;
     }
 
     /**
@@ -43,27 +55,39 @@ public class Board {
 
         ArrayList<Ball> ballsToRemove = new ArrayList<>();
 
-        /* If there are no balls in the array list, see if we should make a new one.
-         * if a left click is made, try to make a new ball and add it to the arraylist
-         */
-        if (balls.size() == 0 && velocityFromMouse != null) {
-            /* first subtract 1 from our remaining shots. If we have no more shots, end the game */
-            //if (shotsRemaining-- <= 0) Window.close();
-            shotsRemaining--;
-            System.out.println(shotsRemaining);
-            if (shotsRemaining < 0) Window.close();
-            /* make the new ball */
-            Ball newBall = new Ball(velocityFromMouse);
-            newBall.setOnScreen(true);
-            balls.add(newBall);
+        /* If there are no balls in the array list, see if a turn should be started and balls summoned  */
+        if (balls.size() == 0) {
+
+            /* if we are just starting a turn, try to summon a power up */
+            if (! haveTriedToSummonPowerUp) {
+                /* check if we should summon a new power up */
+                if ((int) Peg.randomInRange(0, (double) PowerUp.CREATION_CHANCE) == 0) {
+                    powerup = new PowerUp();
+                } else {
+                    powerup = null;
+                }
+                haveTriedToSummonPowerUp = true;
+            }
+
+            /* see if we should make a new ball: on left click, try to make a new ball and add it to the arraylist */
+            if (velocityFromMouse != null) {
+                /* first subtract 1 from our remaining shots. If we have no more shots, end the game */
+                //if (shotsRemaining-- <= 0) Window.close();
+                shotsRemaining--;
+                System.out.println(shotsRemaining);
+                if (shotsRemaining < 0) Window.close();
+                /* make the new ball */
+                Ball newBall = new Ball(velocityFromMouse);
+                newBall.setOnScreen(true);
+                balls.add(newBall);
+                haveShotBallThisTurn = true;
+            }
         }
 
         /* run through all active balls and move them, this does nothing if array list is empty (no balls) */
         for (Ball ball : balls) {
-            /*
-             * there are some balls on the screen: adjust their acceleration according to
-             * gravity, then move them
-             */
+            /* there are some balls on the screen: adjust their acceleration according to
+               gravity, then move them */
             ball.setVelocity(ball.getVelocity().add(new Vector2(0, Ball.gravityAcceleration)));
             ball.moveBy(ball.getVelocity());
 
@@ -73,23 +97,36 @@ public class Board {
             }
         }
 
+        /* let the moving things do their thing */
+        if (powerup != null) powerup.moveBy(powerup.getVelocity());
+        bucket.moveBy(bucket.getVelocity());
+
+        /* check if the balls hit anything */
+        checkCollisions();
+
+        /* render everything */
+        renderScreen();
+
+
         /* remove any balls that left the screen */
         for (Ball ball : ballsToRemove) {
             balls.remove(ball);
         }
 
-        /* let the moving things do their thing */
-        if (powerup != null) powerup.moveBy(powerup.getVelocity());
-        bucket.moveBy(bucket.getVelocity());
+        /* if all the balls have been destroyed, The current turn has ended */
+        if (balls.size() == 0 && haveShotBallThisTurn) {
+            haveShotBallThisTurn = false;
+            haveTriedToSummonPowerUp = false;
 
-        /* check if the ball hits anything */
-        checkCollisions();
-
-        /* render everything */
-        renderScreen(balls);
+            /* if there are also no shots left, end the game */
+            if (shotsRemaining == 0) {
+                Window.close();
+            }
+        }
     }
 
 
+    /** See if the balls are colliding with any of the other game objects */
     public void checkCollisions() {
 
         /* check the collisions of every ball with all possible objects */
@@ -137,7 +174,7 @@ public class Board {
     /**
      * Render all sprites to the screen
      */
-    public void renderScreen(ArrayList<Ball> balls) {
+    public void renderScreen() {
 
         // pegs
         for (Peg peg : pegs) {

@@ -5,7 +5,7 @@ public class PowerUp extends MovingEntity {
     private static final String imgPath = "res/powerup.png";
 
     /** 1/chance that a powerup spawns at the start of a turn */
-    public static final int CREATION_CHANCE = 10;
+    public static final int CREATION_CHANCE = 2;
 
     /** The magnitude of the velocity of the PowerUp */
     private static final double VELOCITY_MAGNITUDE = 3f;
