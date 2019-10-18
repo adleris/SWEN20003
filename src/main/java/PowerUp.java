@@ -1,7 +1,9 @@
 import bagel.*;
 import bagel.util.*;
 
-/** Class to hold the powerup */
+/** Class to hold the powerup
+ * Note that the fireball seems to be bugged and if a red bal is hit by the radial destroy of the fireball the game
+ * might not advance to the next stage*/
 public class PowerUp extends MovingEntity {
     private static final String imgPath = "res/powerup.png";
 

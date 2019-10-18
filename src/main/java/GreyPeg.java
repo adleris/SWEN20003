@@ -41,6 +41,11 @@ public class GreyPeg extends Peg {
         setIsDestroyed(false);
     }
 
+    /** return the file path from the name of the peg. Should be overriden from Peg but the method must be static and
+     * Java won't let you have static abstract
+     * @param type the name of the peg
+     * @return the file path
+     */
     private static String filePathFromType(String type) {
         if (type.equals(PEG_NAME)) {
             return NORMAL_IMG_PATH;
@@ -50,7 +55,6 @@ public class GreyPeg extends Peg {
             return VERT_IMG_PATH;
         } else {
             System.out.format("\033[31mInvlaid Peg Type: %s\033[0m\n", type);
-            //throw new InvalidPegTypeException(type);
             return "";
         }
     }

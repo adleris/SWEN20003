@@ -70,6 +70,12 @@ public class RedPeg extends Peg {
         numRedPegs = -1;
     }
 
+
+    /** return the file path from the given orientation. Should be overriden from Peg but the method must be static and
+     * Java won't let you have static abstract
+     * @param orientation the orientation of the peg
+     * @return the file path
+     */
     private static String filePathFromOrientation(String orientation){
         if (orientation.equals(Peg.ORIENTATION_NORMAL)) {
             return NORMAL_IMG_PATH;
@@ -84,17 +90,4 @@ public class RedPeg extends Peg {
         }
     }
 
-    private static String filePathFromType(String type) {
-        if (type.equals(RED_NAME)) {
-            return NORMAL_IMG_PATH;
-        } else if (type.equals(RED_HORIZ_NAME)) {
-            return HORIZ_IMG_PATH;
-        } else if (type.equals(RED_VERT_NAME)) {
-            return VERT_IMG_PATH;
-        } else {
-            System.out.format("\033[31mInvlaid Peg Type: %s\033[0m\n", type);
-            //throw new InvalidPegTypeException(type);
-            return "";
-        }
-    }
 }

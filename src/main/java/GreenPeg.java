@@ -53,7 +53,11 @@ public class GreenPeg extends Peg {
         return spawnBlueBalls(ball);
     }
 
-
+    /** return the file path from the given orientation. Should be overriden from Peg but the method must be static and
+     * Java won't let you have static abstract
+     * @param orientation the orientation of the peg
+     * @return the file path
+     */
     private static String filePathFromOrientation(String orientation){
         if (orientation.equals(Peg.ORIENTATION_NORMAL)) {
             return NORMAL_IMG_PATH;

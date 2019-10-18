@@ -46,6 +46,11 @@ public class BluePeg extends Peg {
     }
 
 
+    /** return the file path from the given orientation. Should be overriden from Peg but the method must be static and
+     * Java won't let you have static abstract
+     * @param orientation the orientation of the peg
+     * @return the file path
+     */
     private static String filePathFromOrientation(String orientation){
         if (orientation.equals(Peg.ORIENTATION_NORMAL)) {
             return NORMAL_IMG_PATH;
@@ -59,6 +64,11 @@ public class BluePeg extends Peg {
         }
     }
 
+    /** return the file path from the name of the peg. Should be overriden from Peg but the method must be static and
+     * Java won't let you have static abstract
+     * @param type the name of the peg
+     * @return the file path
+     */
     private static String filePathFromType(String type) {
         if (type.equals(BLUE_NAME)) {
             return NORMAL_IMG_PATH;
