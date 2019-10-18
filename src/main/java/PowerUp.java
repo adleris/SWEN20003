@@ -8,14 +8,13 @@ public class PowerUp extends MovingEntity {
     public static final int CREATION_CHANCE = 10;
 
     /** The magnitude of the velocity of the PowerUp */
-    public static final double VELOCITY_MAGNITUDE = 3f;
+    private static final double VELOCITY_MAGNITUDE = 3f;
 
-    /** The distance that the powerup will pick a new spot to go to. The spec says to have this set to 1px but there
-     * were some issues (floating point?) and making it larger fixed the issue */
-    public static final double DIST_TO_DEST = 5f;
+    /** The distance away from destination where the power up will pick a new spot to go to. */
+    private static final double DIST_TO_DEST = 5f;
 
     /* the destination the the point travels to after being initialised */
-    public Vector2 destination;
+    private Vector2 destination;
 
     /* determines if the powerup is to rendered */
     private boolean isOnScreen;
@@ -34,15 +33,13 @@ public class PowerUp extends MovingEntity {
         /* figure out the velocity vector between the generated start position and destination */
         setVelocity(velocityFromSourceToDest(getPosition(), destination));
 
-        /* if the powerup exists, it is on screen */
+        /* if the power up exists, it is on screen */
         isOnScreen = true;
     }
 
 
-    //todo this is currently just the balls move and will run it off the screen
     /**
      * Attempt to move the power-up by a (dx, dy) vector
-     *
      * @param change The change to move the power up by
      */
     @Override
@@ -65,7 +62,9 @@ public class PowerUp extends MovingEntity {
 
     }
 
-    /** Get a random Vector2 position within the bound sof the game window */
+    /** Get a random Vector2 position within the bound sof the game window
+     * @return a random coordinate position that's on the board
+     */
     private static Vector2 randomPosition() {
         return new Vector2(Peg.randomInRange(getXMin(), getXMax()), Peg.randomInRange(getYMin(), getYMax()));
     }
@@ -73,12 +72,12 @@ public class PowerUp extends MovingEntity {
 
     /**
      * Find the velocity of the powerup based on current position and destination
-     *
+     * todo make a merge for this and the one in Bounce.java
      * @param source source position
      * @param dest   destination position
      * @return       vector2 with the velocity needed between the points
      */
-    public static Vector2 velocityFromSourceToDest(Vector2 source, Vector2 dest) {
+    private static Vector2 velocityFromSourceToDest(Vector2 source, Vector2 dest) {
         double distance = Math.sqrt((dest.x - source.x) * (dest.x - source.x)
                 + (dest.y - source.y) * (dest.y - source.y));
         double velX = (dest.x - source.x) * VELOCITY_MAGNITUDE / distance;
@@ -87,23 +86,11 @@ public class PowerUp extends MovingEntity {
     }
 
     /**
-     * See if the ball is on screen and should be rendered
+     * See if the power up is on screen and should be rendered
      *
-     * @return
+     * @return  if the power up is on the screen
      */
     public boolean isOnScreen() {
         return isOnScreen;
-    }
-
-    /**
-     * See ball to be on screen, doesn't allow hiding the ball Hiding the ball is
-     * done internally in moveBy()
-     *
-     * @return
-     */
-    public void setOnScreen(boolean val) {
-        if (val) {
-            isOnScreen = true;
-        }
     }
 }

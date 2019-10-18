@@ -14,9 +14,9 @@ public abstract class Peg extends Entity {
     private static final double PEG_Y_MAX = 768;
 
     /** strings to store information about the orientatin of a particular peg */
-    private static final String ORIENTATION_NORMAL = "normal";
-    private static final String ORIENTATION_HORIZ  = "horizontal";
-    private static final String ORIENTATION_VERT   = "vertical";
+    public static final String ORIENTATION_NORMAL = "normal";
+    public static final String ORIENTATION_HORIZ  = "horizontal";
+    public static final String ORIENTATION_VERT   = "vertical";
 
     /** tells us the orientation of the peg, used in initialising and converting one type of peg to another */
     public final String orientation;
