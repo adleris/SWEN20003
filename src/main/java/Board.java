@@ -3,6 +3,7 @@ import bagel.util.*;
 import java.io.FileReader;
 import java.io.BufferedReader;
 import java.util.ArrayList;
+import java.lang.Math;
 
 public class Board {
     private static final int INITIAL_SHOTS = 20;
@@ -161,6 +162,8 @@ public class Board {
                         peg.collideWith(balls.get(i));
                     }
                     if (balls.get(i).isFireBall()) {
+                        /* Note, this is broken and doesn't correctly adjust the red peg count so some incorrect
+                          behaviour might occur */
                         destroyPegsInRadius(balls.get(i));
                     }
                 }
@@ -225,10 +228,6 @@ public class Board {
 
         // power up
         if (powerup != null) {
-            // temporary: draw red peg at position
-            //Image pu_img = new Image("res/red-peg.png");
-
-            //pu_img.draw(powerup.destination.x, powerup.destination.y);
             powerup.draw();
         }
     }
@@ -273,13 +272,23 @@ public class Board {
         } else if (type.contains("grey")) {
             return new GreyPeg(type, x, y);
         }
-        return null;        // This will only happen in an error
+        // This will only happen in an error
+        return null;
     }
 
 
+    /** destroy the pegs in a radius around the ball
+     * @param ball  the ball */
     public void destroyPegsInRadius(Ball ball) {
-        // make a box / circle (using euclidean distance) and then check intersections
-        // with every peg using the intersect method
+        if (ball.isFireBall()){
+            for (Peg peg : pegs) {
+                if (distanceFromAtoB(ball, peg) <= 70){
+                    peg.setIsDestroyed(true);
+                    if (peg instanceof RedPeg)
+                        RedPeg.reduceNumRedPegs();
+                }
+            }
+        }
     }
 
 
@@ -331,6 +340,13 @@ public class Board {
         }
         /* if no GreenPeg was found, return -1 */
         return -1;
+    }
+
+    public static double distanceFromAtoB(Entity a, Entity b){
+        Vector2 aPos = a.getPosition();
+        Vector2 bPos = b.getPosition();
+        return Math.sqrt((aPos.x - bPos.x) * (aPos.x - bPos.x)
+                + (aPos.y - bPos.y) * (aPos.y - bPos.y));
     }
 }
 

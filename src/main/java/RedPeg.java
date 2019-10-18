@@ -90,6 +90,10 @@ public class RedPeg extends Peg {
         setIsDestroyed(true);
     }
 
+    public static void reduceNumRedPegs(){
+        numRedPegs--;
+    }
+
     /** Get the number of red Pegs remaining
      * @return the number of red pegs remaining
      */

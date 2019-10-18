@@ -22,12 +22,9 @@ public class GreyPeg extends Peg {
         super(filePathFromType(type), x, y);
     }
 
-    /** generate a Grey Peg, used for converting between peg types
-     * @param orientation - orientation of the peg
-     * @param position - coordinates
-     */
-    public GreyPeg(String orientation, Vector2 position) {
-        super(filePathFromOrientation(orientation), position.x, position.y);
+    @Override
+    public void setIsDestroyed(boolean value){
+        super.setIsDestroyed(false);
     }
 
     /** Have a Grey Peg collide with a Ball. 'Undestroys' the peg
