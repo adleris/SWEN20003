@@ -1,4 +1,4 @@
-SWEN20003 project for UniMelb
+SWEN20003 - Object Oriented Software Design project for the University of Melbourne
 
-* v1: The state of the project as submitted for project 1.
-* Project 2 will build off of this
+This game was the final project for the subject, as a game similar to Peggle.
+It uses the bagel library (an extension of jlwgl) available from the University
